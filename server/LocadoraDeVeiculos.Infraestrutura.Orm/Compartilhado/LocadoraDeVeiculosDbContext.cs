@@ -1,0 +1,49 @@
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
+
+namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
+
+public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvider? tenantProvider = null)
+    : IdentityDbContext<Usuario, Cargo, Guid>(options), IContextoPersistencia
+{
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        if (tenantProvider is not null)
+        {
+            //modelBuilder.Entity<Medico>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+        }
+
+        //modelBuilder.ApplyConfiguration(new MapeadorMedicoEmOrm());
+
+        base.OnModelCreating(modelBuilder);
+    }
+
+    public async Task<int> GravarAsync()
+    {
+        return await SaveChangesAsync();
+    }
+
+    public async Task RollbackAsync()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    entry.State = EntityState.Detached;
+                    break;
+                case EntityState.Modified:
+                    entry.State = EntityState.Unchanged;
+                    break;
+                case EntityState.Deleted:
+                    entry.State = EntityState.Unchanged;
+                    break;
+            }
+        }
+
+        await Task.CompletedTask;
+    }
+}
+
