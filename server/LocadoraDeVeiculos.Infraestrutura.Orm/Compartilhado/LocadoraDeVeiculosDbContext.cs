@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using LocadoraDeVeiculos.Dominio.Compartilhado;
 using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
+using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloGrupoVeiculos;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
@@ -12,10 +14,10 @@ public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvid
     {
         if (tenantProvider is not null)
         {
-            //modelBuilder.Entity<Medico>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+            modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
         }
 
-        //modelBuilder.ApplyConfiguration(new MapeadorMedicoEmOrm());
+        modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());
 
         base.OnModelCreating(modelBuilder);
     }

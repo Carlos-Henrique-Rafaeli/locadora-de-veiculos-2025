@@ -7,6 +7,9 @@ using LocadoraDeVeiculos.WebApi.Filters;
 using Serilog;
 using System.Text.Json.Serialization;
 using LocadoraDeVeiculos.Aplicacao.ModuloAutenticacao.Commands.Registrar;
+using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Inserir;
+using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloGrupoVeiculos;
 
 namespace LocadoraDeVeiculos.WebApi;
 
@@ -37,7 +40,7 @@ public static class DependencyInjection
 
     public static void ConfigureRepositories(this IServiceCollection services)
     {
-        //services.AddScoped<IRepositorioMedico, RepositorioMedicoEmOrm>();
+        services.AddScoped<IRepositorioGrupoVeiculos, RepositorioGrupoVeiculosEmOrm>();
     }
 
     public static void ConfigureControllersWithFilters(this IServiceCollection services)
@@ -142,7 +145,7 @@ public static class DependencyInjection
 
     public static void ConfigureFluentValidation(this IServiceCollection services)
     {
-        //services.AddValidatorsFromAssemblyContaining<ValidadorMedico>();
+        services.AddValidatorsFromAssemblyContaining<ValidadorGrupoVeiculos>();
     }
 
     public static void ConfigureSerilog(this IServiceCollection services, ILoggingBuilder logging, IConfiguration config)
@@ -166,7 +169,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssemblyContaining<RegistrarUsuarioRequest>();
+            cfg.RegisterServicesFromAssemblyContaining<InserirGrupoVeiculosRequest>();
         });
     }
 }
