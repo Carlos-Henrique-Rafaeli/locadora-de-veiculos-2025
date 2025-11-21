@@ -7,7 +7,7 @@ using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Editar;
 
-internal class EditarGrupoVeiculosRequestHandler(
+public class EditarGrupoVeiculosRequestHandler(
     IRepositorioGrupoVeiculos repositorioGrupoVeiculo,
     IContextoPersistencia contexto,
     IValidator<GrupoVeiculo> validador

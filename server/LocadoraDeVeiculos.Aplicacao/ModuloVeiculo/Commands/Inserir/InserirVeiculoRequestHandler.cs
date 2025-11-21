@@ -25,7 +25,6 @@ public class InserirVeiculoRequestHandler(
         if (grupoVeiculo is null)
             return Result.Fail(VeiculoErrorResults.GrupoVeiculoNullError(request.GrupoVeiculoId));
 
-
         var veiculo = new Veiculo(
             grupoVeiculo, 
             request.Placa, 
