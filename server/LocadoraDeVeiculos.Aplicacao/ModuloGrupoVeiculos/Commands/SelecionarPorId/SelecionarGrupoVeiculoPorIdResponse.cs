@@ -1,3 +1,5 @@
-﻿namespace LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarPorId;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarTodos;
 
-public record SelecionarGrupoVeiculoPorIdResponse(Guid Id, string Nome);
+namespace LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarPorId;
+
+public record SelecionarGrupoVeiculoPorIdResponse(Guid Id, string Nome, IEnumerable<SelecionarVeiculosGrupoVeiculosDto> Veiculos);

@@ -6,10 +6,11 @@ using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 using LocadoraDeVeiculos.WebApi.Filters;
 using Serilog;
 using System.Text.Json.Serialization;
-using LocadoraDeVeiculos.Aplicacao.ModuloAutenticacao.Commands.Registrar;
 using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Inserir;
 using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloGrupoVeiculos;
+using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloVeiculos;
 
 namespace LocadoraDeVeiculos.WebApi;
 
@@ -41,6 +42,7 @@ public static class DependencyInjection
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IRepositorioGrupoVeiculos, RepositorioGrupoVeiculosEmOrm>();
+        services.AddScoped<IRepositorioVeiculo, RepositorioVeiculoEmOrm>();
     }
 
     public static void ConfigureControllersWithFilters(this IServiceCollection services)

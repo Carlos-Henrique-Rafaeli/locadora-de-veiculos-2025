@@ -18,6 +18,9 @@ public class MapeadorGrupoVeiculosEmOrm : IEntityTypeConfiguration<GrupoVeiculo>
             .HasColumnType("nvarchar(100)")
             .IsRequired();
 
+        builder.HasMany(x => x.Veiculos)
+            .WithOne(x => x.GrupoVeiculo);
+
         builder
             .HasOne(a => a.Usuario)
             .WithMany()

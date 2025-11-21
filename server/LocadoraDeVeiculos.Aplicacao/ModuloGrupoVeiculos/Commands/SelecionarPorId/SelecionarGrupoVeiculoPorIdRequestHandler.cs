@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
+using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 using MediatR;
 
@@ -18,8 +19,18 @@ public class SelecionarGrupoVeiculoPorIdRequestHandler(
 
         var resposta = new SelecionarGrupoVeiculoPorIdResponse(
             grupoVeiculoSelecionado.Id,
-            grupoVeiculoSelecionado.Nome
-        );
+            grupoVeiculoSelecionado.Nome,
+            grupoVeiculoSelecionado.Veiculos
+            .Select(x => new SelecionarVeiculosGrupoVeiculosDto(
+                x.Id,
+                x.Placa,
+                x.Marca,
+                x.Modelo,
+                x.Cor,
+                x.TipoCombustivel,
+                x.CapacidadeTanque
+                )
+        ));
 
         return Result.Ok(resposta);
     }

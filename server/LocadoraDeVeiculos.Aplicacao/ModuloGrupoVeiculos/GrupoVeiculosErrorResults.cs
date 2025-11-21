@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 
-namespace LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands;
+namespace LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos;
 
 public abstract class GrupoVeiculosErrorResults
 {

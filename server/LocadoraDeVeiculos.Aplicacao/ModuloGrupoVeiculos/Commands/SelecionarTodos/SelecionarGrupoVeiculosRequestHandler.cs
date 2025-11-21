@@ -17,7 +17,17 @@ public class SelecionarGrupoVeiculosRequestHandler(
         {
             QuantidadeRegistros = registros.Count,
             Registros = registros
-                .Select(r => new SelecionarGrupoVeiculosDto(r.Id, r.Nome))
+                .Select(r => new SelecionarGrupoVeiculosDto(r.Id, r.Nome, 
+                r.Veiculos.Select(x => new SelecionarVeiculosGrupoVeiculosDto(
+                    x.Id,
+                    x.Placa,
+                    x.Marca,
+                    x.Modelo,
+                    x.Cor,
+                    x.TipoCombustivel,
+                    x.CapacidadeTanque
+                    ))
+                ))
         };
 
         return Result.Ok(response);
