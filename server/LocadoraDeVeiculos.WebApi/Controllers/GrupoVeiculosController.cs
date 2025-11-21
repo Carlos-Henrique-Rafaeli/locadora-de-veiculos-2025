@@ -1,4 +1,5 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarTodos;
@@ -33,6 +34,17 @@ public class GrupoVeiculosController(IMediator mediator) : ControllerBase
         );
 
         var resultado = await mediator.Send(editarRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirGrupoVeiculosResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id)
+    {
+        var excluirRequest = new ExcluirGrupoVeiculosRequest(id);
+
+        var resultado = await mediator.Send(excluirRequest);
 
         return resultado.ToHttpResponse();
     }
