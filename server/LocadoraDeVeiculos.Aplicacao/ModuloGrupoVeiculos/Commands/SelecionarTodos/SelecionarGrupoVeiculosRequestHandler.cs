@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 using MediatR;
 

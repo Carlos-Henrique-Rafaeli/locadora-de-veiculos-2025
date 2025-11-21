@@ -1,0 +1,5 @@
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
+
+namespace LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarPorId;
+
+public record SelecionarVeiculoPorIdResponse(SelecionarVeiculosDto Veiculo);
