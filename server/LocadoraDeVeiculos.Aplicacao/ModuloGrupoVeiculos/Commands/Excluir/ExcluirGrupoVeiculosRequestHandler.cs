@@ -18,6 +18,9 @@ public class ExcluirGrupoVeiculosRequestHandler(
         if (grupoVeiculoSelecionado is null)
             return Result.Fail(ErrorResults.NotFoundError(request.Id));
 
+        if (grupoVeiculoSelecionado.Veiculos.Any())
+            return Result.Fail(GrupoVeiculosErrorResults.GrupoVeiculoPossuiVeiculosError());
+
         try
         {
             await repositorioGrupoVeiculo.ExcluirAsync(grupoVeiculoSelecionado);

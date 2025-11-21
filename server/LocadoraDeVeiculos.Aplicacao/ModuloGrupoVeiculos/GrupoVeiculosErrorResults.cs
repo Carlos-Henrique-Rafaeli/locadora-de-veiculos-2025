@@ -10,4 +10,11 @@ public abstract class GrupoVeiculosErrorResults
             .CausedBy($"Um grupo de veículos com o nome '{nome}' já foi cadastrado.")
             .WithMetadata("ErrorType", "BadRequest");
     }
+
+    public static Error GrupoVeiculoPossuiVeiculosError()
+    {
+        return new Error("Veículos associados")
+            .CausedBy("Não é possível excluir um grupo de veículos que possui veículos associados.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
 }
