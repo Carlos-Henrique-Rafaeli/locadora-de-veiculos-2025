@@ -1,0 +1,26 @@
+﻿using FluentResults;
+using LocadoraDeVeiculos.Aplicacao.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
+using MediatR;
+
+namespace LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarPorId;
+
+public class SelecionarGrupoVeiculoPorIdRequestHandler(
+    IRepositorioGrupoVeiculos repositorioGrupoVeiculo
+) : IRequestHandler<SelecionarGrupoVeiculoPorIdRequest, Result<SelecionarGrupoVeiculoPorIdResponse>>
+{
+    public async Task<Result<SelecionarGrupoVeiculoPorIdResponse>> Handle(SelecionarGrupoVeiculoPorIdRequest request, CancellationToken cancellationToken)
+    {
+        var grupoVeiculoSelecionado = await repositorioGrupoVeiculo.SelecionarPorIdAsync(request.Id);
+
+        if (grupoVeiculoSelecionado is null)
+            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+
+        var resposta = new SelecionarGrupoVeiculoPorIdResponse(
+            grupoVeiculoSelecionado.Id,
+            grupoVeiculoSelecionado.Nome
+        );
+
+        return Result.Ok(resposta);
+    }
+}
