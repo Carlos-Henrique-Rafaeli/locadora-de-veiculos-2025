@@ -11,6 +11,8 @@ using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloVeiculos;
+using LocadoraDeVeiculos.Dominio.ModuloCondutor;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCondutor;
 
 namespace LocadoraDeVeiculos.WebApi;
 
@@ -43,6 +45,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IRepositorioGrupoVeiculos, RepositorioGrupoVeiculosEmOrm>();
         services.AddScoped<IRepositorioVeiculo, RepositorioVeiculoEmOrm>();
+        services.AddScoped<IRepositorioCondutor, RepositorioCondutorEmOrm>();
     }
 
     public static void ConfigureControllersWithFilters(this IServiceCollection services)

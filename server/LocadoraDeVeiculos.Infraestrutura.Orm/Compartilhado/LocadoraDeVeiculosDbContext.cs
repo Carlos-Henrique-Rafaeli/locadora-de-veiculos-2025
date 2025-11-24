@@ -6,6 +6,8 @@ using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloVeiculos;
+using LocadoraDeVeiculos.Dominio.ModuloCondutor;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCondutor;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
@@ -18,10 +20,12 @@ public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvid
         {
             modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+            modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
         }
 
         modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorVeiculosEmOrm());
+        modelBuilder.ApplyConfiguration(new MapeadorCondutorEmOrm());
 
         base.OnModelCreating(modelBuilder);
     }
