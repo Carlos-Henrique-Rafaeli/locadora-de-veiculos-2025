@@ -42,12 +42,12 @@ IValidator<Condutor> validador
             return Result.Fail(ErrorResults.BadRequestError(erros));
         }
 
-        var CondutoresRegistrados = await repositorioCondutor.SelecionarTodosAsync();
+        var condutoresRegistrados = await repositorioCondutor.SelecionarTodosAsync();
 
-        if (CpfDuplicado(condutor, CondutoresRegistrados))
+        if (CpfDuplicado(condutor, condutoresRegistrados))
             return Result.Fail(CondutorErrorResults.CpfDuplicado(condutor.Nome));
 
-        if (CnhDuplicada(condutor, CondutoresRegistrados))
+        if (CnhDuplicada(condutor, condutoresRegistrados))
             return Result.Fail(CondutorErrorResults.CnhDuplicada(condutor.Nome));
 
         if (CnhVencida(condutor))

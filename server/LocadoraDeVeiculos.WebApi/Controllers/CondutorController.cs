@@ -1,4 +1,5 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Inserir;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.WebApi.Extensions;
@@ -18,6 +19,25 @@ public class CondutorController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Inserir(InserirCondutorRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(EditarCondutorResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Editar(Guid id, EditarCondutorPartialRequest request)
+    {
+        var editarRequest = new EditarCondutorRequest(
+            id,
+            request.Nome,
+            request.Email,
+            request.Cpf,
+            request.Cnh,
+            request.ValidadeCnh,
+            request.Telefone
+        );
+
+        var resultado = await mediator.Send(editarRequest);
 
         return resultado.ToHttpResponse();
     }
