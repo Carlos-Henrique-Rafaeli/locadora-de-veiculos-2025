@@ -1,4 +1,5 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
@@ -38,6 +39,17 @@ public class CondutorController(IMediator mediator) : ControllerBase
         );
 
         var resultado = await mediator.Send(editarRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirCondutorResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id)
+    {
+        var excluirRequest = new ExcluirCondutorRequest(id);
+
+        var resultado = await mediator.Send(excluirRequest);
 
         return resultado.ToHttpResponse();
     }
