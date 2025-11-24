@@ -1,0 +1,5 @@
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
+
+namespace LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarPorId;
+
+public record SelecionarCondutorPorIdResponse(SelecionarCondutoresDto Condutor);
