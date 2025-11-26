@@ -28,7 +28,7 @@ public class GrupoVeiculo : EntidadeBase
 
     public void RemoverVeiculo(Veiculo veiculo)
     {
-        if (Veiculos.Contains(veiculo))
+        if (!Veiculos.Contains(veiculo))
             return;
 
         Veiculos.Remove(veiculo);

@@ -8,6 +8,8 @@ using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloVeiculos;
 using LocadoraDeVeiculos.Dominio.ModuloCondutor;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCondutor;
+using LocadoraDeVeiculos.Dominio.ModuloCliente;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCliente;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
@@ -21,11 +23,15 @@ public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvid
             modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+            modelBuilder.Entity<PessoaFisica>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+            modelBuilder.Entity<PessoaJuridica>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
         }
 
         modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorVeiculosEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorCondutorEmOrm());
+        modelBuilder.ApplyConfiguration(new MapeadorPessoaFisica());
+        modelBuilder.ApplyConfiguration(new MapeadorPessoaJuridica());
 
         base.OnModelCreating(modelBuilder);
     }
