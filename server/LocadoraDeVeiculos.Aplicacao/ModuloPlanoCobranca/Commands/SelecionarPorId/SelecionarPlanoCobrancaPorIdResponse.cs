@@ -1,0 +1,5 @@
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarTodos;
+
+namespace LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarPorId;
+
+public record SelecionarPlanoCobrancaPorIdResponse(SelecionarPlanoCobrancaDto PlanoCobrancaDto);

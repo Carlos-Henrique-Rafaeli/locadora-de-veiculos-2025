@@ -1,4 +1,6 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Inserir;
+using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarPorId;
+using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +18,26 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Inserir(InserirPlanoCobrancaRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(SelecionarPlanosCobrancaResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SelecionarTodos()
+    {
+        var resultado = await mediator.Send(new SelecionarPlanosCobrancaRequest());
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(SelecionarPlanoCobrancaPorIdResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SelecionarPorId(Guid id)
+    {
+        var selecionarPorIdRequest = new SelecionarPlanoCobrancaPorIdRequest(id);
+
+        var resultado = await mediator.Send(selecionarPorIdRequest);
 
         return resultado.ToHttpResponse();
     }
