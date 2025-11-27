@@ -1,0 +1,3 @@
+﻿namespace LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Excluir;
+
+public record ExcluirPlanoCobrancaResponse;

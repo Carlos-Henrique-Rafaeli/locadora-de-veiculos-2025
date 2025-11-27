@@ -1,5 +1,5 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Editar;
-using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Editar;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarTodos;
@@ -40,6 +40,17 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
         );
 
         var resultado = await mediator.Send(editarRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirPlanoCobrancaResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id)
+    {
+        var excluirRequest = new ExcluirPlanoCobrancaRequest(id);
+
+        var resultado = await mediator.Send(excluirRequest);
 
         return resultado.ToHttpResponse();
     }
