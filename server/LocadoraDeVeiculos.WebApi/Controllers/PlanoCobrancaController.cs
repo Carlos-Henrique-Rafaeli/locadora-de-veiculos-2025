@@ -1,4 +1,6 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Inserir;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.WebApi.Extensions;
@@ -18,6 +20,26 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Inserir(InserirPlanoCobrancaRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(EditarPlanoCobrancaResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Editar(Guid id, EditarPlanoCobrancaPartialRequest request)
+    {
+        var editarRequest = new EditarPlanoCobrancaRequest(
+            id,
+            request.TipoPlano,
+            request.GrupoVeiculoId,
+            request.ValorDiario,
+            request.ValorKm,
+            request.KmIncluso,
+            request.ValorKmExcedente,
+            request.ValorFixo
+        );
+
+        var resultado = await mediator.Send(editarRequest);
 
         return resultado.ToHttpResponse();
     }
