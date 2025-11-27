@@ -30,12 +30,14 @@ public class RepositorioPessoaFisicaEmOrm(IContextoPersistencia context)
     {
         return registros
             .Include(x => x.PessoaJuridica)
+            .ThenInclude(j => j.Condutor)
             .ToListAsync();
     }
     public override Task<PessoaFisica?> SelecionarPorIdAsync(Guid id)
     {
         return registros
             .Include(x => x.PessoaJuridica)
+            .ThenInclude(j => j.Condutor)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 }

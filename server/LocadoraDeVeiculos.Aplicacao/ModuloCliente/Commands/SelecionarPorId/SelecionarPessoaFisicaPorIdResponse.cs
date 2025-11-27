@@ -1,0 +1,5 @@
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
+
+namespace LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarPorId;
+
+public record SelecionarPessoaFisicaPorIdResponse(SelecionarPessoaFisicaDto PessoaFisica);
