@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using LocadoraDeVeiculos.Dominio.ModuloCliente;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloCliente;
 
@@ -33,6 +34,13 @@ public abstract class ClienteErrorResults
     {
         return new Error("Pessoa Jurídica inexistente")
             .CausedBy($"Uma pessoa jurídica com o Id '{pessoaJuridicaId}' não existe.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error PessoaFisicaVinculadaError()
+    {
+        return new Error("Pessoa Física vinculada")
+            .CausedBy($"A pessoa jurídica está vinculada a uma ou mais pessoas físicas.")
             .WithMetadata("ErrorType", "BadRequest");
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FluentResults;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
 using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloCliente;
 using LocadoraDeVeiculos.Dominio.ModuloCondutor;
 using MediatR;
 
@@ -9,6 +10,7 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Excluir;
 
 internal class ExcluirCondutorRequestHandler(
     IRepositorioCondutor repositorioCondutor,
+    IRepositorioPessoaJuridica repositorioPessoaJuridica,
     IContextoPersistencia contexto
 ) : IRequestHandler<ExcluirCondutorRequest, Result<ExcluirCondutorResponse>>
 {
@@ -18,6 +20,11 @@ internal class ExcluirCondutorRequestHandler(
 
         if (condutorSelecionado is null)
             return Result.Fail(ErrorResults.NotFoundError(request.Id));
+
+        var pessoasJuridicasSelecionadas = await repositorioPessoaJuridica.SelecionarTodosAsync();
+
+        if (pessoasJuridicasSelecionadas.Any(x => x.Condutor.Id == request.Id))
+            return Result.Fail(CondutorErrorResults.PessoaJuridicaVinculadaError());
 
         try
         {

@@ -22,4 +22,10 @@ public abstract class CondutorErrorResults
             .CausedBy($"A CNH do condutor '{nome}' está vencida.")
             .WithMetadata("ErrorType", "BadRequest");
     }
+    public static Error PessoaJuridicaVinculadaError()
+    {
+        return new Error("Pessoa Jurídica Vinculada")
+            .CausedBy($"O condutor está vinculado a uma ou mais pessoas jurídicas")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
 }

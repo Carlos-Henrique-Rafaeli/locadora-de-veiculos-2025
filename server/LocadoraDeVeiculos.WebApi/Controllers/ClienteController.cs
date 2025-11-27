@@ -1,8 +1,8 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Editar;
 using LocadoraDeVeiculos.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -67,6 +67,28 @@ public class ClienteController(IMediator mediator) : ControllerBase
         );
 
         var resultado = await mediator.Send(editarRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpDelete("Pessoa-Fisica/{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirPessoaFisicaResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ExcluirPf(Guid id)
+    {
+        var excluirRequest = new ExcluirPessoaFisicaRequest(id);
+
+        var resultado = await mediator.Send(excluirRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpDelete("Pessoa-Juridica/{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirPessoaJuridicaResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ExcluirPj(Guid id)
+    {
+        var excluirRequest = new ExcluirPessoaJuridicaRequest(id);
+
+        var resultado = await mediator.Send(excluirRequest);
 
         return resultado.ToHttpResponse();
     }
