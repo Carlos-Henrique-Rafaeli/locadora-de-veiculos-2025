@@ -1,6 +1,8 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Inserir;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
+using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Editar;
 using LocadoraDeVeiculos.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +29,44 @@ public class ClienteController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> InserirPJ(InserirPessoaJuridicaRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpPut("Pessoa-Fisica/{id:guid}")]
+    [ProducesResponseType(typeof(EditarPessoaFisicaResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> EditarPf(Guid id, EditarPessoaFisicaPartialRequest request)
+    {
+        var editarRequest = new EditarPessoaFisicaRequest(
+            id,
+            request.Nome,
+            request.Telefone,
+            request.Endereco,
+            request.Cpf,
+            request.Rg,
+            request.Cnh,
+            request.PessoaJuridicaId
+        );
+
+        var resultado = await mediator.Send(editarRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpPut("Pesoa-Juridica/{id:guid}")]
+    [ProducesResponseType(typeof(EditarPessoaJuridicaResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> EditarPj(Guid id, EditarPessoaJuridicaPartialRequest request)
+    {
+        var editarRequest = new EditarPessoaJuridicaRequest(
+            id,
+            request.Nome,
+            request.Telefone,
+            request.Endereco,
+            request.Cnpj,
+            request.CondutorId
+        );
+
+        var resultado = await mediator.Send(editarRequest);
 
         return resultado.ToHttpResponse();
     }

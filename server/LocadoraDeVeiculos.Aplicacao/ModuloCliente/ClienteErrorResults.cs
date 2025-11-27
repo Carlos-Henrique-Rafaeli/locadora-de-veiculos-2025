@@ -28,4 +28,11 @@ public abstract class ClienteErrorResults
             .CausedBy($"Um condutor com o Id '{condutorId}' não existe.")
             .WithMetadata("ErrorType", "BadRequest");
     }
+
+    public static Error PessoaJuridicaNullError(Guid pessoaJuridicaId)
+    {
+        return new Error("Pessoa Jurídica inexistente")
+            .CausedBy($"Uma pessoa jurídica com o Id '{pessoaJuridicaId}' não existe.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
 }
