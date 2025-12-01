@@ -1,4 +1,6 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Inserir;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.WebApi.Extensions;
@@ -18,6 +20,22 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Inserir(InserirTaxaServicoRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(EditarTaxaServicoResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Editar(Guid id, EditarTaxaServicoPartialRequest request)
+    {
+        var editarRequest = new EditarTaxaServicoRequest(
+            id,
+            request.Nome,
+            request.Valor,
+            request.TipoCobranca
+        );
+
+        var resultado = await mediator.Send(editarRequest);
 
         return resultado.ToHttpResponse();
     }
