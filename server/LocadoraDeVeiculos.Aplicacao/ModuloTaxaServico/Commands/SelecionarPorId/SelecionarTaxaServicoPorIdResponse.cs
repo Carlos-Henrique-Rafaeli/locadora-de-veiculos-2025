@@ -1,0 +1,5 @@
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
+
+namespace LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarPorId;
+
+public record SelecionarTaxaServicoPorIdResponse(SelecionarTaxasServicosDto TaxaServicoDto);

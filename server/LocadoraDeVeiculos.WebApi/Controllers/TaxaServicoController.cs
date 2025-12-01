@@ -1,4 +1,6 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Inserir;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarPorId;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +18,26 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Inserir(InserirTaxaServicoRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(SelecionarTaxasServicosResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SelecionarTodos()
+    {
+        var resultado = await mediator.Send(new SelecionarTaxasServicosRequest());
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(SelecionarTaxaServicoPorIdResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SelecionarPorId(Guid id)
+    {
+        var selecionarPorIdRequest = new SelecionarTaxaServicoPorIdRequest(id);
+
+        var resultado = await mediator.Send(selecionarPorIdRequest);
 
         return resultado.ToHttpResponse();
     }
