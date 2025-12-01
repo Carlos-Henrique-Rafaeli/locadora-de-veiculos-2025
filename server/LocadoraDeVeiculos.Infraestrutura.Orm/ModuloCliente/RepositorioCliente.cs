@@ -8,16 +8,16 @@ namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCliente;
 public class RepositorioPessoaJuridicaEmOrm(IContextoPersistencia context) 
     : RepositorioBase<PessoaJuridica>(context), IRepositorioPessoaJuridica
 {
-    public override Task<List<PessoaJuridica>> SelecionarTodosAsync()
+    public override async Task<List<PessoaJuridica>> SelecionarTodosAsync()
     {
-        return registros
+        return await registros
             .Include(x => x.Condutor)
             .ToListAsync();
     }
 
-    public override Task<PessoaJuridica?> SelecionarPorIdAsync(Guid id)
+    public override async Task<PessoaJuridica?> SelecionarPorIdAsync(Guid id)
     {
-        return registros
+        return await registros
             .Include(x => x.Condutor)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -26,16 +26,16 @@ public class RepositorioPessoaJuridicaEmOrm(IContextoPersistencia context)
 public class RepositorioPessoaFisicaEmOrm(IContextoPersistencia context) 
     : RepositorioBase<PessoaFisica>(context), IRepositorioPessoaFisica
 {
-    public override Task<List<PessoaFisica>> SelecionarTodosAsync()
+    public override async Task<List<PessoaFisica>> SelecionarTodosAsync()
     {
-        return registros
+        return await registros
             .Include(x => x.PessoaJuridica)
             .ThenInclude(j => j.Condutor)
             .ToListAsync();
     }
-    public override Task<PessoaFisica?> SelecionarPorIdAsync(Guid id)
+    public override async Task<PessoaFisica?> SelecionarPorIdAsync(Guid id)
     {
-        return registros
+        return await registros
             .Include(x => x.PessoaJuridica)
             .ThenInclude(j => j.Condutor)
             .FirstOrDefaultAsync(x => x.Id == id);

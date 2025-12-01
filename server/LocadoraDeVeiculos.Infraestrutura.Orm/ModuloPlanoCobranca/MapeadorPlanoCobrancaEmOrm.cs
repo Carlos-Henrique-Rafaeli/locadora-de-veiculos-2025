@@ -18,7 +18,8 @@ public class MapeadorPlanoCobrancaEmOrm : IEntityTypeConfiguration<PlanoCobranca
 
         builder.HasOne(x => x.GrupoVeiculo)
             .WithMany()
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(x => x.ValorDiario)
             .HasColumnType("decimal(18,2)");

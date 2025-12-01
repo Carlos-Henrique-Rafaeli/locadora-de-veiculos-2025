@@ -8,16 +8,16 @@ namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloPlanoCobranca;
 public class RepositorioPlanoCobrancaEmOrm(IContextoPersistencia context)
     : RepositorioBase<PlanoCobranca>(context), IRepositorioPlanoCobranca
 {
-    public override Task<List<PlanoCobranca>> SelecionarTodosAsync()
+    public override async Task<List<PlanoCobranca>> SelecionarTodosAsync()
     {
-        return registros
+        return await registros
             .Include(x => x.GrupoVeiculo)
             .ToListAsync();
     }
 
-    public override Task<PlanoCobranca?> SelecionarPorIdAsync(Guid id)
+    public override async Task<PlanoCobranca?> SelecionarPorIdAsync(Guid id)
     {
-        return registros
+        return await registros
             .Include(x => x.GrupoVeiculo)
             .FirstOrDefaultAsync(x => x.Id == id);
     }

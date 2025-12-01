@@ -37,7 +37,8 @@ public class MapeadorVeiculosEmOrm : IEntityTypeConfiguration<Veiculo>
             .IsRequired();
 
         builder.HasOne(x => x.GrupoVeiculo)
-            .WithMany(x => x.Veiculos);
+            .WithMany(x => x.Veiculos)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder
             .HasOne(a => a.Usuario)

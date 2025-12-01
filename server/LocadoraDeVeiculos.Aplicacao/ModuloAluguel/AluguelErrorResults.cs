@@ -1,0 +1,55 @@
+﻿using FluentResults;
+
+namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel;
+
+public abstract class AluguelErrorResults
+{
+    public static Error CondutorNullError(Guid condutorId)
+    {
+        return new Error("Condutor inexistente")
+            .CausedBy($"Um condutor com o Id '{condutorId}' não existe.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error GrupoVeiculoNullError(Guid grupoVeiculoId)
+    {
+        return new Error("Grupo de Veículos inexistente")
+            .CausedBy($"Um grupo de veículos com o id '{grupoVeiculoId}' não existe.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error VeiculoNullError(Guid veiculoId)
+    {
+        return new Error("Veículo inexistente")
+            .CausedBy($"Um veículo com o Id '{veiculoId}' não existe.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error PlanoCobrancaNullError(Guid planoCobrancaId)
+    {
+        return new Error("Plano de Cobrança inexistente")
+            .CausedBy($"Um plano de cobrança com o Id '{planoCobrancaId}' não existe.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error TaxaServicoNullError(Guid taxaServicoId)
+    {
+        return new Error("Taxa ou Serviço inexistente")
+            .CausedBy($"Uma taxa ou serviço com o Id '{taxaServicoId}' não existe.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error VeiculoNaoPertenceAoGrupoVeiculoError(string veiculo, string grupoVeiculo)
+    {
+        return new Error("Veículo não pertence ao Grupo de Veículos")
+            .CausedBy($"O veículo '{veiculo}' não pertence ao grupo de veículos '{grupoVeiculo}'.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error PlanoCobrancaNaoPertenceAoGrupoVeiculoError(string planoCobranca, string grupoVeiculo)
+    {
+        return new Error("Plano de Cobrança não pertence ao Grupo de Veículos")
+            .CausedBy($"O plano de cobrança '{planoCobranca}' não pertence ao grupo de veículos '{grupoVeiculo}'.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+}

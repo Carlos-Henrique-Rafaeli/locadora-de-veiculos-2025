@@ -16,6 +16,8 @@ using LocadoraDeVeiculos.Dominio.ModuloTaxaServico;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloTaxaServico;
 using LocadoraDeVeiculos.Dominio.ModuloConfiguracao;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloConfiguracao;
+using LocadoraDeVeiculos.Dominio.ModuloAluguel;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloAluguel;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
@@ -34,6 +36,7 @@ public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvid
             modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+            modelBuilder.Entity<Aluguel>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
         }
 
         modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());
@@ -44,6 +47,7 @@ public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvid
         modelBuilder.ApplyConfiguration(new MapeadorPlanoCobrancaEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorTaxaServicoEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorConfiguracaoPrecoEmOrm());
+        modelBuilder.ApplyConfiguration(new MapeadorAluguelEmOrm());
 
         base.OnModelCreating(modelBuilder);
     }
