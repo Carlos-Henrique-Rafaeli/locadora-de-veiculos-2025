@@ -19,6 +19,8 @@ using LocadoraDeVeiculos.Dominio.ModuloPlanoCobranca;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloPlanoCobranca;
 using LocadoraDeVeiculos.Dominio.ModuloTaxaServico;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloTaxaServico;
+using LocadoraDeVeiculos.Dominio.ModuloConfiguracao;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloConfiguracao;
 
 namespace LocadoraDeVeiculos.WebApi;
 
@@ -56,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<IRepositorioPessoaJuridica, RepositorioPessoaJuridicaEmOrm>();
         services.AddScoped<IRepositorioPlanoCobranca, RepositorioPlanoCobrancaEmOrm>();
         services.AddScoped<IRepositorioTaxaServico, RepositorioTaxaServicoEmOrm>();
+        services.AddScoped<IRepositorioConfiguracaoPreco, RepositorioConfiguracaoPrecoEmOrm>();
     }
 
     public static void ConfigureControllersWithFilters(this IServiceCollection services)

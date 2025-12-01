@@ -1,0 +1,3 @@
+﻿namespace LocadoraDeVeiculos.Aplicacao.ModuloConfiguracao.Commands.Editar;
+
+public record EditarConfiguracaoPrecoResponse;
