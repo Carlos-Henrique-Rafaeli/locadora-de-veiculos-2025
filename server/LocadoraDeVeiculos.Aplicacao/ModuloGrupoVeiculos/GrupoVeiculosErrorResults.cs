@@ -17,4 +17,11 @@ public abstract class GrupoVeiculosErrorResults
             .CausedBy("Não é possível excluir um grupo de veículos que possui veículos associados.")
             .WithMetadata("ErrorType", "BadRequest");
     }
+
+    public static Error GrupoVeiculoPossuiPlanosError()
+    {
+        return new Error("Planos de cobrança associados")
+            .CausedBy("Não é possível excluir um grupo de veículos que possui planos de cobrança associados.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
 }
