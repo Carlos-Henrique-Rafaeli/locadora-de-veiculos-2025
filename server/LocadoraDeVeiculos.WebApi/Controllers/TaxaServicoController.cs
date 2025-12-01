@@ -1,5 +1,5 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Editar;
-using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Editar;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
@@ -36,6 +36,17 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
         );
 
         var resultado = await mediator.Send(editarRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirTaxaServicoResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id)
+    {
+        var excluirRequest = new ExcluirTaxaServicoRequest(id);
+
+        var resultado = await mediator.Send(excluirRequest);
 
         return resultado.ToHttpResponse();
     }
