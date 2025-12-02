@@ -31,8 +31,7 @@ public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvid
             modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<PessoaFisica>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<PessoaJuridica>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+            modelBuilder.Entity<Cliente>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
             modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
@@ -42,8 +41,7 @@ public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvid
         modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorVeiculosEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorCondutorEmOrm());
-        modelBuilder.ApplyConfiguration(new MapeadorPessoaFisica());
-        modelBuilder.ApplyConfiguration(new MapeadorPessoaJuridica());
+        modelBuilder.ApplyConfiguration(new MapeadorCliente());
         modelBuilder.ApplyConfiguration(new MapeadorPlanoCobrancaEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorTaxaServicoEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorConfiguracaoPrecoEmOrm());

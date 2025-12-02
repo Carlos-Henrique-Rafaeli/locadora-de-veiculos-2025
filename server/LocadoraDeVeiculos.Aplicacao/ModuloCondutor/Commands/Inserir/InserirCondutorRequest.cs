@@ -4,6 +4,8 @@ using MediatR;
 namespace LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Inserir;
 
 public record InserirCondutorRequest(
+    Guid ClienteId,
+    bool ClienteCondutor,
     string Nome,
     string Email,
     string Cpf,

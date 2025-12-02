@@ -3,5 +3,4 @@ using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
 
-public record SelecionarPessoasJuridicasRequest() 
-    : IRequest<Result<SelecionarPessoasJuridicasResponse>>;
+public class SelecionarClientesRequest() : IRequest<Result<SelecionarClientesResponse>>;

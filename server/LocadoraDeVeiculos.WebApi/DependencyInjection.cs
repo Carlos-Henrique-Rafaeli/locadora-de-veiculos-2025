@@ -56,8 +56,7 @@ public static class DependencyInjection
         services.AddScoped<IRepositorioGrupoVeiculos, RepositorioGrupoVeiculosEmOrm>();
         services.AddScoped<IRepositorioVeiculo, RepositorioVeiculoEmOrm>();
         services.AddScoped<IRepositorioCondutor, RepositorioCondutorEmOrm>();
-        services.AddScoped<IRepositorioPessoaFisica, RepositorioPessoaFisicaEmOrm>();
-        services.AddScoped<IRepositorioPessoaJuridica, RepositorioPessoaJuridicaEmOrm>();
+        services.AddScoped<IRepositorioCliente, RepositorioClienteEmOrm>();
         services.AddScoped<IRepositorioPlanoCobranca, RepositorioPlanoCobrancaEmOrm>();
         services.AddScoped<IRepositorioTaxaServico, RepositorioTaxaServicoEmOrm>();
         services.AddScoped<IRepositorioConfiguracaoPreco, RepositorioConfiguracaoPrecoEmOrm>();

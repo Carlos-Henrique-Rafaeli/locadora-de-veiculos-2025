@@ -1,9 +1,4 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Editar;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Excluir;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Inserir;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarPorId;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.WebApi.Extensions;
+﻿using LocadoraDeVeiculos.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,121 +10,64 @@ namespace LocadoraDeVeiculos.WebApi.Controllers;
 [Route("api/cliente")]
 public class ClienteController(IMediator mediator) : ControllerBase
 {
-    [HttpPost("Pessoa-Fisica")]
-    [ProducesResponseType(typeof(InserirPessoaFisicaResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> InserirPF(InserirPessoaFisicaRequest request)
-    {
-        var resultado = await mediator.Send(request);
+    //[HttpPost]
+    //[ProducesResponseType(typeof(InserirPessoaFisicaResponse), StatusCodes.Status200OK)]
+    //public async Task<IActionResult> Inserir(InserirPessoaFisicaRequest request)
+    //{
+    //    var resultado = await mediator.Send(request);
 
-        return resultado.ToHttpResponse();
-    }
+    //    return resultado.ToHttpResponse();
+    //}
 
-    [HttpPost("Pessoa-Juridica")]
-    [ProducesResponseType(typeof(InserirPessoaJuridicaResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> InserirPJ(InserirPessoaJuridicaRequest request)
-    {
-        var resultado = await mediator.Send(request);
 
-        return resultado.ToHttpResponse();
-    }
+    //[HttpPut("{id:guid}")]
+    //[ProducesResponseType(typeof(EditarPessoaFisicaResponse), StatusCodes.Status200OK)]
+    //public async Task<IActionResult> Editar(Guid id, EditarPessoaFisicaPartialRequest request)
+    //{
+    //    var editarRequest = new EditarPessoaFisicaRequest(
+    //        id,
+    //        request.Nome,
+    //        request.Telefone,
+    //        request.Endereco,
+    //        request.Cpf,
+    //        request.Rg,
+    //        request.Cnh,
+    //        request.PessoaJuridicaId
+    //    );
 
-    [HttpPut("Pessoa-Fisica/{id:guid}")]
-    [ProducesResponseType(typeof(EditarPessoaFisicaResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> EditarPf(Guid id, EditarPessoaFisicaPartialRequest request)
-    {
-        var editarRequest = new EditarPessoaFisicaRequest(
-            id,
-            request.Nome,
-            request.Telefone,
-            request.Endereco,
-            request.Cpf,
-            request.Rg,
-            request.Cnh,
-            request.PessoaJuridicaId
-        );
+    //    var resultado = await mediator.Send(editarRequest);
 
-        var resultado = await mediator.Send(editarRequest);
+    //    return resultado.ToHttpResponse();
+    //}
 
-        return resultado.ToHttpResponse();
-    }
+    //[HttpDelete("{id:guid}")]
+    //[ProducesResponseType(typeof(ExcluirPessoaFisicaResponse), StatusCodes.Status200OK)]
+    //public async Task<IActionResult> Excluir(Guid id)
+    //{
+    //    var excluirRequest = new ExcluirPessoaFisicaRequest(id);
 
-    [HttpPut("Pesoa-Juridica/{id:guid}")]
-    [ProducesResponseType(typeof(EditarPessoaJuridicaResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> EditarPj(Guid id, EditarPessoaJuridicaPartialRequest request)
-    {
-        var editarRequest = new EditarPessoaJuridicaRequest(
-            id,
-            request.Nome,
-            request.Telefone,
-            request.Endereco,
-            request.Cnpj,
-            request.CondutorId
-        );
+    //    var resultado = await mediator.Send(excluirRequest);
 
-        var resultado = await mediator.Send(editarRequest);
+    //    return resultado.ToHttpResponse();
+    //}
 
-        return resultado.ToHttpResponse();
-    }
+    //[HttpGet]
+    //[ProducesResponseType(typeof(SelecionarPessoasFisicasResponse), StatusCodes.Status200OK)]
+    //public async Task<IActionResult> SelecionarTodos()
+    //{
+    //    var resultado = await mediator.Send(new SelecionarPessoasFisicasRequest());
 
-    [HttpDelete("Pessoa-Fisica/{id:guid}")]
-    [ProducesResponseType(typeof(ExcluirPessoaFisicaResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExcluirPf(Guid id)
-    {
-        var excluirRequest = new ExcluirPessoaFisicaRequest(id);
+    //    return resultado.ToHttpResponse();
+    //}
 
-        var resultado = await mediator.Send(excluirRequest);
+    //[HttpGet("{id:guid}")]
+    //[ProducesResponseType(typeof(SelecionarPessoaFisicaPorIdResponse), StatusCodes.Status200OK)]
+    //public async Task<IActionResult> SelecionarPorId(Guid id)
+    //{
+    //    var selecionarPorIdRequest = new SelecionarPessoaFisicaPorIdRequest(id);
 
-        return resultado.ToHttpResponse();
-    }
+    //    var resultado = await mediator.Send(selecionarPorIdRequest);
 
-    [HttpDelete("Pessoa-Juridica/{id:guid}")]
-    [ProducesResponseType(typeof(ExcluirPessoaJuridicaResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExcluirPj(Guid id)
-    {
-        var excluirRequest = new ExcluirPessoaJuridicaRequest(id);
-
-        var resultado = await mediator.Send(excluirRequest);
-
-        return resultado.ToHttpResponse();
-    }
-
-    [HttpGet("Pessoa-Fisica")]
-    [ProducesResponseType(typeof(SelecionarPessoasFisicasResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> SelecionarTodosPf()
-    {
-        var resultado = await mediator.Send(new SelecionarPessoasFisicasRequest());
-
-        return resultado.ToHttpResponse();
-    }
-
-    [HttpGet("Pessoa-Juridica")]
-    [ProducesResponseType(typeof(SelecionarPessoasJuridicasResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> SelecionarTodosPj()
-    {
-        var resultado = await mediator.Send(new SelecionarPessoasJuridicasRequest());
-
-        return resultado.ToHttpResponse();
-    }
-
-    [HttpGet("Pessoa-Fisica/{id:guid}")]
-    [ProducesResponseType(typeof(SelecionarPessoaFisicaPorIdResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> SelecionarPorIdPf(Guid id)
-    {
-        var selecionarPorIdRequest = new SelecionarPessoaFisicaPorIdRequest(id);
-
-        var resultado = await mediator.Send(selecionarPorIdRequest);
-
-        return resultado.ToHttpResponse();
-    }
-
-    [HttpGet("Pessoa-Juridica/{id:guid}")]
-    [ProducesResponseType(typeof(SelecionarPessoaJuridicaPorIdResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> SelecionarPorIdPj(Guid id)
-    {
-        var selecionarPorIdRequest = new SelecionarPessoaJuridicaPorIdRequest(id);
-
-        var resultado = await mediator.Send(selecionarPorIdRequest);
-
-        return resultado.ToHttpResponse();
-    }
+    //    return resultado.ToHttpResponse();
+    //}
 }

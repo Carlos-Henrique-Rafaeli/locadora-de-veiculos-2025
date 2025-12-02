@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloCondutor;
 using MediatR;
 
@@ -19,6 +20,19 @@ internal class SelecionarCondutoresRequestHandler(
             Registros = registros
                 .Select(x => new SelecionarCondutoresDto(
                     x.Id,
+                    new SelecionarClienteDto(
+                        x.Cliente.Id,
+                        x.Cliente.TipoCliente,
+                        x.Cliente.Nome,
+                        x.Cliente.Telefone,
+                        x.Cliente.Cpf,
+                        x.Cliente.Cnpj,
+                        x.Cliente.Estado,
+                        x.Cliente.Cidade,
+                        x.Cliente.Bairro,
+                        x.Cliente.Rua,
+                        x.Cliente.Numero
+                        ),
                     x.Nome,
                     x.Email,
                     x.Cpf,

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCliente;
 
-public class MapeadorPessoaJuridica : IEntityTypeConfiguration<PessoaJuridica>
+public class MapeadorCliente : IEntityTypeConfiguration<Cliente>
 {
-    public void Configure(EntityTypeBuilder<PessoaJuridica> builder)
+    public void Configure(EntityTypeBuilder<Cliente> builder)
     {
-        builder.ToTable("TBPessoaJuridica");
+        builder.ToTable("TBCliente");
 
         builder.Property(x => x.Id)
             .ValueGeneratedNever();
@@ -21,16 +21,30 @@ public class MapeadorPessoaJuridica : IEntityTypeConfiguration<PessoaJuridica>
             .IsRequired()
             .HasMaxLength(15);
 
-        builder.Property(x => x.Endereco)
-            .IsRequired()
-            .HasMaxLength(200);
+        builder.Property(x => x.Cpf)
+            .IsRequired(false)
+            .HasMaxLength(14);
 
         builder.Property(x => x.Cnpj)
-            .IsRequired()
-            .HasMaxLength(18);
+            .IsRequired(false)
+            .HasMaxLength(19);
 
-        builder.HasOne(pj => pj.Condutor)
-            .WithMany()
+        builder.Property(x => x.Estado)
+            .IsRequired();
+
+        builder.Property(x => x.Cidade)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        builder.Property(x => x.Bairro)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        builder.Property(x => x.Rua)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(x => x.Numero)
             .IsRequired();
 
         builder

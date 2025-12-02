@@ -1,4 +1,5 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
+using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloPlanoCobranca;
 
@@ -6,7 +7,7 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
 
 public record SelecionarAluguelDto(
     Guid Id,
-    SelecionarCondutorDto Condutor,
+    SelecionarCondutoresDto Condutor,
     SelecionarGrupoVeiculoDtoSimplified GrupoVeiculos,
     SelecionarVeiculosDto Veiculo,
     DateTime DataInicio,

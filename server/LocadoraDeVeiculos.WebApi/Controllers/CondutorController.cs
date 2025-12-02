@@ -30,6 +30,8 @@ public class CondutorController(IMediator mediator) : ControllerBase
     {
         var editarRequest = new EditarCondutorRequest(
             id,
+            request.ClienteId,
+            request.ClienteCondutor,
             request.Nome,
             request.Email,
             request.Cpf,

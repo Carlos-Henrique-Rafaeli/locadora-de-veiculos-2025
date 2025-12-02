@@ -2,6 +2,7 @@
 using FluentValidation;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
 using LocadoraDeVeiculos.Dominio.Compartilhado;
+using LocadoraDeVeiculos.Dominio.ModuloCliente;
 using LocadoraDeVeiculos.Dominio.ModuloCondutor;
 using MediatR;
 
@@ -9,6 +10,7 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Editar;
 
 internal class EditarCondutorRequestHandler(
     IRepositorioCondutor repositorioCondutor,
+    IRepositorioCliente repositorioCliente,
     IContextoPersistencia contexto,
     IValidator<Condutor> validador
 ) : IRequestHandler<EditarCondutorRequest, Result<EditarCondutorResponse>>
@@ -20,6 +22,13 @@ internal class EditarCondutorRequestHandler(
         if (condutorSelecionado == null)
             return Result.Fail(ErrorResults.NotFoundError(request.Id));
 
+        var clienteSelecionado = await repositorioCliente.SelecionarPorIdAsync(request.ClienteId);
+
+        if (clienteSelecionado is null)
+            return Result.Fail(CondutorErrorResults.ClienteNullError(request.ClienteId));
+
+        condutorSelecionado.Cliente = clienteSelecionado;
+        condutorSelecionado.ClienteCondutor = request.ClienteCondutor;
         condutorSelecionado.Nome = request.Nome;
         condutorSelecionado.Email = request.Email;
         condutorSelecionado.Cpf = request.Cpf;

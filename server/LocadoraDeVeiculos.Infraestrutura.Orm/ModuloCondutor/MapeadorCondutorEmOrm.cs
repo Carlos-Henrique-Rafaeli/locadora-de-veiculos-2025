@@ -13,6 +13,12 @@ public class MapeadorCondutorEmOrm : IEntityTypeConfiguration<Condutor>
         builder.Property(x => x.Id)
             .ValueGeneratedNever();
 
+        builder.HasOne(x => x.Cliente)
+            .WithMany();
+
+        builder.Property(x => x.ClienteCondutor)
+            .IsRequired();
+
         builder.Property(x => x.Nome)
             .IsRequired()
             .HasMaxLength(100);

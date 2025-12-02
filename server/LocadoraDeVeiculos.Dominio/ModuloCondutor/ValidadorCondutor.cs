@@ -6,6 +6,12 @@ public class ValidadorCondutor : AbstractValidator<Condutor>
 {
     public ValidadorCondutor()
     {
+        RuleFor(x => x.Cliente)
+            .NotNull().WithMessage("O campo {PropertyName} é obrigatório.");
+
+        RuleFor(x => x.ClienteCondutor)
+            .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.");
+
         RuleFor(x => x.Nome)
             .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.")
             .MinimumLength(3).WithMessage("O campo {PropertyName} deve conter no mínimo {MinLength} caracteres.")
@@ -27,9 +33,8 @@ public class ValidadorCondutor : AbstractValidator<Condutor>
             .NotNull().WithMessage("O campo {PropertyName} é obrigatório.")
             .Must(d => d > DateTime.Now).WithMessage("O campo {PropertyName} deve ser uma data futura.");
 
-
         RuleFor(x => x.Telefone)
             .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.")
-            .Matches(@"^\(\d{2}\) 9\d{4}-\d{4}$").WithMessage("O campo {PropertyName} deve estar no formato (XX) XXXXX-XXXX.");
+            .Matches(@"^\(\d{2}\) \d{5}-\d{4}$").WithMessage("O campo {PropertyName} deve estar no formato (XX) XXXXX-XXXX.");
     }
 }

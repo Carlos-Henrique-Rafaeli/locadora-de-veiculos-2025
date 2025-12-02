@@ -3,6 +3,7 @@ using FluentValidation;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
 using LocadoraDeVeiculos.Dominio.Compartilhado;
 using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
+using LocadoraDeVeiculos.Dominio.ModuloCliente;
 using LocadoraDeVeiculos.Dominio.ModuloCondutor;
 using MediatR;
 
@@ -11,6 +12,7 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Inserir;
 internal class InserirCondutorRequestHandler(
 IContextoPersistencia contexto,
 IRepositorioCondutor repositorioCondutor,
+IRepositorioCliente repositorioCliente,
 ITenantProvider tenantProvider,
 IValidator<Condutor> validador
 ) : IRequestHandler<InserirCondutorRequest, Result<InserirCondutorResponse>>
@@ -18,7 +20,14 @@ IValidator<Condutor> validador
     public async Task<Result<InserirCondutorResponse>> Handle(
         InserirCondutorRequest request, CancellationToken cancellationToken)
     {
+        var clienteSelecionado = await repositorioCliente.SelecionarPorIdAsync(request.ClienteId);
+
+        if (clienteSelecionado is null)
+            return Result.Fail(CondutorErrorResults.ClienteNullError(request.ClienteId));
+
         var condutor = new Condutor(
+            clienteSelecionado,
+            request.ClienteCondutor,
             request.Nome,
             request.Email,
             request.Cpf,

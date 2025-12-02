@@ -5,42 +5,17 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloCliente;
 
 public abstract class ClienteErrorResults
 {
-    public static Error CpfDuplicado(string nome)
+    public static Error CpfDuplicado(string cpf)
     {
         return new Error("CPF duplicado")
-            .CausedBy($"Um cliente com o nome '{nome}' já foi cadastrado com este CPF.")
-            .WithMetadata("ErrorType", "BadRequest");
-    }
-    public static Error CnhDuplicada(string nome)
-    {
-        return new Error("CNH duplicada")
-            .CausedBy($"Um cliente com o nome '{nome}' já foi cadastrado com esta CNH.")
-            .WithMetadata("ErrorType", "BadRequest");
-    }
-    public static Error RgDuplicado(string nome)
-    {
-        return new Error("RG duplicado")
-            .CausedBy($"Um cliente com o nome '{nome}' já foi cadastrado com este RG.")
-            .WithMetadata("ErrorType", "BadRequest");
-    }
-    public static Error CondutorNullError(Guid condutorId)
-    {
-        return new Error("Condutor inexistente")
-            .CausedBy($"Um condutor com o Id '{condutorId}' não existe.")
+            .CausedBy($"Um cliente com o Cpf '{cpf}' já foi cadastrado.")
             .WithMetadata("ErrorType", "BadRequest");
     }
 
-    public static Error PessoaJuridicaNullError(Guid pessoaJuridicaId)
+    public static Error CnpjDuplicado(string cnpj)
     {
-        return new Error("Pessoa Jurídica inexistente")
-            .CausedBy($"Uma pessoa jurídica com o Id '{pessoaJuridicaId}' não existe.")
-            .WithMetadata("ErrorType", "BadRequest");
-    }
-
-    public static Error PessoaFisicaVinculadaError()
-    {
-        return new Error("Pessoa Física vinculada")
-            .CausedBy($"A pessoa jurídica está vinculada a uma ou mais pessoas físicas.")
+        return new Error("Cnpj duplicado")
+            .CausedBy($"Um cliente com o cnpj '{cnpj}' já foi cadastrado.")
             .WithMetadata("ErrorType", "BadRequest");
     }
 }
