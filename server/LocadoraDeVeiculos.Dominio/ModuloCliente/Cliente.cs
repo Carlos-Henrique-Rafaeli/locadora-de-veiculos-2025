@@ -14,4 +14,30 @@ public class Cliente : EntidadeBase
     public string Bairro { get; set; }
     public string Rua { get; set; }
     public int Numero { get; set; }
+
+    public Cliente() { }
+
+    public Cliente(
+        TipoCliente tipoCliente, 
+        string nome, 
+        string telefone, 
+        string? cpf, 
+        string? cnpj,
+        TipoEstado estado, 
+        string cidade, 
+        string bairro, 
+        string rua, 
+        int numero) : this()
+    {
+        TipoCliente = tipoCliente;
+        Nome = nome;
+        Telefone = telefone;
+        Cpf = cpf;
+        Cnpj = cnpj;
+        Estado = estado;
+        Cidade = cidade;
+        Bairro = bairro;
+        Rua = rua;
+        Numero = numero;
+    }
 }
