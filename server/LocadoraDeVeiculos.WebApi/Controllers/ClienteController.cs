@@ -1,4 +1,7 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Inserir;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Excluir;
+using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Inserir;
+using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.WebApi.Extensions;
 using MediatR;
@@ -22,36 +25,39 @@ public class ClienteController(IMediator mediator) : ControllerBase
     }
 
 
-    //[HttpPut("{id:guid}")]
-    //[ProducesResponseType(typeof(EditarClienteResponse), StatusCodes.Status200OK)]
-    //public async Task<IActionResult> Editar(Guid id, EditarClientePartialRequest request)
-    //{
-    //    var editarRequest = new EditarClienteRequest(
-    //        id,
-    //        request.Nome,
-    //        request.Telefone,
-    //        request.Endereco,
-    //        request.Cpf,
-    //        request.Rg,
-    //        request.Cnh,
-    //        request.PessoaJuridicaId
-    //    );
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(EditarClienteResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Editar(Guid id, EditarClientePartialRequest request)
+    {
+        var editarRequest = new EditarClienteRequest(
+            id,
+            request.TipoCliente,
+            request.Nome,
+            request.Telefone,
+            request.Cpf,
+            request.Cnpj,
+            request.Estado,
+            request.Cidade,
+            request.Bairro,
+            request.Rua,
+            request.Numero
+        );
 
-    //    var resultado = await mediator.Send(editarRequest);
+        var resultado = await mediator.Send(editarRequest);
 
-    //    return resultado.ToHttpResponse();
-    //}
+        return resultado.ToHttpResponse();
+    }
 
-    //[HttpDelete("{id:guid}")]
-    //[ProducesResponseType(typeof(ExcluirClienteResponse), StatusCodes.Status200OK)]
-    //public async Task<IActionResult> Excluir(Guid id)
-    //{
-    //    var excluirRequest = new ExcluirClienteRequest(id);
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirClienteResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id)
+    {
+        var excluirRequest = new ExcluirClienteRequest(id);
 
-    //    var resultado = await mediator.Send(excluirRequest);
+        var resultado = await mediator.Send(excluirRequest);
 
-    //    return resultado.ToHttpResponse();
-    //}
+        return resultado.ToHttpResponse();
+    }
 
     [HttpGet]
     [ProducesResponseType(typeof(SelecionarClientesResponse), StatusCodes.Status200OK)]
@@ -62,14 +68,14 @@ public class ClienteController(IMediator mediator) : ControllerBase
         return resultado.ToHttpResponse();
     }
 
-    //[HttpGet("{id:guid}")]
-    //[ProducesResponseType(typeof(SelecionarClientePorIdResponse), StatusCodes.Status200OK)]
-    //public async Task<IActionResult> SelecionarPorId(Guid id)
-    //{
-    //    var selecionarPorIdRequest = new SelecionarClientePorIdRequest(id);
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(SelecionarClientePorIdResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SelecionarPorId(Guid id)
+    {
+        var selecionarPorIdRequest = new SelecionarClientePorIdRequest(id);
 
-    //    var resultado = await mediator.Send(selecionarPorIdRequest);
+        var resultado = await mediator.Send(selecionarPorIdRequest);
 
-    //    return resultado.ToHttpResponse();
-    //}
+        return resultado.ToHttpResponse();
+    }
 }

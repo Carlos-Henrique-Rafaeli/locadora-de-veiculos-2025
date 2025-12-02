@@ -18,4 +18,11 @@ public abstract class ClienteErrorResults
             .CausedBy($"Um cliente com o cnpj '{cnpj}' já foi cadastrado.")
             .WithMetadata("ErrorType", "BadRequest");
     }
+
+    public static Error ClienteEmCondutorError(Guid id)
+    {
+        return new Error("Cliente em condutor")
+            .CausedBy($"O cliente com Id '{id}' pertence a um condutor.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
 }
