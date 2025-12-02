@@ -1,5 +1,4 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloPlanoCobranca;
 
@@ -13,13 +12,14 @@ public record SelecionarAluguelDto(
     DateTime DataInicio,
     DateTime DataFim,
     SelecionarPlanoCobrancaDtoSimplified PlanoCobranca,
-    decimal ValorTotal
+    decimal ValorTotal,
+    bool EstaAberta
 );
 
 public record SelecionarGrupoVeiculoDtoSimplified(
     Guid Id,
     string Nome,
-    int QtdVeiculos
+    int QuantidadeDeVeiculos
 );
 
 public record SelecionarPlanoCobrancaDtoSimplified(

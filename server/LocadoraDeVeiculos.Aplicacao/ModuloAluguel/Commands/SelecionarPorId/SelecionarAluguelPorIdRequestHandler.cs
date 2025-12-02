@@ -58,7 +58,8 @@ internal class SelecionarAluguelPorIdRequestHandler(
                         aluguelSelecionado.PlanoCobranca.ValorKmExcedente,
                         aluguelSelecionado.PlanoCobranca.ValorFixo
                         ),
-                    aluguelSelecionado.CalcularValorTotal()
+                    aluguelSelecionado.CalcularValorTotal(),
+                    aluguelSelecionado.EstaAberto
                     )
             );
 

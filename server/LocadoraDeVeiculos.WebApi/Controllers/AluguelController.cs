@@ -1,4 +1,5 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Inserir;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.WebApi.Extensions;
@@ -18,6 +19,26 @@ public class AluguelController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Inserir(InserirAluguelRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(EditarAluguelResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Editar(Guid id, EditarAluguelPartialRequest request)
+    {
+        var editarRequest = new EditarAluguelRequest(
+            id,
+            request.CondutorId,
+            request.GrupoVeiculoId,
+            request.VeiculoId,
+            request.DataEntrada,
+            request.DataRetorno,
+            request.PlanoCobrancaId,
+            request.TaxasServicosIds
+        );
+
+        var resultado = await mediator.Send(editarRequest);
 
         return resultado.ToHttpResponse();
     }

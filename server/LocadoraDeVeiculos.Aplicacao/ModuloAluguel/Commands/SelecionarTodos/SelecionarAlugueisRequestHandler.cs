@@ -57,8 +57,8 @@ internal class SelecionarAlugueisRequestHandler(
                         r.PlanoCobranca.ValorKmExcedente,
                         r.PlanoCobranca.ValorFixo
                         ),
-                    r.CalcularValorTotal()
-                    ))
+                    r.CalcularValorTotal(),
+                    r.EstaAberto))
         };
 
         return Result.Ok(response);

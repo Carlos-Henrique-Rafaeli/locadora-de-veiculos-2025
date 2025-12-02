@@ -15,6 +15,7 @@ public class RepositorioAluguelEmOrm(IContextoPersistencia context)
             .Include(x => x.GrupoVeiculo)
             .Include(x => x.Veiculo)
             .Include(x => x.PlanoCobranca)
+            .Include(x => x.TaxasServicos)
             .ToListAsync();
     }
 
@@ -25,6 +26,7 @@ public class RepositorioAluguelEmOrm(IContextoPersistencia context)
             .Include(x => x.GrupoVeiculo)
             .Include(x => x.Veiculo)
             .Include(x => x.PlanoCobranca)
+            .Include(x => x.TaxasServicos)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 }
