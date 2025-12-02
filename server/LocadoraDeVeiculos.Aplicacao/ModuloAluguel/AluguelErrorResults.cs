@@ -1,4 +1,7 @@
 ﻿using FluentResults;
+using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
+using LocadoraDeVeiculos.Dominio.ModuloPlanoCobranca;
+using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel;
 
@@ -50,6 +53,20 @@ public abstract class AluguelErrorResults
     {
         return new Error("Plano de Cobrança não pertence ao Grupo de Veículos")
             .CausedBy($"O plano de cobrança '{planoCobranca}' não pertence ao grupo de veículos '{grupoVeiculo}'.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error ValidadeCnhVencidaError(string cpf)
+    {
+        return new Error("Validade vencida")
+            .CausedBy($"O condutor de Cpf '{cpf}' esta com a Cnh vencida.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error VeiculoJaSelecionadoError(string veiculo)
+    {
+        return new Error("Veículo pertence a outro aluguel")
+            .CausedBy($"O veículo '{veiculo}' já pertence a um aluguel.")
             .WithMetadata("ErrorType", "BadRequest");
     }
 }

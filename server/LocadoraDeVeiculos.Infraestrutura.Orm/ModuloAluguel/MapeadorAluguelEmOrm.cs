@@ -13,6 +13,9 @@ public class MapeadorAluguelEmOrm : IEntityTypeConfiguration<Aluguel>
         builder.Property(x => x.Id)
             .ValueGeneratedNever();
 
+        builder.Property(x => x.EstaAberto)
+            .IsRequired();
+
         builder.HasOne(x => x.Condutor)
             .WithMany()
             .IsRequired()

@@ -33,6 +33,9 @@ internal class InserirAluguelRequestHandler(
         if (condutorSelecionado is null)
             return Result.Fail(AluguelErrorResults.CondutorNullError(request.CondutorId));
 
+        if (condutorSelecionado.ValidadeCnh < DateTime.Today)
+            return Result.Fail(AluguelErrorResults.ValidadeCnhVencidaError(condutorSelecionado.Cpf));
+
         var grupoVeiculoSelecionado = await repositorioGrupoVeiculo.SelecionarPorIdAsync(request.GrupoVeiculoId);
 
         if (grupoVeiculoSelecionado is null)
@@ -91,7 +94,10 @@ internal class InserirAluguelRequestHandler(
             return Result.Fail(ErrorResults.BadRequestError(erros));
         }
 
-        var grupoVeiculosRegistrados = await repositorioAluguel.SelecionarTodosAsync();
+        var alugueis = await repositorioAluguel.SelecionarTodosAsync();
+
+        if (alugueis.Any(x => x.Veiculo.Id == veiculoSelecionado.Id))
+            return Result.Fail(AluguelErrorResults.VeiculoJaSelecionadoError(veiculoSelecionado.Modelo)); 
 
         // inserção
         try
