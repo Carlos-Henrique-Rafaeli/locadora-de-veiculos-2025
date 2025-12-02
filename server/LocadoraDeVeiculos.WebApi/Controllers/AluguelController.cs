@@ -1,4 +1,5 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Editar;
+using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
@@ -39,6 +40,17 @@ public class AluguelController(IMediator mediator) : ControllerBase
         );
 
         var resultado = await mediator.Send(editarRequest);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ExcluirAluguelResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id)
+    {
+        var excluirRequest = new ExcluirAluguelRequest(id);
+
+        var resultado = await mediator.Send(excluirRequest);
 
         return resultado.ToHttpResponse();
     }

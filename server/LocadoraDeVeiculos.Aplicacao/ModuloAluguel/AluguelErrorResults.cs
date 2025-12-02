@@ -63,6 +63,13 @@ public abstract class AluguelErrorResults
             .WithMetadata("ErrorType", "BadRequest");
     }
 
+    public static Error AluguelAbertoError(Guid idAluguel)
+    {
+        return new Error("Aluguel não Concluído")
+            .CausedBy($"O aluguel com Id'{idAluguel}' não foi concluído.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
     public static Error ValidadeCnhVencidaError(string cpf)
     {
         return new Error("Validade vencida")
