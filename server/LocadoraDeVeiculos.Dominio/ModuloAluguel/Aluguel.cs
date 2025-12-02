@@ -17,7 +17,8 @@ public class Aluguel : EntidadeBase
     public PlanoCobranca PlanoCobranca { get; set; }
     public List<TaxaServico> TaxasServicos { get; set; } = [];
     public bool EstaAberto { get; set; } = true;
-    
+    public decimal ValorFinal { get; set; } = 0;
+
     public readonly decimal ValorEntrada = 1000;
 
     public Aluguel() { }
@@ -40,7 +41,13 @@ public class Aluguel : EntidadeBase
         TaxasServicos = taxasServicos;
     }
 
-    public decimal CalcularValorTotal(decimal kmRodados = 0, bool atraso = false)
+    public void FinalizarAluguel(decimal kmRodados, bool atraso, decimal valorCombustivel)
+    {
+        EstaAberto = false;
+        ValorFinal = CalcularValorTotal(kmRodados, atraso, valorCombustivel);
+    }
+
+    public decimal CalcularValorTotal(decimal kmRodados = 0, bool atraso = false, decimal valorCombustivel = 0)
     {
         int diasDeUso = (DataRetorno - DataEntrada).Days;
         decimal valorPlano = 0;
@@ -90,6 +97,6 @@ public class Aluguel : EntidadeBase
         if (atraso)
             valorPlano *= 1.1m;
 
-        return ValorEntrada + valorPlano + valorTaxasServicos;
+        return ValorEntrada + valorPlano + valorTaxasServicos + valorCombustivel;
     }
 }

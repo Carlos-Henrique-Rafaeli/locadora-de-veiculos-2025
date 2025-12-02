@@ -1,5 +1,6 @@
 ﻿using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Editar;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Excluir;
+using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Finalizar;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
@@ -20,6 +21,24 @@ public class AluguelController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Inserir(InserirAluguelRequest request)
     {
         var resultado = await mediator.Send(request);
+
+        return resultado.ToHttpResponse();
+    }
+
+    [HttpPost("finalizar/{id:guid}")]
+    [ProducesResponseType(typeof(FinalizarAluguelResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Finalizar(Guid id, FinalizarAluguelPartialRequest request)
+    {
+        var finalizarRequest = new FinalizarAluguelRequest(
+            id,
+            request.DataRetorno,
+            request.kmInicial,
+            request.kmAtual,
+            request.tanqueCheio,
+            request.porcentagemTanque
+            );
+
+        var resultado = await mediator.Send(finalizarRequest);
 
         return resultado.ToHttpResponse();
     }

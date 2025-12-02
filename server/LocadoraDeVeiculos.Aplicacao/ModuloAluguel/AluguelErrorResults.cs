@@ -83,4 +83,25 @@ public abstract class AluguelErrorResults
             .CausedBy($"O veículo '{veiculo}' já pertence a um aluguel.")
             .WithMetadata("ErrorType", "BadRequest");
     }
+
+    public static Error KmRodadosError()
+    {
+        return new Error("KM rodados")
+            .CausedBy($"O KM antigo tem que ser menor que o KM atual.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+    
+    public static Error DataErradaError()
+    {
+        return new Error("Data Errada")
+            .CausedBy($"A data de retorno precisa ser posterior à data de entrada.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
+
+    public static Error PorcentagemTanqueObrigatoriaError()
+    {
+        return new Error("Porcentagem Obrigatória")
+            .CausedBy($"A porcentagem do tanque é obrigatória.")
+            .WithMetadata("ErrorType", "BadRequest");
+    }
 }

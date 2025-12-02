@@ -16,6 +16,11 @@ public class MapeadorAluguelEmOrm : IEntityTypeConfiguration<Aluguel>
         builder.Property(x => x.EstaAberto)
             .IsRequired();
 
+        builder.Property(x => x.ValorFinal)
+            .HasColumnType("decimal(18,2)")
+            .HasDefaultValue(0)
+            .IsRequired();
+
         builder.HasOne(x => x.Condutor)
             .WithMany()
             .IsRequired()
