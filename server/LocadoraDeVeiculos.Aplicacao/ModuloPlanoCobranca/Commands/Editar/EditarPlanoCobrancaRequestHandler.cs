@@ -20,7 +20,7 @@ internal class EditarPlanoCobrancaRequestHandler(
         var grupoVeiculoSelecionado = await repositorioPlanoCobranca.SelecionarPorIdAsync(request.Id);
 
         if (grupoVeiculoSelecionado == null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var grupoSelecionado = await repositorioGrupoVeiculos.SelecionarPorIdAsync(request.GrupoVeiculoId);
 
@@ -44,7 +44,7 @@ internal class EditarPlanoCobrancaRequestHandler(
                 .Select(failure => failure.ErrorMessage)
                 .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var grupoVeiculos = await repositorioPlanoCobranca.SelecionarTodosAsync();
@@ -59,7 +59,7 @@ internal class EditarPlanoCobrancaRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new EditarPlanoCobrancaResponse(grupoVeiculoSelecionado.Id));

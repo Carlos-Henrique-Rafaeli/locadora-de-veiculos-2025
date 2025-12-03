@@ -21,21 +21,25 @@ using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloAluguel;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
-public class LocadoraDeVeiculosDbContext(DbContextOptions options, ITenantProvider? tenantProvider = null)
+public class LocadoraDeVeiculosDbContext(
+    DbContextOptions options, 
+    ITenantProvider? tenantProvider = null)
     : IdentityDbContext<Usuario, Cargo, Guid>(options), IContextoPersistencia
 {
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         if (tenantProvider is not null)
         {
-            modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<Cliente>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
-            modelBuilder.Entity<Aluguel>().HasQueryFilter(m => m.UsuarioId == tenantProvider.UsuarioId);
+            modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<Cliente>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<Aluguel>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
         }
 
         modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());

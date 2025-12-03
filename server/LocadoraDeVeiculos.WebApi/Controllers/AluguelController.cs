@@ -4,17 +4,16 @@ using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Finalizar;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.WebApi.Extensions;
+using LocadoraDeVeiculos.WebApi.Compartilhado;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocadoraDeVeiculos.WebApi.Controllers;
 
-[ApiController]
 [Authorize]
 [Route("api/aluguel")]
-public class AluguelController(IMediator mediator) : ControllerBase
+public class AluguelController(IMediator mediator) : MainController
 {
     [HttpPost]
     [ProducesResponseType(typeof(InserirAluguelResponse), StatusCodes.Status200OK)]
@@ -22,7 +21,7 @@ public class AluguelController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(request);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpPost("finalizar/{id:guid}")]
@@ -40,7 +39,7 @@ public class AluguelController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(finalizarRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpPut("{id:guid}")]
@@ -60,7 +59,7 @@ public class AluguelController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(editarRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpDelete("{id:guid}")]
@@ -71,7 +70,7 @@ public class AluguelController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(excluirRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet]
@@ -80,7 +79,7 @@ public class AluguelController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(new SelecionarAlugueisRequest());
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet("{id:guid}")]
@@ -91,6 +90,6 @@ public class AluguelController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(selecionarPorIdRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 }

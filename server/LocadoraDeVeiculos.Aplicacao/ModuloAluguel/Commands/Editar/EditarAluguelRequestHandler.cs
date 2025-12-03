@@ -28,7 +28,7 @@ internal class EditarAluguelRequestHandler(
         var aluguelSelecionado = await repositorioAluguel.SelecionarPorIdAsync(request.Id);
 
         if (aluguelSelecionado == null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         if (!aluguelSelecionado.EstaAberto)
             return Result.Fail(AluguelErrorResults.AluguelFechadoError(aluguelSelecionado.Id));
@@ -96,7 +96,7 @@ internal class EditarAluguelRequestHandler(
                 .Select(failure => failure.ErrorMessage)
                 .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var grupoVeiculos = await repositorioAluguel.SelecionarTodosAsync();
@@ -111,7 +111,7 @@ internal class EditarAluguelRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new EditarAluguelResponse(aluguelSelecionado.Id));

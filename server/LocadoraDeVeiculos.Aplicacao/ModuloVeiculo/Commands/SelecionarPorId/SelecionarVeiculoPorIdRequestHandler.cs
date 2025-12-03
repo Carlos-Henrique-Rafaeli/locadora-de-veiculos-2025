@@ -15,7 +15,7 @@ internal class SelecionarVeiculoPorIdRequestHandler(
         var veiculoSelecionado = await repositorioVeiculo.SelecionarPorIdAsync(request.Id);
 
         if (veiculoSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var resposta = new SelecionarVeiculoPorIdResponse(
             new SelecionarVeiculosDto(

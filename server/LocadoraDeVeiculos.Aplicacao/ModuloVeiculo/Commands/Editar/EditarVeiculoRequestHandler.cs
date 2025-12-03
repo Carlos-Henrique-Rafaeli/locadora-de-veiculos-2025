@@ -22,7 +22,7 @@ public class EditarVeiculoRequestHandler(
         var veiculoSelecionado = await repositorioVeiculo.SelecionarPorIdAsync(request.Id);
 
         if (veiculoSelecionado == null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         veiculoSelecionado.GrupoVeiculo.RemoverVeiculo(veiculoSelecionado);
 
@@ -48,7 +48,7 @@ public class EditarVeiculoRequestHandler(
                 .Select(failure => failure.ErrorMessage)
                 .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var grupoVeiculos = await repositorioVeiculo.SelecionarTodosAsync();
@@ -66,7 +66,7 @@ public class EditarVeiculoRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new EditarVeiculoResponse(grupoVeiculoSelecionado.Id));

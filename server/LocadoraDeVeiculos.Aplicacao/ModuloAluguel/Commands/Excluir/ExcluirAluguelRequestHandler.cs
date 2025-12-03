@@ -16,7 +16,7 @@ internal class ExcluirAluguelRequestHandler(
         var aluguelSelecionado = await repositorioAluguel.SelecionarPorIdAsync(request.Id);
 
         if (aluguelSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         if (aluguelSelecionado.EstaAberto)
             return Result.Fail(AluguelErrorResults.AluguelAbertoError(aluguelSelecionado.Id));
@@ -31,7 +31,7 @@ internal class ExcluirAluguelRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new ExcluirAluguelResponse());

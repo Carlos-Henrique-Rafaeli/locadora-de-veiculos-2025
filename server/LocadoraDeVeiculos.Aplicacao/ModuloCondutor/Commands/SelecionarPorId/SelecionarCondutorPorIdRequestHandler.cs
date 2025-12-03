@@ -16,7 +16,7 @@ internal class SelecionarCondutorPorIdRequestHandler(
         var condutorSelecionado = await repositorioCondutor.SelecionarPorIdAsync(request.Id);
 
         if (condutorSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var resposta = new SelecionarCondutorPorIdResponse(
             new SelecionarCondutoresDto(

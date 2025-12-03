@@ -20,7 +20,7 @@ internal class InserirGrupoVeiculosRequestHandler(
     {
         var grupoVeiculo = new GrupoVeiculo(request.nome)
         {
-            UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+            EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
         };
 
         // validações
@@ -32,7 +32,7 @@ internal class InserirGrupoVeiculosRequestHandler(
                .Select(failure => failure.ErrorMessage)
                .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var grupoVeiculosRegistrados = await repositorioGrupoVeiculos.SelecionarTodosAsync();
@@ -52,7 +52,7 @@ internal class InserirGrupoVeiculosRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new InserirGrupoVeiculosResponse(grupoVeiculo.Id));

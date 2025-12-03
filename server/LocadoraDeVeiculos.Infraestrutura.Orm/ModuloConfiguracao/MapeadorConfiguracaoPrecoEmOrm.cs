@@ -29,9 +29,9 @@ public class MapeadorConfiguracaoPrecoEmOrm : IEntityTypeConfiguration<Configura
             .IsRequired();
 
         builder
-            .HasOne(a => a.Usuario)
+            .HasOne(a => a.Empresa)
             .WithMany()
-            .HasForeignKey(a => a.UsuarioId)
+            .HasForeignKey(a => a.EmpresaId)
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
     }

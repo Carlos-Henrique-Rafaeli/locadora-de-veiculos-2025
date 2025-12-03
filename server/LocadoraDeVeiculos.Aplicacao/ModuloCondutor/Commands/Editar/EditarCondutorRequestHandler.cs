@@ -20,7 +20,7 @@ internal class EditarCondutorRequestHandler(
         var condutorSelecionado = await repositorioCondutor.SelecionarPorIdAsync(request.Id);
 
         if (condutorSelecionado == null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var clienteSelecionado = await repositorioCliente.SelecionarPorIdAsync(request.ClienteId);
 
@@ -45,7 +45,7 @@ internal class EditarCondutorRequestHandler(
                 .Select(failure => failure.ErrorMessage)
                 .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var condutoresRegistrados = await repositorioCondutor.SelecionarTodosAsync();
@@ -69,7 +69,7 @@ internal class EditarCondutorRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new EditarCondutorResponse(condutorSelecionado.Id));

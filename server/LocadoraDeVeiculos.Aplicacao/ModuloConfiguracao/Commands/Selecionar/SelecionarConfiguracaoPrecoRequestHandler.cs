@@ -27,7 +27,7 @@ internal class SelecionarConfiguracaoPrecoRequestHandler(
                 Gasolina = 6.99m,
                 Diesel = 5.99m,
                 Etanol = 4.99m,
-                UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+                EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
             };
 
             try
@@ -40,7 +40,7 @@ internal class SelecionarConfiguracaoPrecoRequestHandler(
             {
                 await contexto.RollbackAsync();
 
-                return Result.Fail(ErrorResults.InternalServerError(ex));
+                return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
             }
 
             registro = await repositorioConfiguracaoPreco.SelecionarPorIdAsync(config.Id);

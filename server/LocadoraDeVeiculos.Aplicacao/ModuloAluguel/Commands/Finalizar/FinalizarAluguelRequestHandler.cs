@@ -21,7 +21,7 @@ internal class FinalizarAluguelRequestHandler(
         var aluguelSelecionado = await repositorioAluguel.SelecionarPorIdAsync(request.Id);
 
         if (aluguelSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         if (!aluguelSelecionado.EstaAberto)
             return Result.Fail(AluguelErrorResults.AluguelFechadoError(aluguelSelecionado.Id));
@@ -46,7 +46,7 @@ internal class FinalizarAluguelRequestHandler(
                 Gasolina = 6.99m,
                 Diesel = 5.99m,
                 Etanol = 4.99m,
-                UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+                EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
             };
 
             try
@@ -59,7 +59,7 @@ internal class FinalizarAluguelRequestHandler(
             {
                 await contexto.RollbackAsync();
 
-                return Result.Fail(ErrorResults.InternalServerError(ex));
+                return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
             }
 
             precos = await repositorioConfiguracaoPreco.SelecionarPorIdAsync(config.Id);
@@ -104,7 +104,7 @@ internal class FinalizarAluguelRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new FinalizarAluguelResponse(aluguelSelecionado.Id, aluguelSelecionado.ValorFinal));

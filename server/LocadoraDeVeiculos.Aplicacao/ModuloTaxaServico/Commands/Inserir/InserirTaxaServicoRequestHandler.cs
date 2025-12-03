@@ -20,7 +20,7 @@ internal class InserirTaxaServicoRequestHandler(
     {
         var taxaServico = new TaxaServico(request.Nome, request.Valor, request.TipoCobranca)
         {
-            UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+            EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
         };
 
         // validações
@@ -32,7 +32,7 @@ internal class InserirTaxaServicoRequestHandler(
                .Select(failure => failure.ErrorMessage)
                .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var taxasServicosRegistrados = await repositorioTaxaServico.SelecionarTodosAsync();
@@ -51,7 +51,7 @@ internal class InserirTaxaServicoRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new InserirTaxaServicoResponse(taxaServico.Id));

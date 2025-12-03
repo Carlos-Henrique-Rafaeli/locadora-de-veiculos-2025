@@ -79,7 +79,7 @@ internal class InserirAluguelRequestHandler(
             taxasServicosSelecionados
             )
         {
-            UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+            EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
         };
 
         // validações
@@ -91,7 +91,7 @@ internal class InserirAluguelRequestHandler(
                .Select(failure => failure.ErrorMessage)
                .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var alugueis = await repositorioAluguel.SelecionarTodosAsync();
@@ -110,7 +110,7 @@ internal class InserirAluguelRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new InserirAluguelResponse(aluguel.Id));

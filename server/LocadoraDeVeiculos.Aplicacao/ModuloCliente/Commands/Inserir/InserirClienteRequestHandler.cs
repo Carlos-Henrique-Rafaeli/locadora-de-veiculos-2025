@@ -35,7 +35,7 @@ internal class InserirClienteRequestHandler(
             request.Numero
             )
         {
-            UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+            EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
         };
 
         // validações
@@ -47,7 +47,7 @@ internal class InserirClienteRequestHandler(
                .Select(failure => failure.ErrorMessage)
                .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var clientesRegistrados = await repositorioCliente.SelecionarTodosAsync();
@@ -79,7 +79,7 @@ internal class InserirClienteRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new InserirClienteResponse(cliente.Id));

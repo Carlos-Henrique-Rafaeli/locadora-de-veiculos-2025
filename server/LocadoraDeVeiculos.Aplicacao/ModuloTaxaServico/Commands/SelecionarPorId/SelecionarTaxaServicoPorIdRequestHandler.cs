@@ -15,7 +15,7 @@ internal class SelecionarTaxaServicoPorIdRequestHandler(
         var taxaServicoSelecionada = await repositorioTaxaServico.SelecionarPorIdAsync(request.Id);
 
         if (taxaServicoSelecionada is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var resposta = new SelecionarTaxaServicoPorIdResponse(
             new SelecionarTaxasServicosDto(

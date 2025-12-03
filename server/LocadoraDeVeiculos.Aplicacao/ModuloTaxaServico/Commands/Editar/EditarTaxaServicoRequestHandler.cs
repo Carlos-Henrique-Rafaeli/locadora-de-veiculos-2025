@@ -18,7 +18,7 @@ internal class EditarTaxaServicoRequestHandler(
         var taxaServicoSelecionada = await repositorioTaxaServico.SelecionarPorIdAsync(request.Id);
 
         if (taxaServicoSelecionada == null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         taxaServicoSelecionada.Nome = request.Nome;
         taxaServicoSelecionada.Valor = request.Valor;
@@ -33,7 +33,7 @@ internal class EditarTaxaServicoRequestHandler(
                 .Select(failure => failure.ErrorMessage)
                 .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var taxasServicosSelecionados = await repositorioTaxaServico.SelecionarTodosAsync();
@@ -51,7 +51,7 @@ internal class EditarTaxaServicoRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new EditarTaxaServicoResponse(taxaServicoSelecionada.Id));

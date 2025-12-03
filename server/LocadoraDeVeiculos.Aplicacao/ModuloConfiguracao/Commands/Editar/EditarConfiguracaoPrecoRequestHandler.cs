@@ -28,7 +28,7 @@ internal class EditarConfiguracaoPrecoRequestHandler(
                 Gasolina = request.Gasolina,
                 Diesel = request.Diesel,
                 Etanol = request.Etanol,
-                UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+                EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
             };
 
             try
@@ -41,7 +41,7 @@ internal class EditarConfiguracaoPrecoRequestHandler(
             {
                 await contexto.RollbackAsync();
 
-                return Result.Fail(ErrorResults.InternalServerError(ex));
+                return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
             }
 
             configuracaoPrecoSelecionada = await repositorioConfiguracaoPreco.SelecionarPorIdAsync(config.Id);
@@ -60,7 +60,7 @@ internal class EditarConfiguracaoPrecoRequestHandler(
                 .Select(failure => failure.ErrorMessage)
                 .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         try
@@ -73,7 +73,7 @@ internal class EditarConfiguracaoPrecoRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new EditarConfiguracaoPrecoResponse());

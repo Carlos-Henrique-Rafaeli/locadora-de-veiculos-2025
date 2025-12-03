@@ -12,7 +12,7 @@ public class ValidadorGrupoVeiculos : AbstractValidator<GrupoVeiculo>
             .DependentRules(() =>
             {
                 RuleFor(x => x.Nome).MinimumLength(3)
-                .WithMessage("O campo {PropertyName} deve conter no mínimo {MinLenght} caracteres");
+                .WithMessage("O campo {PropertyName} deve conter no mínimo {MinLength} caracteres");
 
                 RuleFor(x => x.Nome).MaximumLength(100)
                 .WithMessage("O campo {PropertyName} deve conter no máximo {MaxLength} caracteres");

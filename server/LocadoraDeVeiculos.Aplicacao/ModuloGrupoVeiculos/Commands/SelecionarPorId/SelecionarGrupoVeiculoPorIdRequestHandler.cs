@@ -15,7 +15,7 @@ public class SelecionarGrupoVeiculoPorIdRequestHandler(
         var grupoVeiculoSelecionado = await repositorioGrupoVeiculo.SelecionarPorIdAsync(request.Id);
 
         if (grupoVeiculoSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var resposta = new SelecionarGrupoVeiculoPorIdResponse(
             grupoVeiculoSelecionado.Id,

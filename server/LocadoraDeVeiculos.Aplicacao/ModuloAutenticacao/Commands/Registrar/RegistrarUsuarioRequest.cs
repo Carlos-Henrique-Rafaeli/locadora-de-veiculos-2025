@@ -1,8 +1,8 @@
-﻿using FluentResults;
-using MediatR;
-using LocadoraDeVeiculos.Aplicacao.ModuloAutenticacao.DTOs;
+﻿namespace LocadoraDeVeiculos.Aplicacao.ModuloAutenticacao.Commands.Registrar;
 
-namespace LocadoraDeVeiculos.Aplicacao.ModuloAutenticacao.Commands.Registrar;
-
-public record RegistrarUsuarioRequest(string UserName, string Email, string Password) 
-    : IRequest<Result<TokenResponse>>;
+public record RegistrarUsuarioRequest(
+    string NomeCompleto,
+    string Email,
+    string Senha,
+    string ConfirmarSenha
+);

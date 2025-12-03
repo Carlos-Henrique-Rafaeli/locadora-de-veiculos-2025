@@ -15,7 +15,7 @@ internal class SelecionarPlanoCobrancaPorIdRequestHandler(
         var planoCobrancaSelecionado = await repositorioPlanoCobranca.SelecionarPorIdAsync(request.Id);
 
         if (planoCobrancaSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var resposta = new SelecionarPlanoCobrancaPorIdResponse(
             new SelecionarPlanoCobrancaDto(

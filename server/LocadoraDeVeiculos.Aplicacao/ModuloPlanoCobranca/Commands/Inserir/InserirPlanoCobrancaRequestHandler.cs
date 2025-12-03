@@ -35,7 +35,7 @@ internal class InserirPlanoCobrancaRequestHandler(
             request.ValorFixo
             )
         {
-            UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+            EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
         };
 
         // validações
@@ -47,7 +47,7 @@ internal class InserirPlanoCobrancaRequestHandler(
                .Select(failure => failure.ErrorMessage)
                .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var grupoVeiculosRegistrados = await repositorioPlanoCobranca.SelecionarTodosAsync();
@@ -63,7 +63,7 @@ internal class InserirPlanoCobrancaRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new InserirPlanoCobrancaResponse(grupoVeiculo.Id));

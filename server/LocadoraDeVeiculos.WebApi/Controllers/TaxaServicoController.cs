@@ -3,17 +3,16 @@ using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.WebApi.Extensions;
+using LocadoraDeVeiculos.WebApi.Compartilhado;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocadoraDeVeiculos.WebApi.Controllers;
 
-[ApiController]
 [Authorize]
 [Route("api/taxa-servico")]
-public class TaxaServicoController(IMediator mediator) : ControllerBase
+public class TaxaServicoController(IMediator mediator) : MainController
 {
     [HttpPost]
     [ProducesResponseType(typeof(InserirTaxaServicoResponse), StatusCodes.Status200OK)]
@@ -21,7 +20,7 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(request);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpPut("{id:guid}")]
@@ -37,7 +36,7 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(editarRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpDelete("{id:guid}")]
@@ -48,7 +47,7 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(excluirRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet]
@@ -57,7 +56,7 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(new SelecionarTaxasServicosRequest());
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet("{id:guid}")]
@@ -68,6 +67,6 @@ public class TaxaServicoController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(selecionarPorIdRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 }

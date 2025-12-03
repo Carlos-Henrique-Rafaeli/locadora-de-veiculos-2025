@@ -3,17 +3,16 @@ using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.WebApi.Extensions;
+using LocadoraDeVeiculos.WebApi.Compartilhado;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocadoraDeVeiculos.WebApi.Controllers;
 
-[ApiController]
 [Authorize]
 [Route("api/grupo_veiculos")]
-public class GrupoVeiculosController(IMediator mediator) : ControllerBase
+public class GrupoVeiculosController(IMediator mediator) : MainController
 {
     [HttpPost]
     [ProducesResponseType(typeof(InserirGrupoVeiculosResponse), StatusCodes.Status200OK)]
@@ -21,7 +20,7 @@ public class GrupoVeiculosController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(request);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpPut("{id:guid}")]
@@ -35,7 +34,7 @@ public class GrupoVeiculosController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(editarRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpDelete("{id:guid}")]
@@ -46,7 +45,7 @@ public class GrupoVeiculosController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(excluirRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet]
@@ -55,7 +54,7 @@ public class GrupoVeiculosController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(new SelecionarGrupoVeiculosRequest());
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet("{id:guid}")]
@@ -66,6 +65,6 @@ public class GrupoVeiculosController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(selecionarPorIdRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 }

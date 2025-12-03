@@ -19,12 +19,12 @@ public class ExcluirVeiculoRequestHandler(
         var veiculoSelecionado = await repositorioVeiculo.SelecionarPorIdAsync(request.Id);
 
         if (veiculoSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var grupoVeiculoSelecionado = await repositorioGrupoVeiculo.SelecionarPorIdAsync(veiculoSelecionado.GrupoVeiculo.Id);
 
         if (grupoVeiculoSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         try
         {
@@ -38,7 +38,7 @@ public class ExcluirVeiculoRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new ExcluirVeiculoResponse());

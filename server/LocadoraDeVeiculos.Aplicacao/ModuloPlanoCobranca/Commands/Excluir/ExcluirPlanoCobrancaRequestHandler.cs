@@ -18,7 +18,7 @@ internal class ExcluirPlanoCobrancaRequestHandler(
         var grupoVeiculoSelecionado = await repositorioPlanoCobranca.SelecionarPorIdAsync(request.Id);
 
         if (grupoVeiculoSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         try
         {
@@ -30,7 +30,7 @@ internal class ExcluirPlanoCobrancaRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new ExcluirPlanoCobrancaResponse());

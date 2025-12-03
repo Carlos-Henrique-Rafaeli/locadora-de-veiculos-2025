@@ -18,7 +18,7 @@ internal class SelecionarAluguelPorIdRequestHandler(
         var aluguelSelecionado = await repositorioAluguel.SelecionarPorIdAsync(request.Id);
 
         if (aluguelSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var resposta = new SelecionarAluguelPorIdResponse(
             new SelecionarAluguelDto(

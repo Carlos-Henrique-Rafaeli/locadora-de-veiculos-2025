@@ -20,7 +20,7 @@ internal class ExcluirClienteRequestHandler(
         var clienteSelecionado = await repositorioCliente.SelecionarPorIdAsync(request.Id);
 
         if (clienteSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var condutores = await repositorioCondutor.SelecionarTodosAsync();
 
@@ -37,7 +37,7 @@ internal class ExcluirClienteRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new ExcluirClienteResponse());

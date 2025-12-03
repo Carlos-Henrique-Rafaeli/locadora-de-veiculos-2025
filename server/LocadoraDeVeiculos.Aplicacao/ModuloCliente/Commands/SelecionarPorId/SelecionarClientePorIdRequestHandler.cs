@@ -15,7 +15,7 @@ internal class SelecionarClientePorIdRequestHandler(
         var clienteSelecionado = await repositorioCliente.SelecionarPorIdAsync(request.Id);
 
         if (clienteSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var resposta = new SelecionarClientePorIdResponse(
             new SelecionarClienteDto(

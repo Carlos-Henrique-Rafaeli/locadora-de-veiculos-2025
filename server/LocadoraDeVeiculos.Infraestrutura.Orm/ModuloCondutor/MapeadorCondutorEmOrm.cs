@@ -43,9 +43,9 @@ public class MapeadorCondutorEmOrm : IEntityTypeConfiguration<Condutor>
             .HasMaxLength(15);
 
         builder
-            .HasOne(a => a.Usuario)
+            .HasOne(a => a.Empresa)
             .WithMany()
-            .HasForeignKey(a => a.UsuarioId)
+            .HasForeignKey(a => a.EmpresaId)
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
     }

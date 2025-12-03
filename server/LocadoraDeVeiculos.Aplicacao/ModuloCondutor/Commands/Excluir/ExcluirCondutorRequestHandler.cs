@@ -19,7 +19,7 @@ internal class ExcluirCondutorRequestHandler(
         var condutorSelecionado = await repositorioCondutor.SelecionarPorIdAsync(request.Id);
 
         if (condutorSelecionado is null)
-            return Result.Fail(ErrorResults.NotFoundError(request.Id));
+            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
         var alugueis = await repositorioAluguel.SelecionarTodosAsync();
 
@@ -36,7 +36,7 @@ internal class ExcluirCondutorRequestHandler(
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new ExcluirCondutorResponse());

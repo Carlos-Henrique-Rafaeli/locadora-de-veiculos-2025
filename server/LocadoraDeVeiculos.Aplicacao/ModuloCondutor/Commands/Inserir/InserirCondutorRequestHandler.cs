@@ -36,7 +36,7 @@ IValidator<Condutor> validador
             request.Telefone
             )
         {
-            UsuarioId = tenantProvider.UsuarioId.GetValueOrDefault()
+            EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
         };
 
         // validações
@@ -48,7 +48,7 @@ IValidator<Condutor> validador
                .Select(failure => failure.ErrorMessage)
                .ToList();
 
-            return Result.Fail(ErrorResults.BadRequestError(erros));
+            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
         }
 
         var condutoresRegistrados = await repositorioCondutor.SelecionarTodosAsync();
@@ -73,7 +73,7 @@ IValidator<Condutor> validador
         {
             await contexto.RollbackAsync();
 
-            return Result.Fail(ErrorResults.InternalServerError(ex));
+            return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
 
         return Result.Ok(new InserirCondutorResponse(condutor.Id));

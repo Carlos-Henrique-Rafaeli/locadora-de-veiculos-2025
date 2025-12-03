@@ -3,17 +3,16 @@ using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.WebApi.Extensions;
+using LocadoraDeVeiculos.WebApi.Compartilhado;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocadoraDeVeiculos.WebApi.Controllers;
 
-[ApiController]
 [Authorize]
 [Route("api/condutor")]
-public class CondutorController(IMediator mediator) : ControllerBase
+public class CondutorController(IMediator mediator) : MainController
 {
     [HttpPost]
     [ProducesResponseType(typeof(InserirCondutorResponse), StatusCodes.Status200OK)]
@@ -21,7 +20,7 @@ public class CondutorController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(request);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpPut("{id:guid}")]
@@ -42,7 +41,7 @@ public class CondutorController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(editarRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpDelete("{id:guid}")]
@@ -53,7 +52,7 @@ public class CondutorController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(excluirRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet]
@@ -62,7 +61,7 @@ public class CondutorController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(new SelecionarCondutoresRequest());
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet("{id:guid}")]
@@ -73,6 +72,6 @@ public class CondutorController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(selecionarPorIdRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 }

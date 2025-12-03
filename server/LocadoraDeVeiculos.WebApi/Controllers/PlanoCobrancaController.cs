@@ -3,17 +3,16 @@ using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Excluir;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.Inserir;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarPorId;
 using LocadoraDeVeiculos.Aplicacao.ModuloPlanoCobranca.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.WebApi.Extensions;
+using LocadoraDeVeiculos.WebApi.Compartilhado;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocadoraDeVeiculos.WebApi.Controllers;
 
-[ApiController]
 [Authorize]
 [Route("api/plano-cobranca")]
-public class PlanoCobrancaController(IMediator mediator) : ControllerBase
+public class PlanoCobrancaController(IMediator mediator) : MainController
 {
     [HttpPost]
     [ProducesResponseType(typeof(InserirPlanoCobrancaResponse), StatusCodes.Status200OK)]
@@ -21,7 +20,7 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(request);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpPut("{id:guid}")]
@@ -41,7 +40,7 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(editarRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpDelete("{id:guid}")]
@@ -52,7 +51,7 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(excluirRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet]
@@ -61,7 +60,7 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(new SelecionarPlanosCobrancaRequest());
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 
     [HttpGet("{id:guid}")]
@@ -72,6 +71,6 @@ public class PlanoCobrancaController(IMediator mediator) : ControllerBase
 
         var resultado = await mediator.Send(selecionarPorIdRequest);
 
-        return resultado.ToHttpResponse();
+        return ProcessarResultado(resultado);
     }
 }
