@@ -3,7 +3,7 @@ using LocadoraDeVeiculos.Dominio.ModuloCliente;
 
 namespace LocadoraDeVeiculos.Dominio.ModuloCondutor;
 
-public class Condutor : EntidadeBase
+public class Condutor : EntidadeBase<Condutor>
 {
     public Cliente Cliente { get; set; }
     public bool ClienteCondutor { get; set; }
@@ -34,5 +34,17 @@ public class Condutor : EntidadeBase
         Cnh = cnh;
         ValidadeCnh = validadeCnh;
         Telefone = telefone;
+    }
+
+    public override void AtualizarRegistro(Condutor registroEditado)
+    {
+        Cliente = registroEditado.Cliente;
+        ClienteCondutor = registroEditado.ClienteCondutor;
+        Nome = registroEditado.Nome;
+        Email = registroEditado.Email;
+        Cpf = registroEditado.Cpf;
+        Cnh = registroEditado.Cnh;
+        ValidadeCnh = registroEditado.ValidadeCnh;
+        Telefone = registroEditado.Telefone;
     }
 }

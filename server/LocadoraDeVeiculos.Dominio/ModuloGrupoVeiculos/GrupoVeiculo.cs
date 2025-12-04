@@ -3,7 +3,7 @@ using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 
 namespace LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 
-public class GrupoVeiculo : EntidadeBase
+public class GrupoVeiculo : EntidadeBase<GrupoVeiculo>
 {
     public string Nome { get; set; }
     public List<Veiculo> Veiculos { get; set; }
@@ -32,5 +32,11 @@ public class GrupoVeiculo : EntidadeBase
             return;
 
         Veiculos.Remove(veiculo);
+    }
+
+    public override void AtualizarRegistro(GrupoVeiculo registroEditado)
+    {
+        Nome = registroEditado.Nome;
+        Veiculos = registroEditado.Veiculos;
     }
 }

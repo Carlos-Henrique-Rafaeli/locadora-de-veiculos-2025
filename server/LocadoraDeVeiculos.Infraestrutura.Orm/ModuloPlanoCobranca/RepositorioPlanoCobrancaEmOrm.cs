@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloPlanoCobranca;
 
-public class RepositorioPlanoCobrancaEmOrm(IContextoPersistencia context)
+public class RepositorioPlanoCobrancaEmOrm(LocadoraDeVeiculosDbContext context)
     : RepositorioBase<PlanoCobranca>(context), IRepositorioPlanoCobranca
 {
     public override async Task<List<PlanoCobranca>> SelecionarTodosAsync()

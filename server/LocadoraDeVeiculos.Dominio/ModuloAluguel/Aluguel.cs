@@ -7,7 +7,7 @@ using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 
 namespace LocadoraDeVeiculos.Dominio.ModuloAluguel;
 
-public class Aluguel : EntidadeBase
+public class Aluguel : EntidadeBase<Aluguel>
 {
     public Condutor Condutor { get; set; }
     public GrupoVeiculo GrupoVeiculo { get; set; }
@@ -98,5 +98,16 @@ public class Aluguel : EntidadeBase
             valorPlano *= 1.1m;
 
         return ValorEntrada + valorPlano + valorTaxasServicos + valorCombustivel;
+    }
+
+    public override void AtualizarRegistro(Aluguel registroEditado)
+    {
+        Condutor = registroEditado.Condutor;
+        GrupoVeiculo = registroEditado.GrupoVeiculo;
+        Veiculo = registroEditado.Veiculo;
+        DataEntrada = registroEditado.DataEntrada;
+        DataRetorno = registroEditado.DataRetorno;
+        PlanoCobranca = registroEditado.PlanoCobranca;
+        TaxasServicos = registroEditado.TaxasServicos;
     }
 }

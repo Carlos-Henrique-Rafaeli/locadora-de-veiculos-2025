@@ -3,36 +3,37 @@ using LocadoraDeVeiculos.Dominio.Compartilhado;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
-public class RepositorioBase<TEntidade> where TEntidade : EntidadeBase
+public class RepositorioBase<TEntidade>(LocadoraDeVeiculosDbContext context) where TEntidade : EntidadeBase<TEntidade>
 {
-    protected readonly IContextoPersistencia context;
-    protected readonly DbSet<TEntidade> registros;
+    protected readonly DbSet<TEntidade> registros = ((DbContext)context).Set<TEntidade>();
 
-    public RepositorioBase(IContextoPersistencia context)
-    {
-        this.context = context;
-        registros = ((DbContext)this.context).Set<TEntidade>();
-    }
-
-    public async Task<Guid> InserirAsync(TEntidade registro)
+    public async Task InserirAsync(TEntidade registro)
     {
         await registros.AddAsync(registro);
-
-        return registro.Id;
     }
 
-    public async Task<bool> EditarAsync(TEntidade registro)
+    public async Task<bool> EditarAsync(Guid idRegistro, TEntidade registro)
     {
-        var rastreador = registros.Update(registro);
+        var registroSelecionado = await SelecionarPorIdAsync(idRegistro);
 
-        return await Task.Run(() => rastreador.State == EntityState.Modified);
+        if (registroSelecionado == null)
+            return false;
+
+        registroSelecionado.AtualizarRegistro(registro);
+
+        return true;
     }
 
-    public async Task<bool> ExcluirAsync(TEntidade registro)
+    public async Task<bool> ExcluirAsync(Guid idRegistro)
     {
-        var rastreador = registros.Remove(registro);
-
-        return await Task.Run(() => rastreador.State == EntityState.Deleted);
+        var registroSelecionado = await SelecionarPorIdAsync(idRegistro);
+        
+        if (registroSelecionado == null)
+            return false;
+        
+        registroSelecionado.Excluir();
+        
+        return true;
     }
 
     public virtual async Task<List<TEntidade>> SelecionarTodosAsync()

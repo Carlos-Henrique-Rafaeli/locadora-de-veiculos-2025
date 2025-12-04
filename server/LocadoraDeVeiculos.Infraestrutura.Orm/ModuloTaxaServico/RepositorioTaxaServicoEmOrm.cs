@@ -4,5 +4,5 @@ using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloTaxaServico;
 
-public class RepositorioTaxaServicoEmOrm(IContextoPersistencia context)
+public class RepositorioTaxaServicoEmOrm(LocadoraDeVeiculosDbContext context)
     : RepositorioBase<TaxaServico>(context), IRepositorioTaxaServico;

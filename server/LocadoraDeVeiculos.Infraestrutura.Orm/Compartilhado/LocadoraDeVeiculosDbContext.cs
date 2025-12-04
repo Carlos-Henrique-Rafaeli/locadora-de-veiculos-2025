@@ -24,7 +24,7 @@ namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 public class LocadoraDeVeiculosDbContext(
     DbContextOptions options, 
     ITenantProvider? tenantProvider = null)
-    : IdentityDbContext<Usuario, Cargo, Guid>(options), IContextoPersistencia
+    : IdentityDbContext<Usuario, Cargo, Guid>(options)
 {
     public DbSet<RefreshToken> RefreshTokens { get; set; }
 
@@ -32,14 +32,14 @@ public class LocadoraDeVeiculosDbContext(
     {
         if (tenantProvider is not null)
         {
-            modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
-            modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
-            modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
-            modelBuilder.Entity<Cliente>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
-            modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
-            modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
-            modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
-            modelBuilder.Entity<Aluguel>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId);
+            modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<Cliente>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<Aluguel>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
         }
 
         modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());
@@ -52,32 +52,6 @@ public class LocadoraDeVeiculosDbContext(
         modelBuilder.ApplyConfiguration(new MapeadorAluguelEmOrm());
 
         base.OnModelCreating(modelBuilder);
-    }
-
-    public async Task<int> GravarAsync()
-    {
-        return await SaveChangesAsync();
-    }
-
-    public async Task RollbackAsync()
-    {
-        foreach (var entry in ChangeTracker.Entries())
-        {
-            switch (entry.State)
-            {
-                case EntityState.Added:
-                    entry.State = EntityState.Detached;
-                    break;
-                case EntityState.Modified:
-                    entry.State = EntityState.Unchanged;
-                    break;
-                case EntityState.Deleted:
-                    entry.State = EntityState.Unchanged;
-                    break;
-            }
-        }
-
-        await Task.CompletedTask;
     }
 }
 

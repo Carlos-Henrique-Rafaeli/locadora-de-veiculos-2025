@@ -2,7 +2,7 @@
 
 namespace LocadoraDeVeiculos.Dominio.ModuloCliente;
 
-public class Cliente : EntidadeBase
+public class Cliente : EntidadeBase<Cliente>
 {
     public TipoCliente TipoCliente { get; set; }
     public string Nome { get; set; }
@@ -39,5 +39,19 @@ public class Cliente : EntidadeBase
         Bairro = bairro;
         Rua = rua;
         Numero = numero;
+    }
+
+    public override void AtualizarRegistro(Cliente registroEditado)
+    {
+        TipoCliente = registroEditado.TipoCliente;
+        Nome = registroEditado.Nome;
+        Telefone = registroEditado.Telefone;
+        Cpf = registroEditado.Cpf;
+        Cnpj = registroEditado.Cnpj;
+        Estado = registroEditado.Estado;
+        Cidade = registroEditado.Cidade;
+        Bairro = registroEditado.Bairro;
+        Rua = registroEditado.Rua;
+        Numero = registroEditado.Numero;
     }
 }

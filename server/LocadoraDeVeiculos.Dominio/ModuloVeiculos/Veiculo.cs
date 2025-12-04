@@ -3,7 +3,7 @@ using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 
 namespace LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 
-public class Veiculo : EntidadeBase
+public class Veiculo : EntidadeBase<Veiculo>
 {
     public GrupoVeiculo GrupoVeiculo { get; set; }
     public string Placa { get; set; }
@@ -31,5 +31,19 @@ public class Veiculo : EntidadeBase
         Cor = cor;
         TipoCombustivel = tipoCombustivel;
         CapacidadeTanque = capacidadeTanque;
+    }
+
+    public override void AtualizarRegistro(Veiculo registroEditado)
+    {
+        Placa = registroEditado.Placa;
+        Modelo = registroEditado.Modelo;
+        Marca = registroEditado.Marca;
+        Cor = registroEditado.Cor;
+        TipoCombustivel = registroEditado.TipoCombustivel;
+        CapacidadeTanque = registroEditado.CapacidadeTanque;
+
+        GrupoVeiculo.RemoverVeiculo(this);
+        GrupoVeiculo = registroEditado.GrupoVeiculo;
+        GrupoVeiculo.AdicionarVeiculo(registroEditado);
     }
 }

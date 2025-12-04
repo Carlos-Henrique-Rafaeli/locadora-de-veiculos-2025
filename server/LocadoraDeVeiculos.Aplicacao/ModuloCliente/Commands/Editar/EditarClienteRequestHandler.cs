@@ -1,85 +1,82 @@
 ﻿using FluentResults;
 using FluentValidation;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Editar;
-using LocadoraDeVeiculos.Dominio.Compartilhado;
 using LocadoraDeVeiculos.Dominio.ModuloCliente;
-using LocadoraDeVeiculos.Dominio.ModuloCliente;
+using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.Editar;
 
 internal class EditarClienteRequestHandler(
     IRepositorioCliente repositorioCliente,
-    IContextoPersistencia contexto,
+    LocadoraDeVeiculosDbContext contexto,
     IValidator<Cliente> validador
 ) : IRequestHandler<EditarClienteRequest, Result<EditarClienteResponse>>
 {
     public async Task<Result<EditarClienteResponse>> Handle(EditarClienteRequest request, CancellationToken cancellationToken)
     {
-        var clienteSelecionado = await repositorioCliente.SelecionarPorIdAsync(request.Id);
-
-        if (clienteSelecionado == null)
-            return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
-
-        clienteSelecionado.TipoCliente = request.TipoCliente;
-        clienteSelecionado.Nome = request.Nome;
-        clienteSelecionado.Telefone = request.Telefone;
-        clienteSelecionado.Cpf = request.Cpf;
-        clienteSelecionado.Cnpj = request.Cnpj;
-        clienteSelecionado.Estado = request.Estado;
-        clienteSelecionado.Cidade = request.Cidade;
-        clienteSelecionado.Bairro = request.Bairro;
-        clienteSelecionado.Rua = request.Rua;
-        clienteSelecionado.Numero = request.Numero;
-
-        var resultadoValidacao =
-            await validador.ValidateAsync(clienteSelecionado, cancellationToken);
-
-        if (!resultadoValidacao.IsValid)
-        {
-            var erros = resultadoValidacao.Errors
-                .Select(failure => failure.ErrorMessage)
-                .ToList();
-
-            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
-        }
-
-        var clientesRegistrados = await repositorioCliente.SelecionarTodosAsync();
-
-        switch (clienteSelecionado.TipoCliente)
-        {
-            case TipoCliente.PessoaFisica:
-                if (CpfDuplicado(clienteSelecionado, clientesRegistrados))
-                    return Result.Fail(ClienteErrorResults.CpfDuplicado(clienteSelecionado.Cpf));
-                
-                break;
-
-            case TipoCliente.PessoaJuridica:
-                if (CnpjDuplicado(clienteSelecionado, clientesRegistrados))
-                    return Result.Fail(ClienteErrorResults.CnpjDuplicado(clienteSelecionado.Cnpj));
-                
-                break;
-
-            default:
-                break;
-        }
-
         try
         {
-            await repositorioCliente.EditarAsync(clienteSelecionado);
+            var clienteSelecionado = await repositorioCliente.SelecionarPorIdAsync(request.Id);
 
-            await contexto.GravarAsync();
+            if (clienteSelecionado == null)
+                return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
+
+            var resultadoValidacao =
+                await validador.ValidateAsync(clienteSelecionado, cancellationToken);
+
+            if (!resultadoValidacao.IsValid)
+            {
+                var erros = resultadoValidacao.Errors
+                    .Select(failure => failure.ErrorMessage)
+                    .ToList();
+
+                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
+            }
+
+            var clientesRegistrados = await repositorioCliente.SelecionarTodosAsync();
+
+            switch (clienteSelecionado.TipoCliente)
+            {
+                case TipoCliente.PessoaFisica:
+                    if (CpfDuplicado(clienteSelecionado, clientesRegistrados))
+                        return Result.Fail(ClienteResultadosErro.CpfDuplicadoErro(clienteSelecionado.Cpf));
+
+                    break;
+
+                case TipoCliente.PessoaJuridica:
+                    if (CnpjDuplicado(clienteSelecionado, clientesRegistrados))
+                        return Result.Fail(ClienteResultadosErro.CnpjDuplicadoErro(clienteSelecionado.Cnpj));
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            var clienteNovo = new Cliente(
+                request.TipoCliente,
+                request.Nome,
+                request.Telefone,
+                request.Cpf,
+                request.Cnpj,
+                request.Estado,
+                request.Cidade,
+                request.Bairro,
+                request.Rua,
+                request.Numero
+                );
+
+            await repositorioCliente.EditarAsync(request.Id, clienteNovo);
+
+            await contexto.SaveChangesAsync(cancellationToken);
+
+            return Result.Ok(new EditarClienteResponse(clienteSelecionado.Id));
         }
         catch (Exception ex)
         {
-            await contexto.RollbackAsync();
-
             return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
-
-        return Result.Ok(new EditarClienteResponse(clienteSelecionado.Id));
     }
 
     private bool CpfDuplicado(Cliente cliente, IList<Cliente> clientes)

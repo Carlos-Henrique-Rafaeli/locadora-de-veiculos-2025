@@ -1,15 +1,15 @@
 ﻿using FluentResults;
 using FluentValidation;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
-using LocadoraDeVeiculos.Dominio.Compartilhado;
 using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
 using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
+using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloGrupoVeiculos.Commands.Inserir;
 
 internal class InserirGrupoVeiculosRequestHandler(
-    IContextoPersistencia contexto,
+    LocadoraDeVeiculosDbContext contexto,
     IRepositorioGrupoVeiculos repositorioGrupoVeiculos,
     ITenantProvider tenantProvider,
     IValidator<GrupoVeiculo> validador
@@ -18,44 +18,39 @@ internal class InserirGrupoVeiculosRequestHandler(
     public async Task<Result<InserirGrupoVeiculosResponse>> Handle(
         InserirGrupoVeiculosRequest request, CancellationToken cancellationToken)
     {
-        var grupoVeiculo = new GrupoVeiculo(request.nome)
-        {
-            EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
-        };
-
-        // validações
-        var resultadoValidacao = await validador.ValidateAsync(grupoVeiculo);
-
-        if (!resultadoValidacao.IsValid)
-        {
-            var erros = resultadoValidacao.Errors
-               .Select(failure => failure.ErrorMessage)
-               .ToList();
-
-            return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
-        }
-
-        var grupoVeiculosRegistrados = await repositorioGrupoVeiculos.SelecionarTodosAsync();
-
-        if (NomeDuplicado(grupoVeiculo, grupoVeiculosRegistrados))
-            return Result.Fail(GrupoVeiculosErrorResults.NomeDuplicadoError(grupoVeiculo.Nome));
-
-
-        // inserção
         try
         {
+            var grupoVeiculo = new GrupoVeiculo(request.nome)
+            {
+                EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
+            };
+
+            var resultadoValidacao = await validador.ValidateAsync(grupoVeiculo);
+
+            if (!resultadoValidacao.IsValid)
+            {
+                var erros = resultadoValidacao.Errors
+                   .Select(failure => failure.ErrorMessage)
+                   .ToList();
+
+                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
+            }
+
+            var grupoVeiculosRegistrados = await repositorioGrupoVeiculos.SelecionarTodosAsync();
+
+            if (NomeDuplicado(grupoVeiculo, grupoVeiculosRegistrados))
+                return Result.Fail(GrupoVeiculosResultadosErro.NomeDuplicadoErro(grupoVeiculo.Nome));
+
             await repositorioGrupoVeiculos.InserirAsync(grupoVeiculo);
 
-            await contexto.GravarAsync();
+            await contexto.SaveChangesAsync(cancellationToken);
+
+            return Result.Ok(new InserirGrupoVeiculosResponse(grupoVeiculo.Id));
         }
         catch (Exception ex)
         {
-            await contexto.RollbackAsync();
-
             return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
         }
-
-        return Result.Ok(new InserirGrupoVeiculosResponse(grupoVeiculo.Id));
     }
 
     private bool NomeDuplicado(GrupoVeiculo grupoVeiculo, IList<GrupoVeiculo> grupoVeiculos)

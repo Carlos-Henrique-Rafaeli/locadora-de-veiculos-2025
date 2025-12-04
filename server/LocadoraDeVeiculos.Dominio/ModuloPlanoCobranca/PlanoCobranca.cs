@@ -3,7 +3,7 @@ using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 
 namespace LocadoraDeVeiculos.Dominio.ModuloPlanoCobranca;
 
-public class PlanoCobranca : EntidadeBase
+public class PlanoCobranca : EntidadeBase<PlanoCobranca>
 {
     public TipoPlano TipoPlano { get; set; }
     public GrupoVeiculo GrupoVeiculo { get; set; }
@@ -32,5 +32,16 @@ public class PlanoCobranca : EntidadeBase
         KmIncluso = kmIncluso;
         ValorKmExcedente = valorKmExcedente;
         ValorFixo = valorFixo;
+    }
+
+    public override void AtualizarRegistro(PlanoCobranca registroEditado)
+    {
+        TipoPlano = registroEditado.TipoPlano;
+        GrupoVeiculo = registroEditado.GrupoVeiculo;
+        ValorDiario = registroEditado.ValorDiario;
+        ValorKm = registroEditado.ValorKm;
+        KmIncluso = registroEditado.KmIncluso;
+        ValorKmExcedente = registroEditado.ValorKmExcedente;
+        ValorFixo = registroEditado.ValorFixo;
     }
 }

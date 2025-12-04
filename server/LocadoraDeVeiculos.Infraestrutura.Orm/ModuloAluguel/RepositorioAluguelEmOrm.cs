@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloAluguel;
 
-public class RepositorioAluguelEmOrm(IContextoPersistencia context)
+public class RepositorioAluguelEmOrm(LocadoraDeVeiculosDbContext context)
     : RepositorioBase<Aluguel>(context), IRepositorioAluguel
 {
     public override async Task<List<Aluguel>> SelecionarTodosAsync()

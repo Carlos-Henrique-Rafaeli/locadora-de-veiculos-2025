@@ -4,5 +4,5 @@ using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloConfiguracao;
 
-public class RepositorioConfiguracaoPrecoEmOrm(IContextoPersistencia context)
+public class RepositorioConfiguracaoPrecoEmOrm(LocadoraDeVeiculosDbContext context)
     : RepositorioBase<ConfiguracaoPreco>(context), IRepositorioConfiguracaoPreco;

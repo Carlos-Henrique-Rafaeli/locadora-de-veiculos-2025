@@ -3,6 +3,7 @@ using LocadoraDeVeiculos.Aplicacao.Compartilhado;
 using LocadoraDeVeiculos.Dominio.Compartilhado;
 using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
 using LocadoraDeVeiculos.Dominio.ModuloConfiguracao;
+using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloConfiguracao.Commands.Selecionar;
@@ -10,7 +11,7 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloConfiguracao.Commands.Selecionar;
 internal class SelecionarConfiguracaoPrecoRequestHandler(
     IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco,
     ITenantProvider tenantProvider,
-    IContextoPersistencia contexto
+    LocadoraDeVeiculosDbContext contexto
 ) : IRequestHandler<SelecionarConfiguracaoPrecoRequest, Result<SelecionarConfiguracaoPrecoResponse>>
 {
     public async Task<Result<SelecionarConfiguracaoPrecoResponse>> Handle(
@@ -34,12 +35,10 @@ internal class SelecionarConfiguracaoPrecoRequestHandler(
             {
                 await repositorioConfiguracaoPreco.InserirAsync(config);
 
-                await contexto.GravarAsync();
+                await contexto.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {
-                await contexto.RollbackAsync();
-
                 return Result.Fail(ResultadosErro.ExcecaoInternaErro(ex));
             }
 

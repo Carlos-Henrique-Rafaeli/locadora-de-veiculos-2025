@@ -43,7 +43,7 @@ public static class DependencyInjections
         if (connectionString == null)
             throw new ArgumentNullException("'SQL_CONNECTION_STRING' não foi fornecida para o ambiente.");
 
-        services.AddDbContext<IContextoPersistencia, LocadoraDeVeiculosDbContext>(optionsBuilder =>
+        services.AddDbContext<LocadoraDeVeiculosDbContext, LocadoraDeVeiculosDbContext>(optionsBuilder =>
         {
             optionsBuilder.UseSqlServer(connectionString, dbOptions =>
             {

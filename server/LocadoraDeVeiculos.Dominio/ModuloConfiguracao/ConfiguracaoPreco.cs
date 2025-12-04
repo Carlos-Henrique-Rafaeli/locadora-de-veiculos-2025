@@ -2,7 +2,7 @@
 
 namespace LocadoraDeVeiculos.Dominio.ModuloConfiguracao;
 
-public class ConfiguracaoPreco : EntidadeBase
+public class ConfiguracaoPreco : EntidadeBase<ConfiguracaoPreco>
 {
     public decimal Gasolina { get; set; }
     public decimal Etanol { get; set; }
@@ -19,5 +19,12 @@ public class ConfiguracaoPreco : EntidadeBase
         Gasolina = gasolina;
         Etanol = etanol;
         Diesel = diesel;
+    }
+
+    public override void AtualizarRegistro(ConfiguracaoPreco registroEditado)
+    {
+        Gasolina = registroEditado.Gasolina;
+        Etanol = registroEditado.Etanol;
+        Diesel = registroEditado.Diesel;
     }
 }

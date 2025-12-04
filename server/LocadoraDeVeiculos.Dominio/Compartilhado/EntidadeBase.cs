@@ -2,7 +2,7 @@
 
 namespace LocadoraDeVeiculos.Dominio.Compartilhado;
 
-public abstract class EntidadeBase
+public abstract class EntidadeBase<T>
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public DateTimeOffset CriadoEmUtc { get; set; } = DateTime.UtcNow;
@@ -11,6 +11,8 @@ public abstract class EntidadeBase
 
     public Guid EmpresaId { get; set; }
     public Usuario? Empresa { get; set; }
+
+    public abstract void AtualizarRegistro(T registroEditado);
 
     public void Excluir()
     {

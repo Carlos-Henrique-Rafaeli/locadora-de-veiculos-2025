@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCondutor;
 
-public class RepositorioCondutorEmOrm(IContextoPersistencia context)
+public class RepositorioCondutorEmOrm(LocadoraDeVeiculosDbContext context)
     : RepositorioBase<Condutor>(context), IRepositorioCondutor
 {
     public override async Task<List<Condutor>> SelecionarTodosAsync()
