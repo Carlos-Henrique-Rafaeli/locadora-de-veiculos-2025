@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using LocadoraDeVeiculos.Dominio.Compartilhado;
 using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
 using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloGrupoVeiculos;
@@ -18,6 +17,8 @@ using LocadoraDeVeiculos.Dominio.ModuloConfiguracao;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloConfiguracao;
 using LocadoraDeVeiculos.Dominio.ModuloAluguel;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloAluguel;
+using LocadoraDeVeiculos.Dominio.ModuloFuncionario;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloFuncionario;
 
 namespace LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 
@@ -32,14 +33,15 @@ public class LocadoraDeVeiculosDbContext(
     {
         if (tenantProvider is not null)
         {
-            modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
-            modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
-            modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
-            modelBuilder.Entity<Cliente>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
-            modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
-            modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
-            modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
-            modelBuilder.Entity<Aluguel>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId && !m.Excluido);
+            modelBuilder.Entity<GrupoVeiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<Veiculo>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<Condutor>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<Cliente>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<PlanoCobranca>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<TaxaServico>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<ConfiguracaoPreco>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<Aluguel>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
+            modelBuilder.Entity<Funcionario>().HasQueryFilter(m => m.EmpresaId == tenantProvider.EmpresaId.GetValueOrDefault() && !m.Excluido);
         }
 
         modelBuilder.ApplyConfiguration(new MapeadorGrupoVeiculosEmOrm());
@@ -50,6 +52,7 @@ public class LocadoraDeVeiculosDbContext(
         modelBuilder.ApplyConfiguration(new MapeadorTaxaServicoEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorConfiguracaoPrecoEmOrm());
         modelBuilder.ApplyConfiguration(new MapeadorAluguelEmOrm());
+        modelBuilder.ApplyConfiguration(new MapeadorFuncionarioEmOrm());
 
         base.OnModelCreating(modelBuilder);
     }

@@ -1,6 +1,8 @@
 ﻿using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
+using LocadoraDeVeiculos.Dominio.ModuloFuncionario;
 using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -42,25 +44,25 @@ public class AccessTokenProvider
         if (cargoDoUsuarioStr is null)
             throw new Exception("Não foi possível recuperar os dados de permissão do usuário.");
 
-        Guid empresaId = usuario.Id;
+        Guid empresaId;
 
-        //if (cargoDoUsuarioStr == CargoUsuario.Funcionario.ToString())
-        //{
-        //    // Se for funcionário, busca a empresa vinculada
-        //    var funcionario = await dbContext.Set<Funcionario>()
-        //        .AsNoTracking()
-        //        .IgnoreQueryFilters()
-        //        .FirstOrDefaultAsync(f => f.UsuarioId == usuario.Id && !f.Excluido);
+        if (cargoDoUsuarioStr == CargoUsuario.Funcionario.ToString())
+        {
+            // Se for funcionário, busca a empresa vinculada
+            var funcionario = await dbContext.Set<Funcionario>()
+                .AsNoTracking()
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(f => f.UsuarioId == usuario.Id && !f.Excluido);
 
-        //    if (funcionario is null)
-        //        throw new Exception("Funcionário não encontrado ou inativo.");
+            if (funcionario is null)
+                throw new Exception("Funcionário não encontrado ou inativo.");
 
-        //    empresaId = funcionario.EmpresaId;
-        //}
-        //else
-        //{
-        //    empresaId = usuario.Id;
-        //}
+            empresaId = funcionario.EmpresaId;
+        }
+        else
+        {
+            empresaId = usuario.Id;
+        }
 
         var claims = new List<Claim>
         {

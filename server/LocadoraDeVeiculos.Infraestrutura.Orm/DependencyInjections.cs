@@ -1,8 +1,8 @@
-﻿using LocadoraDeVeiculos.Dominio.Compartilhado;
-using LocadoraDeVeiculos.Dominio.ModuloAluguel;
+﻿using LocadoraDeVeiculos.Dominio.ModuloAluguel;
 using LocadoraDeVeiculos.Dominio.ModuloCliente;
 using LocadoraDeVeiculos.Dominio.ModuloCondutor;
 using LocadoraDeVeiculos.Dominio.ModuloConfiguracao;
+using LocadoraDeVeiculos.Dominio.ModuloFuncionario;
 using LocadoraDeVeiculos.Dominio.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Dominio.ModuloPlanoCobranca;
 using LocadoraDeVeiculos.Dominio.ModuloTaxaServico;
@@ -12,6 +12,7 @@ using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloAluguel;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCliente;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloCondutor;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloConfiguracao;
+using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloFuncionario;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloGrupoVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloPlanoCobranca;
 using LocadoraDeVeiculos.Infraestrutura.Orm.ModuloTaxaServico;
@@ -62,5 +63,6 @@ public static class DependencyInjections
         services.AddScoped<IRepositorioTaxaServico, RepositorioTaxaServicoEmOrm>();
         services.AddScoped<IRepositorioConfiguracaoPreco, RepositorioConfiguracaoPrecoEmOrm>();
         services.AddScoped<IRepositorioAluguel, RepositorioAluguelEmOrm>();
+        services.AddScoped<IRepositorioFuncionario, RepositorioFuncionarioEmOrm>();
     }
 }
