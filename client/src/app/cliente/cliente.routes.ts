@@ -5,6 +5,7 @@ import { ClienteService } from './cliente.service';
 import { ListarClientes } from './listar/listar-cliente';
 import { CadastrarCliente } from './cadastrar/cadastrar-cliente';
 import { EditarCliente } from './editar/editar-cliente';
+import { ExcluirCliente } from './excluir/excluir-cliente';
 
 const listagemClientesResolver: ResolveFn<ListagemClientesModel[]> = () => {
   const clienteService = inject(ClienteService);
@@ -35,6 +36,11 @@ export const clienteRoutes: Routes = [
       {
         path: 'editar/:id',
         component: EditarCliente,
+        resolve: { cliente: detalhesClienteResolver },
+      },
+      {
+        path: 'excluir/:id',
+        component: ExcluirCliente,
         resolve: { cliente: detalhesClienteResolver },
       },
     ],

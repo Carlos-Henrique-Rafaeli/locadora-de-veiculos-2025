@@ -30,6 +30,12 @@ export class ClienteService {
     return this.http.put<EditarClienteResponseModel>(urlCompleto, editarClienteModel);
   }
 
+  public excluir(id: string): Observable<null> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+
+    return this.http.delete<null>(urlCompleto);
+  }
+
   public selecionarTodas(): Observable<ListagemClientesModel[]> {
     return this.http
       .get<ListagemClientesApiResponse>(this.apiUrl)
