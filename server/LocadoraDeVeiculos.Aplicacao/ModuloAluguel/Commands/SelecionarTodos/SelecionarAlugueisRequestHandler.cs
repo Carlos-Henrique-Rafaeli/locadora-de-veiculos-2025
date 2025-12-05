@@ -1,5 +1,4 @@
 ﻿using FluentResults;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloAluguel;
@@ -24,19 +23,15 @@ internal class SelecionarAlugueisRequestHandler(
                     r.Id,
                     new SelecionarCondutoresDto(
                         r.Condutor.Id,
-                        new SelecionarClienteDto(
+                        new SelecionarClienteDtoSimplified(
                             r.Condutor.Cliente.Id,
                             r.Condutor.Cliente.TipoCliente,
                             r.Condutor.Cliente.Nome,
                             r.Condutor.Cliente.Telefone,
                             r.Condutor.Cliente.Cpf,
-                            r.Condutor.Cliente.Cnpj,
-                            r.Condutor.Cliente.Estado,
-                            r.Condutor.Cliente.Cidade,
-                            r.Condutor.Cliente.Bairro,
-                            r.Condutor.Cliente.Rua,
-                            r.Condutor.Cliente.Numero
+                            r.Condutor.Cliente.Cnpj
                             ),
+                        r.Condutor.ClienteCondutor,
                         r.Condutor.Nome,
                         r.Condutor.Email,
                         r.Condutor.Cpf,

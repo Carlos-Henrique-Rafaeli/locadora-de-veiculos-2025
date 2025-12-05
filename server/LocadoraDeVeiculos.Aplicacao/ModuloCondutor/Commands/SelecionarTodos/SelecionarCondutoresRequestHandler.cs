@@ -20,19 +20,15 @@ internal class SelecionarCondutoresRequestHandler(
             Registros = registros
                 .Select(x => new SelecionarCondutoresDto(
                     x.Id,
-                    new SelecionarClienteDto(
+                    new SelecionarClienteDtoSimplified(
                         x.Cliente.Id,
                         x.Cliente.TipoCliente,
                         x.Cliente.Nome,
                         x.Cliente.Telefone,
                         x.Cliente.Cpf,
-                        x.Cliente.Cnpj,
-                        x.Cliente.Estado,
-                        x.Cliente.Cidade,
-                        x.Cliente.Bairro,
-                        x.Cliente.Rua,
-                        x.Cliente.Numero
+                        x.Cliente.Cnpj
                         ),
+                    x.ClienteCondutor,
                     x.Nome,
                     x.Email,
                     x.Cpf,

@@ -1,7 +1,6 @@
 ﻿using FluentResults;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloAluguel;
@@ -25,19 +24,15 @@ internal class SelecionarAluguelPorIdRequestHandler(
                 aluguelSelecionado.Id,
                     new SelecionarCondutoresDto(
                         aluguelSelecionado.Condutor.Id,
-                        new SelecionarClienteDto(
+                        new SelecionarClienteDtoSimplified(
                             aluguelSelecionado.Condutor.Cliente.Id,
                             aluguelSelecionado.Condutor.Cliente.TipoCliente,
                             aluguelSelecionado.Condutor.Cliente.Nome,
                             aluguelSelecionado.Condutor.Cliente.Telefone,
                             aluguelSelecionado.Condutor.Cliente.Cpf,
-                            aluguelSelecionado.Condutor.Cliente.Cnpj,
-                            aluguelSelecionado.Condutor.Cliente.Estado,
-                            aluguelSelecionado.Condutor.Cliente.Cidade,
-                            aluguelSelecionado.Condutor.Cliente.Bairro,
-                            aluguelSelecionado.Condutor.Cliente.Rua,
-                            aluguelSelecionado.Condutor.Cliente.Numero
+                            aluguelSelecionado.Condutor.Cliente.Cnpj
                             ),
+                        aluguelSelecionado.Condutor.ClienteCondutor,
                         aluguelSelecionado.Condutor.Nome,
                         aluguelSelecionado.Condutor.Email,
                         aluguelSelecionado.Condutor.Cpf,

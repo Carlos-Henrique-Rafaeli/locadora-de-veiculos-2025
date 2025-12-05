@@ -40,12 +40,12 @@ export class ShellComponent {
   public itensNavbar = [
     { titulo: 'Início', icone: 'home', link: '/inicio' },
     { titulo: 'Cliente', icone: 'person_add', link: '/clientes' },
-    { titulo: 'Condutor', icone: 'assignment_ind', link: '/condutor' },
-    { titulo: 'Grupo Veículo', icone: 'garage', link: '/grupo-veiculo' },
-    { titulo: 'Veículo', icone: 'directions_car', link: '/veiculo' },
-    { titulo: 'Plano de Cobrança', icone: 'payments', link: '/plano-cobraca' },
-    { titulo: 'Taxa/Serviço', icone: 'home_repair_service', link: '/taxa-servico' },
-    { titulo: 'Aluguel', icone: 'car_rental', link: '/aluguel' },
+    { titulo: 'Condutor', icone: 'assignment_ind', link: '/condutores' },
+    { titulo: 'Grupo Veículo', icone: 'garage', link: '/grupos-veiculos' },
+    { titulo: 'Veículo', icone: 'directions_car', link: '/veiculos' },
+    { titulo: 'Plano de Cobrança', icone: 'payments', link: '/planos-cobraca' },
+    { titulo: 'Taxa/Serviço', icone: 'home_repair_service', link: '/taxas-servicos' },
+    { titulo: 'Aluguel', icone: 'car_rental', link: '/alugueis' },
     { titulo: 'Preço Combustível', icone: 'local_gas_station', link: '/configuracao-preco' },
   ];
 

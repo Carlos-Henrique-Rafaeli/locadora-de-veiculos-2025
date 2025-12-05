@@ -1,6 +1,5 @@
 ﻿using FluentResults;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
-using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloCondutor;
 using MediatR;
@@ -21,19 +20,15 @@ internal class SelecionarCondutorPorIdRequestHandler(
         var resposta = new SelecionarCondutorPorIdResponse(
             new SelecionarCondutoresDto(
                 condutorSelecionado.Id,
-                new SelecionarClienteDto(
+                new SelecionarClienteDtoSimplified(
                     condutorSelecionado.Cliente.Id,
                     condutorSelecionado.Cliente.TipoCliente,
                     condutorSelecionado.Cliente.Nome,
                     condutorSelecionado.Cliente.Telefone,
                     condutorSelecionado.Cliente.Cpf,
-                    condutorSelecionado.Cliente.Cnpj,
-                    condutorSelecionado.Cliente.Estado,
-                    condutorSelecionado.Cliente.Cidade,
-                    condutorSelecionado.Cliente.Bairro,
-                    condutorSelecionado.Cliente.Rua,
-                    condutorSelecionado.Cliente.Numero
+                    condutorSelecionado.Cliente.Cnpj
                     ),
+                condutorSelecionado.ClienteCondutor,
                 condutorSelecionado.Nome,
                 condutorSelecionado.Email,
                 condutorSelecionado.Cpf,

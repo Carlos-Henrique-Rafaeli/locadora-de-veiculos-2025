@@ -49,6 +49,11 @@ const routes: Routes = [
     loadChildren: () => import('./cliente/cliente.routes').then((r) => r.clienteRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },
+  {
+    path: 'condutores',
+    loadChildren: () => import('./condutor/condutor.routes').then((r) => r.condutorRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {
