@@ -22,38 +22,6 @@ internal class EditarClienteRequestHandler(
             if (clienteSelecionado == null)
                 return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
-            var resultadoValidacao =
-                await validador.ValidateAsync(clienteSelecionado, cancellationToken);
-
-            if (!resultadoValidacao.IsValid)
-            {
-                var erros = resultadoValidacao.Errors
-                    .Select(failure => failure.ErrorMessage)
-                    .ToList();
-
-                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
-            }
-
-            var clientesRegistrados = await repositorioCliente.SelecionarTodosAsync();
-
-            switch (clienteSelecionado.TipoCliente)
-            {
-                case TipoCliente.PessoaFisica:
-                    if (CpfDuplicado(clienteSelecionado, clientesRegistrados))
-                        return Result.Fail(ClienteResultadosErro.CpfDuplicadoErro(clienteSelecionado.Cpf));
-
-                    break;
-
-                case TipoCliente.PessoaJuridica:
-                    if (CnpjDuplicado(clienteSelecionado, clientesRegistrados))
-                        return Result.Fail(ClienteResultadosErro.CnpjDuplicadoErro(clienteSelecionado.Cnpj));
-
-                    break;
-
-                default:
-                    break;
-            }
-
             var clienteNovo = new Cliente(
                 request.TipoCliente,
                 request.Nome,
@@ -67,6 +35,38 @@ internal class EditarClienteRequestHandler(
                 request.Numero
                 );
 
+            var resultadoValidacao =
+                await validador.ValidateAsync(clienteNovo, cancellationToken);
+
+            if (!resultadoValidacao.IsValid)
+            {
+                var erros = resultadoValidacao.Errors
+                    .Select(failure => failure.ErrorMessage)
+                    .ToList();
+
+                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
+            }
+
+            var clientesRegistrados = await repositorioCliente.SelecionarTodosAsync();
+
+            switch (clienteNovo.TipoCliente)
+            {
+                case TipoCliente.PessoaFisica:
+                    if (CpfDuplicado(clienteNovo, clientesRegistrados, request.Id))
+                        return Result.Fail(ClienteResultadosErro.CpfDuplicadoErro(clienteNovo.Cpf));
+
+                    break;
+
+                case TipoCliente.PessoaJuridica:
+                    if (CnpjDuplicado(clienteNovo, clientesRegistrados, request.Id))
+                        return Result.Fail(ClienteResultadosErro.CnpjDuplicadoErro(clienteNovo.Cnpj));
+
+                    break;
+
+                default:
+                    break;
+            }
+
             await repositorioCliente.EditarAsync(request.Id, clienteNovo);
 
             await contexto.SaveChangesAsync(cancellationToken);
@@ -79,10 +79,10 @@ internal class EditarClienteRequestHandler(
         }
     }
 
-    private bool CpfDuplicado(Cliente cliente, IList<Cliente> clientes)
+    private bool CpfDuplicado(Cliente cliente, IList<Cliente> clientes, Guid clienteAntigo)
     {
         return clientes
-            .Where(r => r.Id != cliente.Id)
+            .Where(r => r.Id != clienteAntigo)
             .Any(registro => string.Equals(
                 registro.Cpf,
                 cliente.Cpf,
@@ -90,10 +90,10 @@ internal class EditarClienteRequestHandler(
             );
     }
 
-    private bool CnpjDuplicado(Cliente cliente, IList<Cliente> clientes)
+    private bool CnpjDuplicado(Cliente cliente, IList<Cliente> clientes, Guid clienteAntigo)
     {
         return clientes
-            .Where(r => r.Id != cliente.Id)
+            .Where(r => r.Id != clienteAntigo)
             .Any(registro => string.Equals(
                 registro.Cnpj,
                 cliente.Cnpj,

@@ -1,19 +1,24 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { Observer } from 'rxjs';
-import { NotificacaoService } from '../../shared/notificacao/notificacao.service';
-import { ClienteService } from '../cliente.service';
-import { CadastrarClienteModel, CadastrarClienteResponseModel } from '../cliente.models';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { filter, map, Observer, shareReplay, switchMap, take, tap } from 'rxjs';
+import { NotificacaoService } from '../../shared/notificacao/notificacao.service';
+import {
+  DetalhesClienteModel,
+  EditarClienteModel,
+  EditarClienteResponseModel,
+} from '../cliente.models';
+import { ClienteService } from '../cliente.service';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-cadastrar-cliente',
+  selector: 'app-editar-cliente',
   imports: [
     MatCardModule,
     MatButtonModule,
@@ -22,12 +27,14 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatSelectModule,
     RouterLink,
+    AsyncPipe,
     ReactiveFormsModule,
   ],
-  templateUrl: './cadastrar-cliente.html',
+  templateUrl: './editar-cliente.html',
 })
-export class CadastrarCliente {
+export class EditarCliente {
   protected readonly formBuilder = inject(FormBuilder);
+  protected readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
   protected readonly clienteService = inject(ClienteService);
   protected readonly notificacaoService = inject(NotificacaoService);
@@ -85,6 +92,25 @@ export class CadastrarCliente {
     return this.clienteForm.get('numero');
   }
 
+  protected readonly cliente$ = this.route.data.pipe(
+    filter((data) => data['cliente']),
+    map((data) => {
+      const cliente = data['cliente'] as DetalhesClienteModel;
+
+      if (cliente.tipoCliente === 'PessoaFisica') {
+        cliente.tipoCliente = 'Pessoa Física';
+        cliente.cnpj = '';
+      } else {
+        cliente.tipoCliente = 'Pessoa Jurídica';
+        cliente.cpf = '';
+      }
+
+      return cliente;
+    }),
+    tap((cliente) => this.clienteForm.patchValue(cliente)),
+    shareReplay({ bufferSize: 1, refCount: true }),
+  );
+
   protected readonly tiposClientes = ['Pessoa Física', 'Pessoa Jurídica'];
 
   protected readonly estados = [
@@ -117,23 +143,23 @@ export class CadastrarCliente {
     'TO',
   ];
 
-  public cadastrar() {
+  public editar() {
     if (this.clienteForm.invalid) return;
 
-    const clienteModel: CadastrarClienteModel = this.clienteForm.value;
+    const editarClienteModel: EditarClienteModel = this.clienteForm.value;
 
-    if (clienteModel.tipoCliente === 'Pessoa Jurídica') {
-      clienteModel.tipoCliente = 'PessoaJuridica';
-      clienteModel.cpf = undefined;
+    if (editarClienteModel.tipoCliente === 'Pessoa Jurídica') {
+      editarClienteModel.tipoCliente = 'PessoaJuridica';
+      editarClienteModel.cpf = undefined;
     } else {
-      clienteModel.tipoCliente = 'PessoaFisica';
-      clienteModel.cnpj = undefined;
+      editarClienteModel.tipoCliente = 'PessoaFisica';
+      editarClienteModel.cnpj = undefined;
     }
 
-    const cadastroObserver: Observer<CadastrarClienteResponseModel> = {
+    const edicaoObserver: Observer<EditarClienteResponseModel> = {
       next: () =>
         this.notificacaoService.sucesso(
-          `O registro "${clienteModel.nome}" foi cadastrado com sucesso!`,
+          `O registro "${editarClienteModel.nome}" foi editado com sucesso!`,
         ),
       error: (err) => {
         console.log(err.error);
@@ -144,6 +170,11 @@ export class CadastrarCliente {
       complete: () => this.router.navigate(['/clientes']),
     };
 
-    this.clienteService.cadastrar(clienteModel).subscribe(cadastroObserver);
+    this.cliente$
+      .pipe(
+        take(1),
+        switchMap((cliente) => this.clienteService.editar(cliente.id, editarClienteModel)),
+      )
+      .subscribe(edicaoObserver);
   }
 }

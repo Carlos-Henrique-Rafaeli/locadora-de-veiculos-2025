@@ -1,0 +1,157 @@
+<section class="row justify-content-center m-1">
+  <div class="col-md-11 col-xl-8">
+    <h2>Edição de Cliente</h2>
+    <hr />
+
+    <mat-card class="p-2">
+      @if (cliente$ | async) {
+        <form [formGroup]="clienteForm" (ngSubmit)="editar()">
+          <mat-card-header>
+            <mat-card-title>Preencha o formulário de edição</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="mt-5">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Tipo:</mat-label>
+              <mat-select formControlName="tipoCliente">
+                @for (tipo of tiposClientes; track $index) {
+                  <mat-option [value]="tipo">{{ tipo }}</mat-option>
+                }
+              </mat-select>
+
+              @if (tipoCliente?.errors?.['required']) {
+                <mat-error>O nome do cliente é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Nome:</mat-label>
+              <input formControlName="nome" matInput type="text" />
+
+              @if (nome?.errors?.['required']) {
+                <mat-error>O nome é obrigatório.</mat-error>
+              }
+
+              @if (nome?.errors?.['minlength']) {
+                <mat-error>O nome deve conter no mínimo 3 caracteres.</mat-error>
+              }
+
+              @if (nome?.errors?.['maxlength']) {
+                <mat-error>O nome deve conter no máximo 100 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Telefone:</mat-label>
+              <input formControlName="telefone" matInput type="text" />
+
+              @if (telefone?.errors?.['required']) {
+                <mat-error>O telefone é obrigatório.</mat-error>
+              }
+
+              @if (telefone?.errors?.['pattern']) {
+                <mat-error
+                  >O telefone deve seguir o padrão (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.</mat-error
+                >
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>CPF/CNPJ:</mat-label>
+              @if (tipoCliente?.value === 'Pessoa Física') {
+                <input formControlName="cpf" matInput type="text" />
+              } @else {
+                <input formControlName="cnpj" matInput type="text" />
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Estado:</mat-label>
+              <mat-select formControlName="estado">
+                @for (estado of estados; track $index) {
+                  <mat-option [value]="estado">{{ estado }}</mat-option>
+                }
+              </mat-select>
+
+              @if (estado?.errors?.['required']) {
+                <mat-error>O estado é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Cidade:</mat-label>
+              <input formControlName="cidade" matInput type="text" />
+
+              @if (cidade?.errors?.['required']) {
+                <mat-error>A cidade é obrigatória.</mat-error>
+              }
+
+              @if (cidade?.errors?.['minlength']) {
+                <mat-error>A cidade deve conter no mínimo 3 caracteres.</mat-error>
+              }
+
+              @if (cidade?.errors?.['maxlength']) {
+                <mat-error>A cidade deve conter no máximo 50 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Bairro:</mat-label>
+              <input formControlName="bairro" matInput type="text" />
+
+              @if (bairro?.errors?.['required']) {
+                <mat-error>O bairro é obrigatório.</mat-error>
+              }
+
+              @if (bairro?.errors?.['minlength']) {
+                <mat-error>O bairro deve conter no mínimo 3 caracteres.</mat-error>
+              }
+
+              @if (bairro?.errors?.['maxlength']) {
+                <mat-error>O bairro deve conter no máximo 50 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Rua:</mat-label>
+              <input formControlName="rua" matInput type="text" />
+
+              @if (rua?.errors?.['required']) {
+                <mat-error>A rua é obrigatória.</mat-error>
+              }
+
+              @if (rua?.errors?.['minlength']) {
+                <mat-error>A rua deve conter no mínimo 3 caracteres.</mat-error>
+              }
+
+              @if (rua?.errors?.['maxlength']) {
+                <mat-error>A rua deve conter no máximo 100 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Número:</mat-label>
+              <input formControlName="numero" matInput type="number" />
+
+              @if (numero?.errors?.['required']) {
+                <mat-error>O número é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <a mat-stroked-button routerLink="/clientes">Voltar</a>
+            <button
+              type="submit"
+              [disabled]="clienteForm.invalid"
+              mat-flat-button
+              class="ms-2 px-5"
+            >
+              <mat-icon>check</mat-icon>
+              Concluir
+            </button>
+          </mat-card-actions>
+        </form>
+      }
+    </mat-card>
+  </div>
+</section>

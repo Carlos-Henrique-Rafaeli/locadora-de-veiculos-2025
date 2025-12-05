@@ -7,6 +7,9 @@ import {
   ListagemClientesApiResponse,
   CadastrarClienteModel,
   CadastrarClienteResponseModel,
+  EditarClienteModel,
+  EditarClienteResponseModel,
+  DetalhesClienteModel,
 } from './cliente.models';
 
 @Injectable()
@@ -19,9 +22,25 @@ export class ClienteService {
     return this.http.post<CadastrarClienteResponseModel>(this.apiUrl, medicoModel);
   }
 
+  public editar(
+    id: string,
+    editarClienteModel: EditarClienteModel,
+  ): Observable<EditarClienteResponseModel> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+    return this.http.put<EditarClienteResponseModel>(urlCompleto, editarClienteModel);
+  }
+
   public selecionarTodas(): Observable<ListagemClientesModel[]> {
     return this.http
       .get<ListagemClientesApiResponse>(this.apiUrl)
       .pipe(map((res) => res.registros));
+  }
+
+  public selecionarPorId(id: string): Observable<DetalhesClienteModel> {
+    const urlCompleto = `${this.apiUrl}/${id}`;
+
+    return this.http
+      .get<{ cliente: DetalhesClienteModel }>(urlCompleto)
+      .pipe(map((res) => res.cliente));
   }
 }
