@@ -31,11 +31,20 @@ public class EditarVeiculoRequestHandler(
             if (grupoVeiculoSelecionado is null)
                 return Result.Fail(VeiculoResultadosErro.GrupoVeiculoNullErro(request.GrupoVeiculoId));
 
-            
-            veiculoSelecionado.GrupoVeiculo.AdicionarVeiculo(veiculoSelecionado);
+            var veiculoNovo = new Veiculo(
+                grupoVeiculoSelecionado,
+                request.Placa,
+                request.Marca,
+                request.Modelo,
+                request.Cor,
+                request.TipoCombustivel,
+                request.CapacidadeTanque
+            );
+
+            veiculoNovo.GrupoVeiculo.AdicionarVeiculo(veiculoNovo);
 
             var resultadoValidacao =
-                await validador.ValidateAsync(veiculoSelecionado, cancellationToken);
+                await validador.ValidateAsync(veiculoNovo, cancellationToken);
 
             if (!resultadoValidacao.IsValid)
             {
@@ -48,18 +57,8 @@ public class EditarVeiculoRequestHandler(
 
             var grupoVeiculos = await repositorioVeiculo.SelecionarTodosAsync();
 
-            if (PlacaDuplicada(veiculoSelecionado, grupoVeiculos))
-                return Result.Fail(VeiculoResultadosErro.PlacaDuplicadaErro(veiculoSelecionado.Placa));
-
-            var veiculoNovo = new Veiculo(
-                grupoVeiculoSelecionado,
-                request.Placa,
-                request.Marca,
-                request.Modelo,
-                request.Cor,
-                request.TipoCombustivel,
-                request.CapacidadeTanque
-            );
+            if (PlacaDuplicada(veiculoNovo, grupoVeiculos, request.Id))
+                return Result.Fail(VeiculoResultadosErro.PlacaDuplicadaErro(veiculoNovo.Placa));
 
             await repositorioVeiculo.EditarAsync(request.Id, veiculoNovo);
 
@@ -73,10 +72,10 @@ public class EditarVeiculoRequestHandler(
         }
     }
 
-    private bool PlacaDuplicada(Veiculo veiculo, IList<Veiculo> veiculos)
+    private bool PlacaDuplicada(Veiculo veiculo, IList<Veiculo> veiculos, Guid veiculoAntigo)
     {
         return veiculos
-            .Where(r => r.Id != veiculo.Id)
+            .Where(r => r.Id != veiculoAntigo)
             .Any(registro => string.Equals(
                 registro.Placa,
                 veiculo.Placa,

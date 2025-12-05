@@ -27,9 +27,9 @@ internal class EditarConfiguracaoPrecoRequestHandler(
             {
                 var config = new ConfiguracaoPreco
                 {
-                    Gasolina = request.Gasolina,
-                    Diesel = request.Diesel,
-                    Etanol = request.Etanol,
+                    Gasolina = 6.99m,
+                    Diesel = 5.99m,
+                    Etanol = 4.99m,
                     EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
                 };
 
@@ -47,8 +47,14 @@ internal class EditarConfiguracaoPrecoRequestHandler(
                 configuracaoPrecoSelecionada = await repositorioConfiguracaoPreco.SelecionarPorIdAsync(config.Id);
             }
 
+            var configNova = new ConfiguracaoPreco(
+                request.Gasolina,
+                request.Etanol,
+                request.Diesel
+            );
+
             var resultadoValidacao =
-                await validador.ValidateAsync(configuracaoPrecoSelecionada, cancellationToken);
+                await validador.ValidateAsync(configNova, cancellationToken);
 
             if (!resultadoValidacao.IsValid)
             {
@@ -58,12 +64,6 @@ internal class EditarConfiguracaoPrecoRequestHandler(
 
                 return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
             }
-
-            var configNova = new ConfiguracaoPreco(
-                request.Gasolina,
-                request.Etanol,
-                request.Diesel
-            );
 
             await repositorioConfiguracaoPreco.EditarAsync(configuracaoPrecoSelecionada.Id, configNova);
 

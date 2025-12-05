@@ -22,8 +22,10 @@ public class EditarGrupoVeiculosRequestHandler(
             if (grupoVeiculoSelecionado == null)
                 return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
+            var grupoVeiculoNovo = new GrupoVeiculo(request.Nome);
+
             var resultadoValidacao =
-                await validador.ValidateAsync(grupoVeiculoSelecionado, cancellationToken);
+                await validador.ValidateAsync(grupoVeiculoNovo, cancellationToken);
 
             if (!resultadoValidacao.IsValid)
             {
@@ -36,10 +38,8 @@ public class EditarGrupoVeiculosRequestHandler(
 
             var grupoVeiculos = await repositorioGrupoVeiculo.SelecionarTodosAsync();
 
-            if (NomeDuplicado(grupoVeiculoSelecionado, grupoVeiculos))
-                return Result.Fail(GrupoVeiculosResultadosErro.NomeDuplicadoErro(grupoVeiculoSelecionado.Nome));
-
-            var grupoVeiculoNovo = new GrupoVeiculo(request.Nome);
+            if (NomeDuplicado(grupoVeiculoNovo, grupoVeiculos, request.Id))
+                return Result.Fail(GrupoVeiculosResultadosErro.NomeDuplicadoErro(grupoVeiculoNovo.Nome));
 
             await repositorioGrupoVeiculo.EditarAsync(request.Id, grupoVeiculoNovo);
 
@@ -53,10 +53,10 @@ public class EditarGrupoVeiculosRequestHandler(
         }
     }
 
-    private bool NomeDuplicado(GrupoVeiculo grupoVeiculo, IList<GrupoVeiculo> grupoVeiculos)
+    private bool NomeDuplicado(GrupoVeiculo grupoVeiculo, IList<GrupoVeiculo> grupoVeiculos, Guid grupoVeiculoAntigo)
     {
         return grupoVeiculos
-            .Where(r => r.Id != grupoVeiculo.Id)
+            .Where(r => r.Id != grupoVeiculoAntigo)
             .Any(registro => string.Equals(
                 registro.Nome,
                 grupoVeiculo.Nome,

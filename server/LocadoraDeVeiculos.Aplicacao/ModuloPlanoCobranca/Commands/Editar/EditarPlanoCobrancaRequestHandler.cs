@@ -29,17 +29,6 @@ internal class EditarPlanoCobrancaRequestHandler(
             if (grupoVeiculoSelecionado == null)
                 return Result.Fail(PlanoCobrancaResultadosErro.GrupoVeiculoNullErro(request.GrupoVeiculoId));
 
-            var resultadoValidacao =
-                await validador.ValidateAsync(planoCobrancaSelecionado, cancellationToken);
-
-            if (!resultadoValidacao.IsValid)
-            {
-                var erros = resultadoValidacao.Errors
-                    .Select(failure => failure.ErrorMessage)
-                    .ToList();
-
-                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
-            }
 
             var planoCobrancaNovo = new PlanoCobranca(
                 request.TipoPlano,
@@ -50,6 +39,18 @@ internal class EditarPlanoCobrancaRequestHandler(
                 request.ValorKmExcedente,
                 request.ValorFixo
             );
+
+            var resultadoValidacao =
+                await validador.ValidateAsync(planoCobrancaNovo, cancellationToken);
+
+            if (!resultadoValidacao.IsValid)
+            {
+                var erros = resultadoValidacao.Errors
+                    .Select(failure => failure.ErrorMessage)
+                    .ToList();
+
+                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
+            }
 
             await repositorioPlanoCobranca.EditarAsync(request.Id, planoCobrancaNovo);
 

@@ -22,8 +22,14 @@ internal class EditarTaxaServicoRequestHandler(
             if (taxaServicoSelecionada == null)
                 return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
+            var taxaServicoNovo = new TaxaServico(
+                request.Nome,
+                request.Valor,
+                request.TipoCobranca
+            );
+
             var resultadoValidacao =
-                await validador.ValidateAsync(taxaServicoSelecionada, cancellationToken);
+                await validador.ValidateAsync(taxaServicoNovo, cancellationToken);
 
             if (!resultadoValidacao.IsValid)
             {
@@ -36,14 +42,8 @@ internal class EditarTaxaServicoRequestHandler(
 
             var taxasServicosSelecionados = await repositorioTaxaServico.SelecionarTodosAsync();
 
-            if (NomeDuplicado(taxaServicoSelecionada, taxasServicosSelecionados))
-                return Result.Fail(TaxaServicoResultadosErro.NomeDuplicadoErro(taxaServicoSelecionada.Nome));
-
-            var taxaServicoNovo = new TaxaServico(
-                request.Nome,
-                request.Valor,
-                request.TipoCobranca
-            );
+            if (NomeDuplicado(taxaServicoNovo, taxasServicosSelecionados, request.Id))
+                return Result.Fail(TaxaServicoResultadosErro.NomeDuplicadoErro(taxaServicoNovo.Nome));
 
             await repositorioTaxaServico.EditarAsync(request.Id, taxaServicoNovo);
 
