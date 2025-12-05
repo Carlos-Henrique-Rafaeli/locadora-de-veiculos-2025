@@ -1,16 +1,61 @@
 import {
   ApplicationConfig,
+  DEFAULT_CURRENCY_CODE,
+  inject,
+  LOCALE_ID,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter, Routes } from '@angular/router';
+import { CanActivateFn, provideRouter, Router, Routes } from '@angular/router';
+import { take, map } from 'rxjs';
+import { AuthService } from './auth/auth.service';
+import { provideAuth } from './auth/auth.provider';
+import { provideNotifications } from './shared/notificacao/notificacao.provider';
 
-export const routes: Routes = [];
+const usuarioDesconhecidoGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.obterAccessToken().pipe(
+    take(1),
+    map((token) => (!token ? true : router.createUrlTree(['/inicio']))),
+  );
+};
+
+const usuarioAutenticadoGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.obterAccessToken().pipe(
+    take(1),
+    map((token) => (token ? true : router.createUrlTree(['/auth/login']))),
+  );
+};
+
+const routes: Routes = [
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.routes').then((r) => r.authRoutes),
+    canMatch: [usuarioDesconhecidoGuard],
+  },
+  {
+    path: 'inicio',
+    loadComponent: () => import('./inicio/inicio').then((c) => c.Inicio),
+    canMatch: [usuarioAutenticadoGuard],
+  },
+];
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
+
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
+
+    provideNotifications(),
+    provideAuth(),
   ],
 };

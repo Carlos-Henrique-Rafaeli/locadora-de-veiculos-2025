@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-content>
+    <div class="row justify-content-center align-items-center g-3 p-3">
+      <div class="col">
+        @if (usuarioAutenticado$ | async; as usuarioAutenticado) {
+          <h2>
+            Olá, <span class="font-medium text-primary">{{ usuarioAutenticado.nomeCompleto }}</span
+            >.
+          </h2>
+          <hr />
+        }
+
+        <h3 class="mt-4">
+          Seja bem-vindo(a) à <span class="font-medium text-primary">Locadora de Veículos</span>!
+        </h3>
+
+        <p class="mt-4 text-base">
+          Nossa plataforma facilita o dia a dia da sua locadora. Gerencie veículos, clientes,
+          condutores e aluguéis de um jeito rápido e organizado. Controle planos, taxas, valores e
+          acompanhe tudo que está em andamento. Prático, completo e feito para deixar sua rotina
+          muito mais simples.
+        </p>
+      </div>
+
+      <div class="col-lg-2">
+        <img class="max-w-full h-auto" src="/img/car-rental.svg" />
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

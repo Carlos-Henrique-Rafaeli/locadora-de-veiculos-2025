@@ -7,6 +7,7 @@ using LocadoraDeVeiculos.Aplicacao;
 using System.Text.Json.Serialization;
 using LocadoraDeVeiculos.WebApi.Config.Identity;
 using LocadoraDeVeiculos.Infraestrutura.Jwt;
+using LocadoraDeVeiculos.WebApi.Config.Cors;
 
 namespace LocadoraDeVeiculos.WebApi;
 
@@ -26,6 +27,8 @@ public class Program
 
         builder.Services.AddSwaggerConfig();
         builder.Services.AddIdentityProviderConfig(builder.Configuration);
+
+        builder.Services.ConfigureOptions<CorsConfig>().AddCors();
 
         builder.Services
             .AddControllers()
