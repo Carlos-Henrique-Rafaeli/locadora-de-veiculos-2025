@@ -44,6 +44,11 @@ const routes: Routes = [
     loadComponent: () => import('./inicio/inicio').then((c) => c.Inicio),
     canMatch: [usuarioAutenticadoGuard],
   },
+  {
+    path: 'cliente',
+    loadChildren: () => import('./cliente/cliente.routes').then((r) => r.clienteRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {
