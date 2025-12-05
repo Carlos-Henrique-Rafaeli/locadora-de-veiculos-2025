@@ -39,7 +39,7 @@ export class ShellComponent {
 
   public itensNavbar = [
     { titulo: 'Início', icone: 'home', link: '/inicio' },
-    { titulo: 'Cliente', icone: 'person_add', link: '/cliente' },
+    { titulo: 'Cliente', icone: 'person_add', link: '/clientes' },
     { titulo: 'Condutor', icone: 'assignment_ind', link: '/condutor' },
     { titulo: 'Grupo Veículo', icone: 'garage', link: '/grupo-veiculo' },
     { titulo: 'Veículo', icone: 'directions_car', link: '/veiculo' },

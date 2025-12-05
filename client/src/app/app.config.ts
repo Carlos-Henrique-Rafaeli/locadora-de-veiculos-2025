@@ -45,7 +45,7 @@ const routes: Routes = [
     canMatch: [usuarioAutenticadoGuard],
   },
   {
-    path: 'cliente',
+    path: 'clientes',
     loadChildren: () => import('./cliente/cliente.routes').then((r) => r.clienteRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },

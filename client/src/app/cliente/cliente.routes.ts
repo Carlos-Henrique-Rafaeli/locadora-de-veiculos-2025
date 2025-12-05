@@ -3,6 +3,7 @@ import { ResolveFn, Routes } from '@angular/router';
 import { ListagemClientesModel } from './cliente.models';
 import { ClienteService } from './cliente.service';
 import { ListarClientes } from './listar/listar-cliente';
+import { CadastrarCliente } from './cadastrar/cadastrar-cliente';
 
 const listagemClientesResolver: ResolveFn<ListagemClientesModel[]> = () => {
   const clienteService = inject(ClienteService);
@@ -19,6 +20,7 @@ export const clienteRoutes: Routes = [
         component: ListarClientes,
         resolve: { clientes: listagemClientesResolver },
       },
+      { path: 'cadastrar', component: CadastrarCliente },
     ],
     providers: [ClienteService],
   },
