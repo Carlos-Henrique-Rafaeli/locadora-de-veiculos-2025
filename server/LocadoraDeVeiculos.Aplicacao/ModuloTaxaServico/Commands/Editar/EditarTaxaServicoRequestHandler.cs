@@ -57,10 +57,10 @@ internal class EditarTaxaServicoRequestHandler(
         }
     }
 
-    private bool NomeDuplicado(TaxaServico taxaServico, IList<TaxaServico> taxasServicos)
+    private bool NomeDuplicado(TaxaServico taxaServico, IList<TaxaServico> taxasServicos, Guid taxaServicoAntigo)
     {
         return taxasServicos
-            .Where(r => r.Id != taxaServico.Id)
+            .Where(r => r.Id != taxaServicoAntigo)
             .Any(registro => string.Equals(
                 registro.Nome,
                 taxaServico.Nome,
