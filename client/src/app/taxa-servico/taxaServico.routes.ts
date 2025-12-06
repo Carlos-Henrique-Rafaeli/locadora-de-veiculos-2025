@@ -3,6 +3,7 @@ import { ResolveFn, Routes } from '@angular/router';
 import { ListagemTaxasServicosModel } from './taxaServico.models';
 import { TaxaServicoService } from './taxaServico.service';
 import { ListarTaxasServicos } from './listar/listar-taxas-servicos';
+import { CadastrarTaxaServico } from './cadastrar/cadastrar-taxa-servico';
 
 const listagemTaxasServicosResolver: ResolveFn<ListagemTaxasServicosModel[]> = () => {
   const taxaServicoService = inject(TaxaServicoService);
@@ -29,7 +30,7 @@ export const taxaServicoRoutes: Routes = [
         component: ListarTaxasServicos,
         resolve: { taxasServicos: listagemTaxasServicosResolver },
       },
-      // { path: 'cadastrar', component: CadastrarTaxasServico },
+      { path: 'cadastrar', component: CadastrarTaxaServico },
       // {
       //   path: 'editar/:id',
       //   component: EditarTaxasServico,
