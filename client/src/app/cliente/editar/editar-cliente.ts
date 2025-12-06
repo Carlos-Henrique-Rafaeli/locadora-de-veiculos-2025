@@ -61,7 +61,7 @@ export class EditarCliente {
   }
 
   get telefone() {
-    return this.clienteForm.get('nome');
+    return this.clienteForm.get('telefone');
   }
 
   get cpf() {

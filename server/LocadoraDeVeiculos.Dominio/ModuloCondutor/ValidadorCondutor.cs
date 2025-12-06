@@ -10,7 +10,7 @@ public class ValidadorCondutor : AbstractValidator<Condutor>
             .NotNull().WithMessage("O campo {PropertyName} é obrigatório.");
 
         RuleFor(x => x.ClienteCondutor)
-            .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.");
+            .NotNull().WithMessage("O campo {PropertyName} é obrigatório.");
 
         RuleFor(x => x.Nome)
             .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.")
