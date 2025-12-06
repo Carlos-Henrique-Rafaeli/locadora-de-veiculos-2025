@@ -3,6 +3,7 @@ import { ResolveFn, Routes } from '@angular/router';
 import { ListagemGruposVeiculosModel } from './grupoVeiculo.models';
 import { GrupoVeiculoService } from './grupoVeiculo.service';
 import { ListarGruposVeiculos } from './listar/listar-grupos-veiculos';
+import { CadastrarGrupoVeiculo } from './cadastrar/cadastrar-grupo-veiculo';
 
 const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
   const grupoVeiculoService = inject(GrupoVeiculoService);
@@ -29,7 +30,7 @@ export const grupoVeiculoRoutes: Routes = [
         component: ListarGruposVeiculos,
         resolve: { gruposVeiculos: listagemGruposVeiculosResolver },
       },
-      // { path: 'cadastrar', component: CadastrarGrupoVeiculo },
+      { path: 'cadastrar', component: CadastrarGrupoVeiculo },
       // {
       //   path: 'editar/:id',
       //   component: EditarGrupoVeiculo,
