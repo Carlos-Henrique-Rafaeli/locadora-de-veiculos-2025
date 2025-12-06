@@ -19,6 +19,6 @@ public class RepositorioCondutorEmOrm(LocadoraDeVeiculosDbContext context)
     {
         return await registros
             .Include(x => x.Cliente)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 }

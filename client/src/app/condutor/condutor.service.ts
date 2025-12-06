@@ -48,7 +48,7 @@ export class CondutorService {
     const urlCompleto = `${this.apiUrl}/${id}`;
 
     return this.http
-      .get<{ cliente: DetalhesCondutorModel }>(urlCompleto)
-      .pipe(map((res) => res.cliente));
+      .get<{ condutor: DetalhesCondutorModel }>(urlCompleto)
+      .pipe(map((res) => res.condutor));
   }
 }

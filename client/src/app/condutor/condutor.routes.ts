@@ -1,11 +1,12 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { ListagemCondutoresModel } from './condutor.models';
 import { CondutorService } from './condutor.service';
 import { ListarCondutores } from './listar/listar-condutores';
 import { CadastrarCondutor } from './cadastrar/cadastrar-condutor';
 import { ListagemClientesModel } from '../cliente/cliente.models';
 import { ClienteService } from '../cliente/cliente.service';
+import { EditarCondutor } from './editar/editar-condutor';
 
 const listagemCondutoresResolver: ResolveFn<ListagemCondutoresModel[]> = () => {
   const condutorService = inject(CondutorService);
@@ -13,15 +14,15 @@ const listagemCondutoresResolver: ResolveFn<ListagemCondutoresModel[]> = () => {
   return condutorService.selecionarTodas();
 };
 
-// const detalhesCondutorResolver = (route: ActivatedRouteSnapshot) => {
-//   const condutorService = inject(CondutorService);
+const detalhesCondutorResolver = (route: ActivatedRouteSnapshot) => {
+  const condutorService = inject(CondutorService);
 
-//   if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
+  if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
 
-//   const condutorId = route.paramMap.get('id')!;
+  const condutorId = route.paramMap.get('id')!;
 
-//   return condutorService.selecionarPorId(condutorId);
-// };
+  return condutorService.selecionarPorId(condutorId);
+};
 
 const listagemClientesResolver: ResolveFn<ListagemClientesModel[]> = () => {
   const clienteService = inject(ClienteService);
@@ -43,11 +44,11 @@ export const condutorRoutes: Routes = [
         component: CadastrarCondutor,
         resolve: { clientes: listagemClientesResolver },
       },
-      // {
-      //   path: 'editar/:id',
-      //   component: EditarCondutor,
-      //   resolve: { condutor: detalhesCondutorResolver },
-      // },
+      {
+        path: 'editar/:id',
+        component: EditarCondutor,
+        resolve: { condutor: detalhesCondutorResolver, clientes: listagemClientesResolver },
+      },
       // {
       //   path: 'excluir/:id',
       //   component: ExcluirCondutor,
