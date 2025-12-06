@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LocadoraDeVeiculos.WebApi.Controllers;
 
 [Authorize]
-[Route("api/grupo_veiculos")]
+[Route("api/grupo-veiculo")]
 public class GrupoVeiculosController(IMediator mediator) : MainController
 {
     [HttpPost]

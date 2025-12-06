@@ -54,6 +54,12 @@ const routes: Routes = [
     loadChildren: () => import('./condutor/condutor.routes').then((r) => r.condutorRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },
+  {
+    path: 'grupos-veiculos',
+    loadChildren: () =>
+      import('./grupo-veiculo/grupoVeiculo.routes').then((r) => r.grupoVeiculoRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {

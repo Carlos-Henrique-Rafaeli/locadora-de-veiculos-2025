@@ -21,12 +21,7 @@ public class SelecionarGrupoVeiculosRequestHandler(
                 .Select(r => new SelecionarGrupoVeiculosDto(r.Id, r.Nome, 
                 r.Veiculos.Select(x => new SelecionarVeiculosGrupoVeiculosDto(
                     x.Id,
-                    x.Placa,
-                    x.Marca,
-                    x.Modelo,
-                    x.Cor,
-                    x.TipoCombustivel,
-                    x.CapacidadeTanque
+                    x.Placa
                     ))
                 ))
         };
