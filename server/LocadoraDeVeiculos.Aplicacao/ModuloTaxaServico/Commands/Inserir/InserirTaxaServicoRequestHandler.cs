@@ -58,7 +58,7 @@ internal class InserirTaxaServicoRequestHandler(
         return taxasServicos
             .Any(registro => string.Equals(
                 registro.Nome,
-                registro.Nome,
+                taxaServico.Nome,
                 StringComparison.CurrentCultureIgnoreCase)
             );
     }

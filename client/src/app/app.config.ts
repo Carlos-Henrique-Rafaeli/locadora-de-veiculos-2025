@@ -11,6 +11,10 @@ import { take, map } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { provideAuth } from './auth/auth.provider';
 import { provideNotifications } from './shared/notificacao/notificacao.provider';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt);
 
 const usuarioDesconhecidoGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -69,6 +73,12 @@ const routes: Routes = [
     path: 'planos-cobrancas',
     loadChildren: () =>
       import('./plano-cobranca/planoCobranca.routes').then((r) => r.planoCobrancaRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
+  {
+    path: 'taxas-servicos',
+    loadChildren: () =>
+      import('./taxa-servico/taxaServico.routes').then((r) => r.taxaServicoRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },
 ];

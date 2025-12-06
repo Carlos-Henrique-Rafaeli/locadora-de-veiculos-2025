@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +10,7 @@ import { PlanoCobrancaService } from '../planoCobranca.service';
 
 @Component({
   selector: 'app-listar-planos-cobrancas',
-  imports: [MatButtonModule, MatIconModule, MatCardModule, RouterLink, AsyncPipe],
+  imports: [MatButtonModule, MatIconModule, MatCardModule, RouterLink, AsyncPipe, CurrencyPipe],
   templateUrl: './listar-planos-cobrancas.html',
 })
 export class ListarPlanosCobrancas {

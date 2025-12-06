@@ -24,13 +24,21 @@
                 >Grupo de Veículo: {{ planoCobranca.grupoVeiculo.nome }}</mat-card-subtitle
               >
               @if (planoCobranca.tipoPlano === 'Plano Diário') {
-                <mat-card-subtitle>Valor Diário: {{ planoCobranca.valorDiario }}</mat-card-subtitle>
-                <mat-card-subtitle>Valor por Km: {{ planoCobranca.valorKm }}</mat-card-subtitle>
+                <mat-card-subtitle
+                  >Valor Diário: {{ planoCobranca.valorDiario | currency }}</mat-card-subtitle
+                >
+                <mat-card-subtitle
+                  >Valor por Km: {{ planoCobranca.valorKm | currency }}</mat-card-subtitle
+                >
               } @else if (planoCobranca.tipoPlano === 'Plano Controlado') {
-                <mat-card-subtitle>Valor Diário: {{ planoCobranca.valorDiario }}</mat-card-subtitle>
+                <mat-card-subtitle
+                  >Valor Diário: {{ planoCobranca.valorDiario | currency }}</mat-card-subtitle
+                >
                 <mat-card-subtitle>Km Incluso: {{ planoCobranca.kmIncluso }}</mat-card-subtitle>
               } @else {
-                <mat-card-subtitle>Valor Fixo: {{ planoCobranca.valorFixo }}</mat-card-subtitle>
+                <mat-card-subtitle
+                  >Valor Fixo: {{ planoCobranca.valorFixo | currency }}</mat-card-subtitle
+                >
               }
             </mat-card-content>
 
