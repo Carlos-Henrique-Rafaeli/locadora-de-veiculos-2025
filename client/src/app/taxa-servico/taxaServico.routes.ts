@@ -1,9 +1,10 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { ListagemTaxasServicosModel } from './taxaServico.models';
 import { TaxaServicoService } from './taxaServico.service';
 import { ListarTaxasServicos } from './listar/listar-taxas-servicos';
 import { CadastrarTaxaServico } from './cadastrar/cadastrar-taxa-servico';
+import { EditarTaxaServico } from './editar/editar-taxa-servico';
 
 const listagemTaxasServicosResolver: ResolveFn<ListagemTaxasServicosModel[]> = () => {
   const taxaServicoService = inject(TaxaServicoService);
@@ -11,15 +12,15 @@ const listagemTaxasServicosResolver: ResolveFn<ListagemTaxasServicosModel[]> = (
   return taxaServicoService.selecionarTodas();
 };
 
-// const detalhesTaxasServicoResolver = (route: ActivatedRouteSnapshot) => {
-//   const taxaServicoService = inject(TaxasServicoService);
+const detalhesTaxaServicoResolver = (route: ActivatedRouteSnapshot) => {
+  const taxaServicoService = inject(TaxaServicoService);
 
-//   if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
+  if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
 
-//   const taxaServicoId = route.paramMap.get('id')!;
+  const taxaServicoId = route.paramMap.get('id')!;
 
-//   return taxaServicoService.selecionarPorId(taxaServicoId);
-// };
+  return taxaServicoService.selecionarPorId(taxaServicoId);
+};
 
 export const taxaServicoRoutes: Routes = [
   {
@@ -31,11 +32,11 @@ export const taxaServicoRoutes: Routes = [
         resolve: { taxasServicos: listagemTaxasServicosResolver },
       },
       { path: 'cadastrar', component: CadastrarTaxaServico },
-      // {
-      //   path: 'editar/:id',
-      //   component: EditarTaxasServico,
-      //   resolve: { taxaServico: detalhesTaxasServicoResolver },
-      // },
+      {
+        path: 'editar/:id',
+        component: EditarTaxaServico,
+        resolve: { taxaServico: detalhesTaxaServicoResolver },
+      },
       // {
       //   path: 'excluir/:id',
       //   component: ExcluirTaxasServico,
