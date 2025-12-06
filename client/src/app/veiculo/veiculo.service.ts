@@ -45,6 +45,8 @@ export class VeiculoService {
   public selecionarPorId(id: string): Observable<DetalhesVeiculoModel> {
     const urlCompleto = `${this.apiUrl}/${id}`;
 
-    return this.http.get<DetalhesVeiculoModel>(urlCompleto).pipe(map((res) => res));
+    return this.http
+      .get<{ veiculo: DetalhesVeiculoModel }>(urlCompleto)
+      .pipe(map((res) => res.veiculo));
   }
 }

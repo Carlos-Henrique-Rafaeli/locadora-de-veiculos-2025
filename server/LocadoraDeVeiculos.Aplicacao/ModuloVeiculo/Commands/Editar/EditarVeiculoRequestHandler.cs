@@ -8,7 +8,7 @@ using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.Editar;
 
-public class EditarVeiculoRequestHandler(
+internal class EditarVeiculoRequestHandler(
     IRepositorioVeiculo repositorioVeiculo,
     IRepositorioGrupoVeiculos repositorioGrupoVeiculo,
     LocadoraDeVeiculosDbContext contexto,
@@ -24,8 +24,6 @@ public class EditarVeiculoRequestHandler(
             if (veiculoSelecionado == null)
                 return Result.Fail(ResultadosErro.RegistroNaoEncontradoErro(request.Id));
 
-            veiculoSelecionado.GrupoVeiculo.RemoverVeiculo(veiculoSelecionado);
-
             var grupoVeiculoSelecionado = await repositorioGrupoVeiculo.SelecionarPorIdAsync(veiculoSelecionado.GrupoVeiculo.Id);
 
             if (grupoVeiculoSelecionado is null)
@@ -40,8 +38,6 @@ public class EditarVeiculoRequestHandler(
                 request.TipoCombustivel,
                 request.CapacidadeTanque
             );
-
-            veiculoNovo.GrupoVeiculo.AdicionarVeiculo(veiculoNovo);
 
             var resultadoValidacao =
                 await validador.ValidateAsync(veiculoNovo, cancellationToken);

@@ -9,7 +9,7 @@ using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.Inserir;
 
-public class InserirVeiculoRequestHandler(
+internal class InserirVeiculoRequestHandler(
     LocadoraDeVeiculosDbContext contexto,
     IRepositorioVeiculo repositorioVeiculo,
     IRepositorioGrupoVeiculos repositorioGrupoVeiculos,
@@ -57,8 +57,6 @@ public class InserirVeiculoRequestHandler(
 
             await repositorioVeiculo.InserirAsync(veiculo);
             
-            grupoVeiculo.AdicionarVeiculo(veiculo);
-
             await contexto.SaveChangesAsync(cancellationToken);
 
             return Result.Ok(new InserirVeiculoResponse(veiculo.Id));

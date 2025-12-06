@@ -42,8 +42,6 @@ public class Veiculo : EntidadeBase<Veiculo>
         TipoCombustivel = registroEditado.TipoCombustivel;
         CapacidadeTanque = registroEditado.CapacidadeTanque;
 
-        GrupoVeiculo.RemoverVeiculo(this);
         GrupoVeiculo = registroEditado.GrupoVeiculo;
-        GrupoVeiculo.AdicionarVeiculo(registroEditado);
     }
 }

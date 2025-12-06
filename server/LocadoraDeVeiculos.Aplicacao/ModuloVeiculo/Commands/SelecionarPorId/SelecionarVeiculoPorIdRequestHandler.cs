@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
+using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using MediatR;
@@ -20,7 +21,10 @@ internal class SelecionarVeiculoPorIdRequestHandler(
         var resposta = new SelecionarVeiculoPorIdResponse(
             new SelecionarVeiculosDto(
                 veiculoSelecionado.Id,
-                veiculoSelecionado.GrupoVeiculo.Nome,
+                new SelecionarGrupoVeiculoDtoSimplified(
+                    veiculoSelecionado.GrupoVeiculo.Id,
+                    veiculoSelecionado.GrupoVeiculo.Nome
+                    ),
                 veiculoSelecionado.Placa,
                 veiculoSelecionado.Modelo,
                 veiculoSelecionado.Marca,

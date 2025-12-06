@@ -5,13 +5,18 @@ export interface ListagemVeiculosApiResponse {
 
 export interface ListagemVeiculosModel {
   id: string;
-  nomeGrupo: string;
+  grupoVeiculo: ListagemGrupoVeiculoModelSimplified;
   placa: string;
   modelo: string;
   marca: string;
   cor: string;
   tipoCombustivel: string;
   capacidadeTanque: number;
+}
+
+export interface ListagemGrupoVeiculoModelSimplified {
+  id: string;
+  nome: string;
 }
 
 export interface CadastrarVeiculoModel {
@@ -44,7 +49,7 @@ export interface EditarVeiculoResponseModel {
 
 export interface DetalhesVeiculoModel {
   id: string;
-  nomeGrupo: string;
+  grupoVeiculo: ListagemGrupoVeiculoModelSimplified;
   placa: string;
   modelo: string;
   marca: string;

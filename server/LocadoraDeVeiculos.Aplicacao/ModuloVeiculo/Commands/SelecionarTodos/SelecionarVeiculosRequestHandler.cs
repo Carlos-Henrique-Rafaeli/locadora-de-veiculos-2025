@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using MediatR;
 
@@ -19,7 +20,10 @@ public class SelecionarVeiculosRequestHandler(
             Registros = registros
                 .Select(x => new SelecionarVeiculosDto(
                     x.Id,
-                    x.GrupoVeiculo.Nome,
+                    new SelecionarGrupoVeiculoDtoSimplified(
+                        x.GrupoVeiculo.Id,
+                        x.GrupoVeiculo.Nome
+                        ),
                     x.Placa,
                     x.Marca,
                     x.Modelo,

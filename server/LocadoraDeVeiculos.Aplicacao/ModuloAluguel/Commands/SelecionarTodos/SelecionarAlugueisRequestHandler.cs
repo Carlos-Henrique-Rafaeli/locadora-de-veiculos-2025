@@ -41,12 +41,14 @@ internal class SelecionarAlugueisRequestHandler(
                         ),
                     new SelecionarGrupoVeiculoDtoSimplified(
                         r.GrupoVeiculo.Id,
-                        r.GrupoVeiculo.Nome,
-                        r.GrupoVeiculo.Veiculos.Count()
+                        r.GrupoVeiculo.Nome
                         ),
                     new SelecionarVeiculosDto(
                         r.Veiculo.Id,
-                        r.Veiculo.GrupoVeiculo.Nome,
+                        new SelecionarGrupoVeiculoDtoSimplified(
+                            r.Veiculo.GrupoVeiculo.Id,
+                            r.Veiculo.GrupoVeiculo.Nome
+                            ),
                         r.Veiculo.Placa,
                         r.Veiculo.Modelo,
                         r.Veiculo.Marca,

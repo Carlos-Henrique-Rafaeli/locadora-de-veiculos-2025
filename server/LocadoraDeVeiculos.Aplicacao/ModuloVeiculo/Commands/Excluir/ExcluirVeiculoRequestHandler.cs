@@ -8,7 +8,7 @@ using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.Excluir;
 
-public class ExcluirVeiculoRequestHandler(
+internal class ExcluirVeiculoRequestHandler(
     IRepositorioVeiculo repositorioVeiculo,
     IRepositorioGrupoVeiculos repositorioGrupoVeiculo,
     IRepositorioAluguel repositorioAluguel,
@@ -33,8 +33,6 @@ public class ExcluirVeiculoRequestHandler(
 
             if (alugueis.Any(x => x.Veiculo.Id == veiculoSelecionado.Id))
                 return Result.Fail(VeiculoResultadosErro.AluguelAtivoErro());
-
-            grupoVeiculoSelecionado.RemoverVeiculo(veiculoSelecionado);
 
             await repositorioVeiculo.ExcluirAsync(request.Id);
 

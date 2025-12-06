@@ -18,25 +18,8 @@ public class GrupoVeiculo : EntidadeBase<GrupoVeiculo>
         Nome = nome;
     }
 
-    public void AdicionarVeiculo(Veiculo veiculo)
-    {
-        if (Veiculos.Contains(veiculo))
-            return;
-
-        Veiculos.Add(veiculo);
-    }
-
-    public void RemoverVeiculo(Veiculo veiculo)
-    {
-        if (!Veiculos.Contains(veiculo))
-            return;
-
-        Veiculos.Remove(veiculo);
-    }
-
     public override void AtualizarRegistro(GrupoVeiculo registroEditado)
     {
         Nome = registroEditado.Nome;
-        Veiculos = registroEditado.Veiculos;
     }
 }

@@ -19,8 +19,7 @@ public record SelecionarAluguelDto(
 
 public record SelecionarGrupoVeiculoDtoSimplified(
     Guid Id,
-    string Nome,
-    int QuantidadeDeVeiculos
+    string Nome
 );
 
 public record SelecionarPlanoCobrancaDtoSimplified(

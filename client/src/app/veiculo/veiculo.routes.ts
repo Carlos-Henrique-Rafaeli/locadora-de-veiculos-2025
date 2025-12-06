@@ -1,11 +1,12 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { ListarVeiculos } from './listar/listar-veiculos';
 import { ListagemVeiculosModel } from './veiculo.models';
 import { VeiculoService } from './veiculo.service';
 import { ListagemGruposVeiculosModel } from '../grupo-veiculo/grupoVeiculo.models';
 import { GrupoVeiculoService } from '../grupo-veiculo/grupoVeiculo.service';
 import { CadastrarVeiculo } from './cadastrar/cadastrar-veiculo';
+import { EditarVeiculo } from './editar/editar-veiculo';
 
 const listagemVeiculosResolver: ResolveFn<ListagemVeiculosModel[]> = () => {
   const veiculoService = inject(VeiculoService);
@@ -13,15 +14,15 @@ const listagemVeiculosResolver: ResolveFn<ListagemVeiculosModel[]> = () => {
   return veiculoService.selecionarTodas();
 };
 
-// const detalhesVeiculoResolver = (route: ActivatedRouteSnapshot) => {
-//   const veiculoService = inject(VeiculoService);
+const detalhesVeiculoResolver = (route: ActivatedRouteSnapshot) => {
+  const veiculoService = inject(VeiculoService);
 
-//   if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
+  if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
 
-//   const veiculoId = route.paramMap.get('id')!;
+  const veiculoId = route.paramMap.get('id')!;
 
-//   return veiculoService.selecionarPorId(veiculoId);
-// };
+  return veiculoService.selecionarPorId(veiculoId);
+};
 
 const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
   const grupoVeiculoService = inject(GrupoVeiculoService);
@@ -43,11 +44,14 @@ export const veiculoRoutes: Routes = [
         component: CadastrarVeiculo,
         resolve: { gruposVeiculos: listagemGruposVeiculosResolver },
       },
-      // {
-      //   path: 'editar/:id',
-      //   component: EditarVeiculo,
-      //   resolve: { veiculo: detalhesVeiculoResolver, gruposVeiculos: listagemGruposVeiculosResolver },
-      // },
+      {
+        path: 'editar/:id',
+        component: EditarVeiculo,
+        resolve: {
+          veiculo: detalhesVeiculoResolver,
+          gruposVeiculos: listagemGruposVeiculosResolver,
+        },
+      },
       // {
       //   path: 'excluir/:id',
       //   component: ExcluirVeiculo,

@@ -1,10 +1,11 @@
-﻿using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
+using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 
 public record SelecionarVeiculosDto(
     Guid Id,
-    string NomeGrupo,
+    SelecionarGrupoVeiculoDtoSimplified GrupoVeiculo,
     string Placa,
     string Modelo,
     string Marca,
