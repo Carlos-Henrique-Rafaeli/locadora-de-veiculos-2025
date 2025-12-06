@@ -6,14 +6,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { filter, map, shareReplay, Observer, take, switchMap } from 'rxjs';
 import { NotificacaoService } from '../../shared/notificacao/notificacao.service';
-import { DetalhesClienteModel } from '../cliente.models';
-import { ClienteService } from '../cliente.service';
+import { DetalhesCondutorModel } from '../condutor.models';
+import { CondutorService } from '../condutor.service';
 
 @Component({
-  selector: 'app-excluir-cliente',
+  selector: 'app-excluir-condutor',
   imports: [
     MatCardModule,
     MatButtonModule,
@@ -24,17 +24,17 @@ import { ClienteService } from '../cliente.service';
     AsyncPipe,
     FormsModule,
   ],
-  templateUrl: './excluir-cliente.html',
+  templateUrl: './excluir-condutor.html',
 })
-export class ExcluirCliente {
+export class ExcluirCondutor {
   protected readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
-  protected readonly clienteService = inject(ClienteService);
+  protected readonly condutorService = inject(CondutorService);
   protected readonly notificacaoService = inject(NotificacaoService);
 
-  protected readonly cliente$ = this.route.data.pipe(
-    filter((data) => data['cliente']),
-    map((data) => data['cliente'] as DetalhesClienteModel),
+  protected readonly condutor$ = this.route.data.pipe(
+    filter((data) => data['condutor']),
+    map((data) => data['condutor'] as DetalhesCondutorModel),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 
@@ -46,13 +46,13 @@ export class ExcluirCliente {
 
         this.notificacaoService.erro(msg);
       },
-      complete: () => this.router.navigate(['/clientes']),
+      complete: () => this.router.navigate(['/condutores']),
     };
 
-    this.cliente$
+    this.condutor$
       .pipe(
         take(1),
-        switchMap((cliente) => this.clienteService.excluir(cliente.id)),
+        switchMap((condutor) => this.condutorService.excluir(condutor.id)),
       )
       .subscribe(exclusaoObserver);
   }

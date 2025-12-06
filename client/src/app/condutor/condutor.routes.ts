@@ -7,6 +7,7 @@ import { CadastrarCondutor } from './cadastrar/cadastrar-condutor';
 import { ListagemClientesModel } from '../cliente/cliente.models';
 import { ClienteService } from '../cliente/cliente.service';
 import { EditarCondutor } from './editar/editar-condutor';
+import { ExcluirCondutor } from './excluir/excluir-condutor';
 
 const listagemCondutoresResolver: ResolveFn<ListagemCondutoresModel[]> = () => {
   const condutorService = inject(CondutorService);
@@ -49,11 +50,11 @@ export const condutorRoutes: Routes = [
         component: EditarCondutor,
         resolve: { condutor: detalhesCondutorResolver, clientes: listagemClientesResolver },
       },
-      // {
-      //   path: 'excluir/:id',
-      //   component: ExcluirCondutor,
-      //   resolve: { condutor: detalhesCondutorResolver },
-      // },
+      {
+        path: 'excluir/:id',
+        component: ExcluirCondutor,
+        resolve: { condutor: detalhesCondutorResolver },
+      },
     ],
     providers: [CondutorService, ClienteService],
   },
