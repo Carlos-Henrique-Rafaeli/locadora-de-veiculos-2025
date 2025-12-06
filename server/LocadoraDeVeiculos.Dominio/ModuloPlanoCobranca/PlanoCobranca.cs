@@ -27,21 +27,72 @@ public class PlanoCobranca : EntidadeBase<PlanoCobranca>
     {
         TipoPlano = tipoPlano;
         GrupoVeiculo = grupoVeiculo;
-        ValorDiario = valorDiario;
-        ValorKm = valorKm;
-        KmIncluso = kmIncluso;
-        ValorKmExcedente = valorKmExcedente;
-        ValorFixo = valorFixo;
+
+        switch (TipoPlano)
+        {
+            case TipoPlano.PlanoDiario:
+                ValorDiario = valorDiario;
+                ValorKm = valorKm;
+                break;
+
+            case TipoPlano.PlanoControlado:
+                ValorDiario = valorDiario;
+                KmIncluso = kmIncluso;
+                ValorKmExcedente = valorKmExcedente;
+                break;
+
+            case TipoPlano.PlanoLivre:
+                ValorFixo = valorFixo;
+                break;
+
+            default:
+                ValorDiario = valorDiario;
+                ValorKm = valorKm;
+                KmIncluso = kmIncluso;
+                ValorKmExcedente = valorKmExcedente;
+                ValorFixo = valorFixo;
+                break;
+        }
     }
 
     public override void AtualizarRegistro(PlanoCobranca registroEditado)
     {
         TipoPlano = registroEditado.TipoPlano;
         GrupoVeiculo = registroEditado.GrupoVeiculo;
-        ValorDiario = registroEditado.ValorDiario;
-        ValorKm = registroEditado.ValorKm;
-        KmIncluso = registroEditado.KmIncluso;
-        ValorKmExcedente = registroEditado.ValorKmExcedente;
-        ValorFixo = registroEditado.ValorFixo;
+
+        switch (TipoPlano)
+        {
+            case TipoPlano.PlanoDiario:
+                ValorDiario = registroEditado.ValorDiario;
+                ValorKm = registroEditado.ValorKm;
+                KmIncluso = null;
+                ValorKmExcedente = null;
+                ValorFixo = null;
+                break;
+            
+            case TipoPlano.PlanoControlado:
+                ValorDiario = registroEditado.ValorDiario;
+                ValorKm = null;
+                KmIncluso = registroEditado.KmIncluso;
+                ValorKmExcedente = registroEditado.ValorKmExcedente;
+                ValorFixo = null;
+                break;
+            
+            case TipoPlano.PlanoLivre:
+                ValorDiario = null;
+                ValorKm = null;
+                KmIncluso = null;
+                ValorKmExcedente = null;
+                ValorFixo = registroEditado.ValorFixo;
+                break;
+            
+            default:
+                ValorDiario = registroEditado.ValorDiario;
+                ValorKm = registroEditado.ValorKm;
+                KmIncluso = registroEditado.KmIncluso;
+                ValorKmExcedente = registroEditado.ValorKmExcedente;
+                ValorFixo = registroEditado.ValorFixo;
+                break;
+        }
     }
 }

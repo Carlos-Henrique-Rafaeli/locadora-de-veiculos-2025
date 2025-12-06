@@ -1,0 +1,50 @@
+<section class="row justify-content-center m-1">
+  <div class="col-md-11 col-xl-8">
+    <h2>Listagem de Planos de Cobranças</h2>
+
+    <div class="row g-1 mt-3">
+      <a mat-flat-button class="col-md-6 col-xl-2" routerLink="cadastrar">
+        <mat-icon>add</mat-icon>
+        Cadastrar
+      </a>
+    </div>
+
+    <hr />
+
+    <div class="row g-3">
+      @for (planoCobranca of planosCobrancas$ | async; track $index) {
+        <div class="col-md-6 col-xl-5">
+          <mat-card class="p-1">
+            <mat-card-header>
+              <mat-card-title>{{ planoCobranca.tipoPlano }}</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content style="min-height: 40px" class="mt-2">
+              <mat-card-subtitle
+                >Grupo de Veículo: {{ planoCobranca.grupoVeiculo.nome }}</mat-card-subtitle
+              >
+              @if (planoCobranca.tipoPlano === 'Plano Diário') {
+                <mat-card-subtitle>Valor Diário: {{ planoCobranca.valorDiario }}</mat-card-subtitle>
+                <mat-card-subtitle>Valor por Km: {{ planoCobranca.valorKm }}</mat-card-subtitle>
+              } @else if (planoCobranca.tipoPlano === 'Plano Controlado') {
+                <mat-card-subtitle>Valor Diário: {{ planoCobranca.valorDiario }}</mat-card-subtitle>
+                <mat-card-subtitle>Km Incluso: {{ planoCobranca.kmIncluso }}</mat-card-subtitle>
+              } @else {
+                <mat-card-subtitle>Valor Fixo: {{ planoCobranca.valorFixo }}</mat-card-subtitle>
+              }
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+              <a [routerLink]="['editar', planoCobranca.id]" mat-icon-button
+                ><mat-icon>edit</mat-icon></a
+              >
+              <a [routerLink]="['excluir', planoCobranca.id]" mat-icon-button class="ms-1"
+                ><mat-icon>delete</mat-icon></a
+              >
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      }
+    </div>
+  </div>
+</section>

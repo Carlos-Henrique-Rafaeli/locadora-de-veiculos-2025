@@ -43,7 +43,7 @@ export class ShellComponent {
     { titulo: 'Condutor', icone: 'assignment_ind', link: '/condutores' },
     { titulo: 'Grupo Veículo', icone: 'garage', link: '/grupos-veiculos' },
     { titulo: 'Veículo', icone: 'directions_car', link: '/veiculos' },
-    { titulo: 'Plano de Cobrança', icone: 'payments', link: '/planos-cobraca' },
+    { titulo: 'Plano de Cobrança', icone: 'payments', link: '/planos-cobrancas' },
     { titulo: 'Taxa/Serviço', icone: 'home_repair_service', link: '/taxas-servicos' },
     { titulo: 'Aluguel', icone: 'car_rental', link: '/alugueis' },
     { titulo: 'Preço Combustível', icone: 'local_gas_station', link: '/configuracao-preco' },

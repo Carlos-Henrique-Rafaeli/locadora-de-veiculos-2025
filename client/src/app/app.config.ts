@@ -65,6 +65,12 @@ const routes: Routes = [
     loadChildren: () => import('./veiculo/veiculo.routes').then((r) => r.veiculoRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },
+  {
+    path: 'planos-cobrancas',
+    loadChildren: () =>
+      import('./plano-cobranca/planoCobranca.routes').then((r) => r.planoCobrancaRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {
