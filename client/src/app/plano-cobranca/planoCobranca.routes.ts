@@ -3,6 +3,9 @@ import { ResolveFn, Routes } from '@angular/router';
 import { ListarPlanosCobrancas } from './listar/listar-planos-cobrancas';
 import { ListagemPlanosCobrancasModel } from './planoCobranca.models';
 import { PlanoCobrancaService } from './planoCobranca.service';
+import { ListagemGruposVeiculosModel } from '../grupo-veiculo/grupoVeiculo.models';
+import { GrupoVeiculoService } from '../grupo-veiculo/grupoVeiculo.service';
+import { CadastrarPlanoCobranca } from './cadastrar/cadastrar-plano-cobranca';
 
 const listagemPlanosCobrancasResolver: ResolveFn<ListagemPlanosCobrancasModel[]> = () => {
   const planosCobrancaService = inject(PlanoCobrancaService);
@@ -20,11 +23,11 @@ const listagemPlanosCobrancasResolver: ResolveFn<ListagemPlanosCobrancasModel[]>
 //   return planosCobrancaService.selecionarPorId(planosCobrancaId);
 // };
 
-// const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
-//   const grupoVeiculoService = inject(GrupoVeiculoService);
+const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
+  const grupoVeiculoService = inject(GrupoVeiculoService);
 
-//   return grupoVeiculoService.selecionarTodas();
-// };
+  return grupoVeiculoService.selecionarTodas();
+};
 
 export const planoCobrancaRoutes: Routes = [
   {
@@ -35,11 +38,11 @@ export const planoCobrancaRoutes: Routes = [
         component: ListarPlanosCobrancas,
         resolve: { planosCobrancas: listagemPlanosCobrancasResolver },
       },
-      // {
-      //   path: 'cadastrar',
-      //   component: CadastrarPlanoCobranca,
-      //   resolve: { gruposPlanosCobrancas: listagemGruposVeiculosResolver },
-      // },
+      {
+        path: 'cadastrar',
+        component: CadastrarPlanoCobranca,
+        resolve: { gruposVeiculos: listagemGruposVeiculosResolver },
+      },
       // {
       //   path: 'editar/:id',
       //   component: EditarPlanoCobranca,
@@ -54,6 +57,6 @@ export const planoCobrancaRoutes: Routes = [
       //   resolve: { planosCobranca: detalhesPlanoCobrancaResolver },
       // },
     ],
-    providers: [PlanoCobrancaService],
+    providers: [PlanoCobrancaService, GrupoVeiculoService],
   },
 ];
