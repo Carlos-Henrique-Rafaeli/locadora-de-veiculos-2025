@@ -60,6 +60,11 @@ const routes: Routes = [
       import('./grupo-veiculo/grupoVeiculo.routes').then((r) => r.grupoVeiculoRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },
+  {
+    path: 'veiculos',
+    loadChildren: () => import('./veiculo/veiculo.routes').then((r) => r.veiculoRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {
