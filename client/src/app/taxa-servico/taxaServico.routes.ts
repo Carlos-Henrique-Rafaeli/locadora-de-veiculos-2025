@@ -5,6 +5,7 @@ import { TaxaServicoService } from './taxaServico.service';
 import { ListarTaxasServicos } from './listar/listar-taxas-servicos';
 import { CadastrarTaxaServico } from './cadastrar/cadastrar-taxa-servico';
 import { EditarTaxaServico } from './editar/editar-taxa-servico';
+import { ExcluirTaxaServico } from './excluir/excluir-taxa-servico';
 
 const listagemTaxasServicosResolver: ResolveFn<ListagemTaxasServicosModel[]> = () => {
   const taxaServicoService = inject(TaxaServicoService);
@@ -37,11 +38,11 @@ export const taxaServicoRoutes: Routes = [
         component: EditarTaxaServico,
         resolve: { taxaServico: detalhesTaxaServicoResolver },
       },
-      // {
-      //   path: 'excluir/:id',
-      //   component: ExcluirTaxasServico,
-      //   resolve: { taxaServico: detalhesTaxasServicoResolver },
-      // },
+      {
+        path: 'excluir/:id',
+        component: ExcluirTaxaServico,
+        resolve: { taxaServico: detalhesTaxaServicoResolver },
+      },
     ],
     providers: [TaxaServicoService],
   },
