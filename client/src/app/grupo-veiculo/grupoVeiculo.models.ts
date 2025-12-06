@@ -33,5 +33,5 @@ export interface EditarGrupoVeiculoResponseModel {
 export interface DetalhesGrupoVeiculoModel {
   id: string;
   nome: string;
-  veiculos: ListagemVeiculosModelSimplified;
+  veiculos: ListagemVeiculosModelSimplified[];
 }

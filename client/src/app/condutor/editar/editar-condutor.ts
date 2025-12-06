@@ -97,9 +97,7 @@ export class EditarCondutor {
   protected readonly condutor$ = this.route.data.pipe(
     filter((data) => data['condutor']),
     map((data) => data['condutor'] as DetalhesCondutorModel),
-    tap((condutor) => {
-      console.log(condutor);
-
+    tap((condutor) =>
       this.condutorForm.patchValue({
         clienteId: condutor.cliente.id,
         clienteCondutor: condutor.clienteCondutor,
@@ -109,8 +107,8 @@ export class EditarCondutor {
         cnh: condutor.cnh,
         validadeCnh: condutor.validadeCnh,
         telefone: condutor.telefone,
-      });
-    }),
+      }),
+    ),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 

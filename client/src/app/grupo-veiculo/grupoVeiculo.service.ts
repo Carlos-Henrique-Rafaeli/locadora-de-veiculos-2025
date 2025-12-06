@@ -47,8 +47,6 @@ export class GrupoVeiculoService {
   public selecionarPorId(id: string): Observable<DetalhesGrupoVeiculoModel> {
     const urlCompleto = `${this.apiUrl}/${id}`;
 
-    return this.http
-      .get<{ grupoVeiculo: DetalhesGrupoVeiculoModel }>(urlCompleto)
-      .pipe(map((res) => res.grupoVeiculo));
+    return this.http.get<DetalhesGrupoVeiculoModel>(urlCompleto).pipe(map((res) => res));
   }
 }
