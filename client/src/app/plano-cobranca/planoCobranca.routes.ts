@@ -7,6 +7,7 @@ import { ListagemGruposVeiculosModel } from '../grupo-veiculo/grupoVeiculo.model
 import { GrupoVeiculoService } from '../grupo-veiculo/grupoVeiculo.service';
 import { CadastrarPlanoCobranca } from './cadastrar/cadastrar-plano-cobranca';
 import { EditarPlanoCobranca } from './editar/editar-plano-cobranca';
+import { ExcluirPlanoCobranca } from './excluir/excluir-plano-cobranca';
 
 const listagemPlanosCobrancasResolver: ResolveFn<ListagemPlanosCobrancasModel[]> = () => {
   const planosCobrancaService = inject(PlanoCobrancaService);
@@ -52,11 +53,11 @@ export const planoCobrancaRoutes: Routes = [
           gruposVeiculos: listagemGruposVeiculosResolver,
         },
       },
-      // {
-      //   path: 'excluir/:id',
-      //   component: ExcluirPlanoCobranca,
-      //   resolve: { gruposVeiculos: detalhesPlanoCobrancaResolver },
-      // },
+      {
+        path: 'excluir/:id',
+        component: ExcluirPlanoCobranca,
+        resolve: { planoCobranca: detalhesPlanoCobrancaResolver },
+      },
     ],
     providers: [PlanoCobrancaService, GrupoVeiculoService],
   },
