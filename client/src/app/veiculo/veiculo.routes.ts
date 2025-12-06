@@ -7,6 +7,7 @@ import { ListagemGruposVeiculosModel } from '../grupo-veiculo/grupoVeiculo.model
 import { GrupoVeiculoService } from '../grupo-veiculo/grupoVeiculo.service';
 import { CadastrarVeiculo } from './cadastrar/cadastrar-veiculo';
 import { EditarVeiculo } from './editar/editar-veiculo';
+import { ExcluirVeiculo } from './excluir/excluir-veiculo';
 
 const listagemVeiculosResolver: ResolveFn<ListagemVeiculosModel[]> = () => {
   const veiculoService = inject(VeiculoService);
@@ -52,11 +53,11 @@ export const veiculoRoutes: Routes = [
           gruposVeiculos: listagemGruposVeiculosResolver,
         },
       },
-      // {
-      //   path: 'excluir/:id',
-      //   component: ExcluirVeiculo,
-      //   resolve: { veiculo: detalhesVeiculoResolver },
-      // },
+      {
+        path: 'excluir/:id',
+        component: ExcluirVeiculo,
+        resolve: { veiculo: detalhesVeiculoResolver },
+      },
     ],
     providers: [VeiculoService, GrupoVeiculoService],
   },
