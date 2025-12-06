@@ -44,8 +44,7 @@ public class ValidadorVeiculo : AbstractValidator<Veiculo>
             });
 
         RuleFor(x => x.CapacidadeTanque)
-            .GreaterThan(0).WithMessage("O campo {PropertyName} deve ser maior que {ComparisonValue}.")
-            .LessThanOrEqualTo(100).WithMessage("O campo {PropertyName} deve ser menor ou igual a {ComparisonValue}.");
+            .GreaterThan(0).WithMessage("O campo {PropertyName} deve ser maior que {ComparisonValue}.");
 
         RuleFor(x => x.TipoCombustivel)
             .IsInEnum().WithMessage("O campo {PropertyName} possui um valor inválido.");

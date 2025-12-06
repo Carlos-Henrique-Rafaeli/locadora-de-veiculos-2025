@@ -3,6 +3,9 @@ import { ResolveFn, Routes } from '@angular/router';
 import { ListarVeiculos } from './listar/listar-veiculos';
 import { ListagemVeiculosModel } from './veiculo.models';
 import { VeiculoService } from './veiculo.service';
+import { ListagemGruposVeiculosModel } from '../grupo-veiculo/grupoVeiculo.models';
+import { GrupoVeiculoService } from '../grupo-veiculo/grupoVeiculo.service';
+import { CadastrarVeiculo } from './cadastrar/cadastrar-veiculo';
 
 const listagemVeiculosResolver: ResolveFn<ListagemVeiculosModel[]> = () => {
   const veiculoService = inject(VeiculoService);
@@ -20,11 +23,11 @@ const listagemVeiculosResolver: ResolveFn<ListagemVeiculosModel[]> = () => {
 //   return veiculoService.selecionarPorId(veiculoId);
 // };
 
-// const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
-//   const grupoVeiculoService = inject(GrupoVeiculoService);
+const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
+  const grupoVeiculoService = inject(GrupoVeiculoService);
 
-//   return grupoVeiculoService.selecionarTodas();
-// };
+  return grupoVeiculoService.selecionarTodas();
+};
 
 export const veiculoRoutes: Routes = [
   {
@@ -35,15 +38,15 @@ export const veiculoRoutes: Routes = [
         component: ListarVeiculos,
         resolve: { veiculos: listagemVeiculosResolver },
       },
-      // {
-      //   path: 'cadastrar',
-      //   component: CadastrarVeiculo,
-      //   resolve: { grupoVeiculos: listagemGruposVeiculosResolver },
-      // },
+      {
+        path: 'cadastrar',
+        component: CadastrarVeiculo,
+        resolve: { gruposVeiculos: listagemGruposVeiculosResolver },
+      },
       // {
       //   path: 'editar/:id',
       //   component: EditarVeiculo,
-      //   resolve: { veiculo: detalhesVeiculoResolver, grupoVeiculos: listagemGruposVeiculosResolver },
+      //   resolve: { veiculo: detalhesVeiculoResolver, gruposVeiculos: listagemGruposVeiculosResolver },
       // },
       // {
       //   path: 'excluir/:id',
@@ -51,6 +54,6 @@ export const veiculoRoutes: Routes = [
       //   resolve: { veiculo: detalhesVeiculoResolver },
       // },
     ],
-    providers: [VeiculoService],
+    providers: [VeiculoService, GrupoVeiculoService],
   },
 ];
