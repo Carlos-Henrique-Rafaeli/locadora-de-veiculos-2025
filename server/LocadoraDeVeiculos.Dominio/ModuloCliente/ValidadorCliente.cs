@@ -16,7 +16,7 @@ public class ValidadorCliente : AbstractValidator<Cliente>
 
         RuleFor(x => x.Telefone)
             .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.")
-            .Matches(@"^\(\d{2}\) 9\d{4}-\d{4}$").WithMessage("O campo {PropertyName} deve seguir o formato (XX) XXXXX-XXXX.");
+            .Matches(@"^\(\d{2}\) \d{4,5}-\d{4}$").WithMessage("O campo {PropertyName} deve seguir o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.");
 
         When(x => x.TipoCliente == TipoCliente.PessoaFisica, () => {
             RuleFor(x => x.Cpf)

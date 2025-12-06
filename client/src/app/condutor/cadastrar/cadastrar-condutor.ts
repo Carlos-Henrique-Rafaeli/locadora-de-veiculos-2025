@@ -50,7 +50,7 @@ export class CadastrarCondutor {
     cpf: ['', [Validators.required, Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)]],
     cnh: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
     validadeCnh: ['', [Validators.required]],
-    telefone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\) 9\d{4}-\d{4}$/)]],
+    telefone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\) \d{4,5}-\d{4}$/)]],
   });
 
   get clienteId() {

@@ -35,6 +35,6 @@ public class ValidadorCondutor : AbstractValidator<Condutor>
 
         RuleFor(x => x.Telefone)
             .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.")
-            .Matches(@"^\(\d{2}\) \d{5}-\d{4}$").WithMessage("O campo {PropertyName} deve estar no formato (XX) XXXXX-XXXX.");
+            .Matches(@"^\(\d{2}\) \d{4,5}-\d{4}$").WithMessage("O campo {PropertyName} deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX.");
     }
 }

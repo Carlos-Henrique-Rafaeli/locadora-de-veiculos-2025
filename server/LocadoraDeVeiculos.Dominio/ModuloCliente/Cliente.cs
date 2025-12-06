@@ -32,8 +32,23 @@ public class Cliente : EntidadeBase<Cliente>
         TipoCliente = tipoCliente;
         Nome = nome;
         Telefone = telefone;
-        Cpf = cpf;
-        Cnpj = cnpj;
+
+        switch (TipoCliente)
+        {
+            case TipoCliente.PessoaFisica:
+                Cpf = cpf;
+                break;
+            
+            case TipoCliente.PessoaJuridica:
+                Cnpj = cnpj;
+                break;
+            
+            default:
+                Cpf = cpf;
+                Cnpj = cnpj;
+                break;
+        }
+
         Estado = estado;
         Cidade = cidade;
         Bairro = bairro;
@@ -46,8 +61,25 @@ public class Cliente : EntidadeBase<Cliente>
         TipoCliente = registroEditado.TipoCliente;
         Nome = registroEditado.Nome;
         Telefone = registroEditado.Telefone;
-        Cpf = registroEditado.Cpf;
-        Cnpj = registroEditado.Cnpj;
+
+        switch (TipoCliente)
+        {
+            case TipoCliente.PessoaFisica:
+                Cpf = registroEditado.Cpf;
+                Cnpj = null;
+                break;
+            
+            case TipoCliente.PessoaJuridica:
+                Cnpj= registroEditado.Cnpj;
+                Cpf = null;
+                break;
+            
+            default:
+                Cpf = registroEditado.Cpf;
+                Cnpj = registroEditado.Cnpj;
+                break;
+        }
+        
         Estado = registroEditado.Estado;
         Cidade = registroEditado.Cidade;
         Bairro = registroEditado.Bairro;

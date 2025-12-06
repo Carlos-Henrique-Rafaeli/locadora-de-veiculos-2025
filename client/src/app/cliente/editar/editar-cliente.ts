@@ -42,14 +42,14 @@ export class EditarCliente {
   protected clienteForm: FormGroup = this.formBuilder.group({
     tipoCliente: ['', [Validators.required]],
     nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    telefone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\) 9\d{4}-\d{4}$/)]],
+    telefone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\) \d{4,5}-\d{4}$/)]],
     cpf: [''],
     cnpj: [''],
     estado: ['', [Validators.required]],
     cidade: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     bairro: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     rua: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    numero: ['', [Validators.required]],
+    numero: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
   });
 
   get tipoCliente() {
@@ -94,25 +94,15 @@ export class EditarCliente {
 
   protected readonly cliente$ = this.route.data.pipe(
     filter((data) => data['cliente']),
-    map((data) => {
-      const cliente = data['cliente'] as DetalhesClienteModel;
-
-      if (cliente.tipoCliente === 'PessoaFisica') {
-        cliente.tipoCliente = 'Pessoa Física';
-        cliente.cnpj = '';
-      } else {
-        cliente.tipoCliente = 'Pessoa Jurídica';
-        cliente.cpf = '';
-      }
-
-      return cliente;
-    }),
+    map((data) => data['cliente'] as DetalhesClienteModel),
     tap((cliente) => this.clienteForm.patchValue(cliente)),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 
-  protected readonly tiposClientes = ['Pessoa Física', 'Pessoa Jurídica'];
-
+  protected readonly tiposClientes = [
+    { nome: 'Pessoa Física', valor: 'PessoaFisica' },
+    { nome: 'Pessoa Jurídica', valor: 'PessoaJuridica' },
+  ];
   protected readonly estados = [
     'AC',
     'AL',
@@ -147,14 +137,6 @@ export class EditarCliente {
     if (this.clienteForm.invalid) return;
 
     const editarClienteModel: EditarClienteModel = this.clienteForm.value;
-
-    if (editarClienteModel.tipoCliente === 'Pessoa Jurídica') {
-      editarClienteModel.tipoCliente = 'PessoaJuridica';
-      editarClienteModel.cpf = undefined;
-    } else {
-      editarClienteModel.tipoCliente = 'PessoaFisica';
-      editarClienteModel.cnpj = undefined;
-    }
 
     const edicaoObserver: Observer<EditarClienteResponseModel> = {
       next: () =>
