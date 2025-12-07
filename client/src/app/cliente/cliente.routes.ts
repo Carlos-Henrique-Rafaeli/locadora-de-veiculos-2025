@@ -6,6 +6,7 @@ import { ListarClientes } from './listar/listar-cliente';
 import { CadastrarCliente } from './cadastrar/cadastrar-cliente';
 import { EditarCliente } from './editar/editar-cliente';
 import { ExcluirCliente } from './excluir/excluir-cliente';
+import { provideNgxMask } from 'ngx-mask';
 
 const listagemClientesResolver: ResolveFn<ListagemClientesModel[]> = () => {
   const clienteService = inject(ClienteService);
@@ -44,6 +45,6 @@ export const clienteRoutes: Routes = [
         resolve: { cliente: detalhesClienteResolver },
       },
     ],
-    providers: [ClienteService],
+    providers: [ClienteService, provideNgxMask()],
   },
 ];

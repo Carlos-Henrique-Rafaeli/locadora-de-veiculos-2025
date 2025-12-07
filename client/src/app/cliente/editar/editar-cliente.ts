@@ -16,6 +16,7 @@ import {
 } from '../cliente.models';
 import { ClienteService } from '../cliente.service';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-editar-cliente',
@@ -29,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
     RouterLink,
     AsyncPipe,
     ReactiveFormsModule,
+    NgxMaskDirective,
   ],
   templateUrl: './editar-cliente.html',
 })

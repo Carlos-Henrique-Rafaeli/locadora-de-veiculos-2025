@@ -24,14 +24,7 @@
 
           <mat-form-field appearance="outline" class="w-100 mt-2">
             <mat-label>Email</mat-label>
-            <input
-              matInput
-              formControlName="email"
-              type="email"
-              autocomplete="email"
-              mask="A*@A*.SSS"
-              [dropSpecialCharacters]="false"
-            />
+            <input matInput formControlName="email" type="email" autocomplete="email" />
 
             @if (email?.errors?.['required']) {
               <mat-error>O email é obrigatório.</mat-error>

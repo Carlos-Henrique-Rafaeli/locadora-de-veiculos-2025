@@ -11,7 +11,7 @@
           </mat-card-header>
           <mat-card-content class="mt-5">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Cliente:</mat-label>
+              <mat-label>Cliente</mat-label>
               <mat-select formControlName="clienteId">
                 @for (cliente of clientes$ | async; track $index) {
                   <mat-option [value]="cliente.id">{{ cliente.nome }}</mat-option>
@@ -28,7 +28,7 @@
             </div>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Nome:</mat-label>
+              <mat-label>Nome</mat-label>
               <input formControlName="nome" matInput type="text" />
 
               @if (nome?.errors?.['required']) {
@@ -45,7 +45,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Email:</mat-label>
+              <mat-label>Email</mat-label>
               <input formControlName="email" matInput type="text" />
 
               @if (email?.errors?.['required']) {
@@ -53,7 +53,7 @@
               }
 
               @if (email?.errors?.['email']) {
-                <mat-error>O email deve seguir o padrão XXXXXXXXXX@XXXXXXX.XXX.</mat-error>
+                <mat-error>O email deve seguir o padrão nome@provedor.com.</mat-error>
               }
 
               @if (email?.errors?.['maxlength']) {
@@ -62,8 +62,14 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>CPF:</mat-label>
-              <input formControlName="cpf" matInput type="text" />
+              <mat-label>CPF</mat-label>
+              <input
+                formControlName="cpf"
+                matInput
+                type="text"
+                mask="000.000.000-00"
+                [dropSpecialCharacters]="false"
+              />
 
               @if (cpf?.errors?.['required']) {
                 <mat-error>O CPF é obrigatório.</mat-error>
@@ -75,8 +81,14 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>CNH:</mat-label>
-              <input formControlName="cnh" matInput type="text" />
+              <mat-label>CNH</mat-label>
+              <input
+                formControlName="cnh"
+                matInput
+                type="text"
+                mask="00000000000"
+                [dropSpecialCharacters]="false"
+              />
 
               @if (cnh?.errors?.['required']) {
                 <mat-error>A CNH é obrigatória.</mat-error>
@@ -88,8 +100,14 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Telefone:</mat-label>
-              <input formControlName="telefone" matInput type="text" />
+              <mat-label>Telefone</mat-label>
+              <input
+                formControlName="telefone"
+                matInput
+                type="text"
+                mask="(00) 0000-0000||(00) 00000-0000"
+                [dropSpecialCharacters]="false"
+              />
 
               @if (telefone?.errors?.['required']) {
                 <mat-error>O telefone é obrigatório.</mat-error>
@@ -103,7 +121,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Validade CNH:</mat-label>
+              <mat-label>Validade CNH</mat-label>
               <input matInput [matDatepicker]="validadeCnhPicker" formControlName="validadeCnh" />
               <mat-datepicker-toggle [for]="validadeCnhPicker" matSuffix />
               <mat-datepicker #validadeCnhPicker startView="multi-year" />

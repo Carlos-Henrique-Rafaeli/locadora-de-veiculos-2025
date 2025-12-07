@@ -10,7 +10,7 @@
         </mat-card-header>
         <mat-card-content class="mt-5">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Grupo de Veículo:</mat-label>
+            <mat-label>Grupo de Veículo</mat-label>
             <mat-select formControlName="grupoVeiculoId">
               @for (grupoVeiculo of gruposVeiculos$ | async; track $index) {
                 <mat-option [value]="grupoVeiculo.id">{{ grupoVeiculo.nome }}</mat-option>
@@ -23,7 +23,7 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Tipo de Plano:</mat-label>
+            <mat-label>Tipo de Plano</mat-label>
             <mat-select formControlName="tipoPlano">
               @for (tipo of tiposPlanos; track $index) {
                 <mat-option [value]="tipo.valor">{{ tipo.nome }}</mat-option>

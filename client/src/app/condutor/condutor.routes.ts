@@ -8,6 +8,7 @@ import { ListagemClientesModel } from '../cliente/cliente.models';
 import { ClienteService } from '../cliente/cliente.service';
 import { EditarCondutor } from './editar/editar-condutor';
 import { ExcluirCondutor } from './excluir/excluir-condutor';
+import { provideNgxMask } from 'ngx-mask';
 
 const listagemCondutoresResolver: ResolveFn<ListagemCondutoresModel[]> = () => {
   const condutorService = inject(CondutorService);
@@ -56,6 +57,6 @@ export const condutorRoutes: Routes = [
         resolve: { condutor: detalhesCondutorResolver },
       },
     ],
-    providers: [CondutorService, ClienteService],
+    providers: [CondutorService, ClienteService, provideNgxMask()],
   },
 ];

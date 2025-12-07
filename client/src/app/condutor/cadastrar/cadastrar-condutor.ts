@@ -16,6 +16,7 @@ import { AsyncPipe } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastrar-condutor',
@@ -32,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     RouterLink,
     ReactiveFormsModule,
     AsyncPipe,
+    NgxMaskDirective,
   ],
   templateUrl: './cadastrar-condutor.html',
 })

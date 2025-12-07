@@ -8,6 +8,7 @@ import { GrupoVeiculoService } from '../grupo-veiculo/grupoVeiculo.service';
 import { CadastrarVeiculo } from './cadastrar/cadastrar-veiculo';
 import { EditarVeiculo } from './editar/editar-veiculo';
 import { ExcluirVeiculo } from './excluir/excluir-veiculo';
+import { provideNgxMask } from 'ngx-mask';
 
 const listagemVeiculosResolver: ResolveFn<ListagemVeiculosModel[]> = () => {
   const veiculoService = inject(VeiculoService);
@@ -59,6 +60,6 @@ export const veiculoRoutes: Routes = [
         resolve: { veiculo: detalhesVeiculoResolver },
       },
     ],
-    providers: [VeiculoService, GrupoVeiculoService],
+    providers: [VeiculoService, GrupoVeiculoService, provideNgxMask()],
   },
 ];

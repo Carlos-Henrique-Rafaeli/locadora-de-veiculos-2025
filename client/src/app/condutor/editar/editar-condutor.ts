@@ -20,6 +20,7 @@ import {
   EditarCondutorResponseModel,
 } from '../condutor.models';
 import { CondutorService } from '../condutor.service';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-editar-condutor',
@@ -36,6 +37,7 @@ import { CondutorService } from '../condutor.service';
     RouterLink,
     ReactiveFormsModule,
     AsyncPipe,
+    NgxMaskDirective,
   ],
   templateUrl: './editar-condutor.html',
 })

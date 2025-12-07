@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastrar-cliente',
@@ -23,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     RouterLink,
     ReactiveFormsModule,
+    NgxMaskDirective,
   ],
   templateUrl: './cadastrar-cliente.html',
 })

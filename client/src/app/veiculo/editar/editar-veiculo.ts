@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-editar-veiculo',
@@ -30,6 +31,7 @@ import { MatSelectModule } from '@angular/material/select';
     RouterLink,
     ReactiveFormsModule,
     AsyncPipe,
+    NgxMaskDirective,
   ],
   templateUrl: './editar-veiculo.html',
 })
@@ -44,7 +46,7 @@ export class EditarVeiculo {
     grupoVeiculoId: ['', [Validators.required]],
     placa: [
       '',
-      [Validators.required, Validators.pattern(/^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/)],
+      [Validators.required, Validators.pattern(/^(?:[A-z]{3}-\d{4}|[A-Z]{3}\d[A-z]\d{2})$/)],
     ],
     modelo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     marca: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -111,6 +113,8 @@ export class EditarVeiculo {
     if (this.veiculoForm.invalid) return;
 
     const editarVeiculoModel: EditarVeiculoModel = this.veiculoForm.value;
+
+    editarVeiculoModel.placa = editarVeiculoModel.placa.toUpperCase();
 
     const edicaoObserver: Observer<EditarVeiculoResponseModel> = {
       next: () =>

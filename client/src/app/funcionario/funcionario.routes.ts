@@ -31,7 +31,7 @@ export const funcionarioRoutes: Routes = [
         component: ListarFuncionarios,
         resolve: { funcionarios: listagemFuncionariosResolver },
       },
-      { path: 'cadastrar', component: CadastrarFuncionario, providers: [provideNgxMask()] },
+      { path: 'cadastrar', component: CadastrarFuncionario },
       // {
       //   path: 'editar/:id',
       //   component: EditarFuncionario,
@@ -43,6 +43,6 @@ export const funcionarioRoutes: Routes = [
       //   resolve: { funcionario: detalhesFuncionarioResolver },
       // },
     ],
-    providers: [FuncionarioService],
+    providers: [FuncionarioService, provideNgxMask()],
   },
 ];

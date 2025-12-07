@@ -13,6 +13,7 @@ import { CadastrarVeiculoModel, CadastrarVeiculoResponseModel } from '../veiculo
 import { VeiculoService } from '../veiculo.service';
 import { ListagemGruposVeiculosModel } from '../../grupo-veiculo/grupoVeiculo.models';
 import { AsyncPipe } from '@angular/common';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastrar-veiculo',
@@ -26,6 +27,7 @@ import { AsyncPipe } from '@angular/common';
     RouterLink,
     ReactiveFormsModule,
     AsyncPipe,
+    NgxMaskDirective,
   ],
   templateUrl: './cadastrar-veiculo.html',
 })
@@ -40,7 +42,7 @@ export class CadastrarVeiculo {
     grupoVeiculoId: ['', [Validators.required]],
     placa: [
       '',
-      [Validators.required, Validators.pattern(/^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/)],
+      [Validators.required, Validators.pattern(/^(?:[A-z]{3}-\d{4}|[A-Z]{3}\d[A-z]\d{2})$/)],
     ],
     modelo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     marca: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -88,6 +90,8 @@ export class CadastrarVeiculo {
     if (this.veiculoForm.invalid) return;
 
     const veiculoModel: CadastrarVeiculoModel = this.veiculoForm.value;
+
+    veiculoModel.placa = veiculoModel.placa.toUpperCase();
 
     const cadastroObserver: Observer<CadastrarVeiculoResponseModel> = {
       next: () =>

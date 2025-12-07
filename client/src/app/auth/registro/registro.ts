@@ -11,7 +11,6 @@ import { NotificacaoService } from '../../shared/notificacao/notificacao.service
 import { RegistroModel, AccessTokenModel } from '../auth.models';
 import { AuthService } from '../auth.service';
 import { compararConfirmacaoSenha } from '../validators/comparar-confirmacao-senha-validator';
-import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-registro',
@@ -23,7 +22,6 @@ import { NgxMaskDirective } from 'ngx-mask';
     MatInputModule,
     RouterLink,
     ReactiveFormsModule,
-    NgxMaskDirective,
   ],
   templateUrl: './registro.html',
 })

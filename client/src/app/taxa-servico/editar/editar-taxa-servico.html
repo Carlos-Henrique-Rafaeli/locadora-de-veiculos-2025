@@ -11,7 +11,7 @@
           </mat-card-header>
           <mat-card-content class="mt-5">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Nome:</mat-label>
+              <mat-label>Nome</mat-label>
               <input formControlName="nome" matInput type="text" />
 
               @if (nome?.errors?.['required']) {
@@ -28,7 +28,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Valor:</mat-label>
+              <mat-label>Valor</mat-label>
               <input formControlName="valor" matInput type="number" step="1" />
 
               @if (valor?.errors?.['required']) {
@@ -37,7 +37,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Tipo de Cobrança:</mat-label>
+              <mat-label>Tipo de Cobrança</mat-label>
               <mat-select formControlName="tipoCobranca">
                 @for (tipo of tiposCobrancas; track $index) {
                   <mat-option [value]="tipo.valor">{{ tipo.nome }}</mat-option>
