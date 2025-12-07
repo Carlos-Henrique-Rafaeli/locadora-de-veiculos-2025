@@ -33,7 +33,7 @@
               <mat-card-subtitle>CPF: {{ condutor.cpf }}</mat-card-subtitle>
               <mat-card-subtitle>CNH: {{ condutor.cnh }}</mat-card-subtitle>
               <mat-card-subtitle
-                >Validade CNH: {{ condutor.validadeCnh.toString() }}</mat-card-subtitle
+                >Validade CNH: {{ condutor.validadeCnh | date: 'dd/MM/yyyy' }}</mat-card-subtitle
               >
               <mat-card-subtitle>Telefone: {{ condutor.telefone }}</mat-card-subtitle>
             </mat-card-content>

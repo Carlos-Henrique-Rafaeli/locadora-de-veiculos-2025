@@ -1,0 +1,49 @@
+<section class="row justify-content-center m-1">
+  <div class="col-md-11 col-xl-8">
+    <h2>Listagem de Funcionários</h2>
+
+    <div class="row g-1 mt-3">
+      <a mat-flat-button class="col-md-6 col-xl-2" routerLink="cadastrar">
+        <mat-icon>add</mat-icon>
+        Cadastrar
+      </a>
+    </div>
+
+    <hr />
+
+    <div class="row g-3">
+      @for (funcionario of funcionarios$ | async; track $index) {
+        <div class="col-md-6 col-xl-5">
+          <mat-card class="p-1">
+            <mat-card-header>
+              <mat-card-title>{{ funcionario.nomeCompleto }}</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content style="min-height: 40px" class="mt-2">
+              <mat-card-subtitle>CPF: {{ funcionario.cpf }}</mat-card-subtitle>
+              <mat-card-subtitle>Email: {{ funcionario.email }}</mat-card-subtitle>
+              <mat-card-subtitle
+                >Salário:
+                <span class="money-color">{{
+                  funcionario.salario | currency
+                }}</span></mat-card-subtitle
+              >
+              <mat-card-subtitle
+                >Admissão: {{ funcionario.admissaoEmUtc | date: 'dd/MM/yyyy' }}</mat-card-subtitle
+              >
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+              <a [routerLink]="['editar', funcionario.id]" mat-icon-button
+                ><mat-icon>edit</mat-icon></a
+              >
+              <a [routerLink]="['excluir', funcionario.id]" mat-icon-button class="ms-1"
+                ><mat-icon>delete</mat-icon></a
+              >
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      }
+    </div>
+  </div>
+</section>

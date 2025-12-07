@@ -87,6 +87,11 @@ const routes: Routes = [
       import('./preco-combustivel/precoCombustivel.routes').then((r) => r.precoCombustivelRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },
+  {
+    path: 'funcionarios',
+    loadChildren: () => import('./funcionario/funcionario.routes').then((r) => r.funcionarioRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {

@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +10,7 @@ import { CondutorService } from '../condutor.service';
 
 @Component({
   selector: 'app-listar-condutores',
-  imports: [MatButtonModule, MatIconModule, MatCardModule, RouterLink, AsyncPipe],
+  imports: [MatButtonModule, MatIconModule, MatCardModule, RouterLink, AsyncPipe, DatePipe],
   templateUrl: './listar-condutores.html',
 })
 export class ListarCondutores {
