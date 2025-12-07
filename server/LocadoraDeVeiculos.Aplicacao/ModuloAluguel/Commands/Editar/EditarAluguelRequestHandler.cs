@@ -78,7 +78,7 @@ internal class EditarAluguelRequestHandler(
 
             var alugueis = await repositorioAluguel.SelecionarTodosAsync();
 
-            if (alugueis.Where(a => a.Id != aluguelSelecionado.Id).Any(x => x.Veiculo.Id == veiculoSelecionado.Id))
+            if (alugueis.Where(a => a.Id != aluguelSelecionado.Id).Any(x => x.EstaAberto && x.Veiculo.Id == veiculoSelecionado.Id))
                 return Result.Fail(AluguelResultadosErro.VeiculoJaSelecionadoErro(veiculoSelecionado.Modelo));
 
             var resultadoValidacao =
@@ -92,7 +92,6 @@ internal class EditarAluguelRequestHandler(
 
                 return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
             }
-
 
             var novoAluguel = new Aluguel(
                 condutorSelecionado,

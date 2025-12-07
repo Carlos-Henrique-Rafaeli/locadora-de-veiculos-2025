@@ -97,9 +97,8 @@ internal class InserirAluguelRequestHandler(
 
             var alugueis = await repositorioAluguel.SelecionarTodosAsync();
 
-            if (alugueis.Any(x => x.Veiculo.Id == veiculoSelecionado.Id))
+            if (alugueis.Any(x => x.EstaAberto && x.Veiculo.Id == veiculoSelecionado.Id))
                 return Result.Fail(AluguelResultadosErro.VeiculoJaSelecionadoErro(veiculoSelecionado.Modelo));
-
 
             await repositorioAluguel.InserirAsync(aluguel);
 

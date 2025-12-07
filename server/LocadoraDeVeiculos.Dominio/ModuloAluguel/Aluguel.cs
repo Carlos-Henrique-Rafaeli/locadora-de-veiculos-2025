@@ -41,15 +41,20 @@ public class Aluguel : EntidadeBase<Aluguel>
         TaxasServicos = taxasServicos;
     }
 
-    public void FinalizarAluguel(decimal kmRodados, bool atraso, decimal valorCombustivel)
+    public void FinalizarAluguel(decimal kmRodados, decimal valorCombustivel, DateTime dataRetorno)
     {
         EstaAberto = false;
-        ValorFinal = CalcularValorTotal(kmRodados, atraso, valorCombustivel);
+        ValorFinal = CalcularValorTotal(kmRodados, valorCombustivel, dataRetorno);
     }
 
-    public decimal CalcularValorTotal(decimal kmRodados = 0, bool atraso = false, decimal valorCombustivel = 0)
+    public decimal CalcularValorTotal(decimal kmRodados = 0, decimal valorCombustivel = 0, DateTime? dataRetorno = null)
     {
-        int diasDeUso = (DataRetorno - DataEntrada).Days;
+        if (dataRetorno is null)
+            dataRetorno = DataRetorno;
+
+        var atraso = dataRetorno > DataRetorno;
+
+        int diasDeUso = (dataRetorno.Value - DataEntrada).Days;
         decimal valorPlano = 0;
         
         switch (PlanoCobranca.TipoPlano)

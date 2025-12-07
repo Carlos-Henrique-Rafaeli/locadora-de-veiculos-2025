@@ -5,8 +5,8 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Finalizar;
 
 public record FinalizarAluguelPartialRequest(
     DateTime DataRetorno,
-    int kmInicial,
-    int kmAtual,
+    decimal kmInicial,
+    decimal kmAtual,
     bool tanqueCheio,
     decimal? porcentagemTanque
 );
@@ -14,8 +14,8 @@ public record FinalizarAluguelPartialRequest(
 public record FinalizarAluguelRequest(
     Guid Id, 
     DateTime DataRetorno,
-    int kmInicial,
-    int kmAtual,
+    decimal kmInicial,
+    decimal kmAtual,
     bool tanqueCheio,
     decimal? porcentagemTanque
     ) 

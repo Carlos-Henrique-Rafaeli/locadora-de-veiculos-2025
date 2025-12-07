@@ -15,6 +15,7 @@ import { ListagemVeiculosModel } from '../veiculo/veiculo.models';
 import { VeiculoService } from '../veiculo/veiculo.service';
 import { CadastrarAluguel } from './cadastrar/cadastrar-aluguel';
 import { EditarAluguel } from './editar/editar-aluguel';
+import { FinalizarAluguel } from './finalizar/finalizar-aluguel';
 
 const listagemAlugueisResolver: ResolveFn<ListagemAlugueisModel[]> = () => {
   const aluguelService = inject(AluguelService);
@@ -93,6 +94,11 @@ export const aluguelRoutes: Routes = [
           planosCobrancas: listagemPlanosCobrancasResolver,
           taxasServicos: listagemTaxasServicosResolver,
         },
+      },
+      {
+        path: 'finalizar/:id',
+        component: FinalizarAluguel,
+        resolve: { aluguel: detalhesAluguelResolver },
       },
       // {
       //   path: 'excluir/:id',

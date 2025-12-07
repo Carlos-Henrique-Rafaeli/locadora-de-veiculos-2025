@@ -10,6 +10,8 @@ import {
   ListagemAlugueisModel,
   ListagemAlugueisApiResponse,
   DetalhesAluguelModel,
+  FinalizarAluguelModel,
+  FinalizarAluguelResponseModel,
 } from './aluguel.models';
 
 @Injectable()
@@ -50,9 +52,11 @@ export class AluguelService {
       .pipe(map((res) => res.aluguel));
   }
 
-  public finalizar(id: string): Observable<null> {
+  public finalizar(
+    id: string,
+    finalizarAluguelModel: FinalizarAluguelModel,
+  ): Observable<FinalizarAluguelResponseModel> {
     const urlCompleto = `${this.apiUrl}/finalizar/${id}`;
-
-    return this.http.post<null>(urlCompleto, null);
+    return this.http.post<FinalizarAluguelResponseModel>(urlCompleto, finalizarAluguelModel);
   }
 }

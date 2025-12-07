@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using FluentValidation;
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
 using LocadoraDeVeiculos.Dominio.ModuloAluguel;
 using LocadoraDeVeiculos.Dominio.ModuloAutenticacao;
@@ -6,6 +7,7 @@ using LocadoraDeVeiculos.Dominio.ModuloConfiguracao;
 using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using LocadoraDeVeiculos.Infraestrutura.Orm.Compartilhado;
 using MediatR;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.Finalizar;
 
@@ -13,7 +15,8 @@ internal class FinalizarAluguelRequestHandler(
     IRepositorioAluguel repositorioAluguel,
     IRepositorioConfiguracaoPreco repositorioConfiguracaoPreco,
     ITenantProvider tenantProvider,
-    LocadoraDeVeiculosDbContext contexto
+    LocadoraDeVeiculosDbContext contexto,
+    IValidator<FinalizarAluguelRequest> validador
 ) : IRequestHandler<FinalizarAluguelRequest, Result<FinalizarAluguelResponse>>
 {
     public async Task<Result<FinalizarAluguelResponse>> Handle(FinalizarAluguelRequest request, CancellationToken cancellationToken)
@@ -28,15 +31,16 @@ internal class FinalizarAluguelRequestHandler(
             if (!aluguelSelecionado.EstaAberto)
                 return Result.Fail(AluguelResultadosErro.AluguelFechadoErro(aluguelSelecionado.Id));
 
-            var kmRodados = request.kmAtual - request.kmInicial;
+            var resultadoValidacao = await validador.ValidateAsync(request);
 
-            if (kmRodados < 0)
-                return Result.Fail(AluguelResultadosErro.KmRodadosErro());
+            if (!resultadoValidacao.IsValid)
+            {
+                var erros = resultadoValidacao.Errors
+                   .Select(failure => failure.ErrorMessage)
+                   .ToList();
 
-            var atraso = request.DataRetorno > aluguelSelecionado.DataRetorno;
-
-            if (aluguelSelecionado.DataEntrada > request.DataRetorno)
-                return Result.Fail(AluguelResultadosErro.DataErradaErro());
+                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro(erros));
+            }
 
             var precosSelecionados = await repositorioConfiguracaoPreco.SelecionarTodosAsync();
             var precos = precosSelecionados.FirstOrDefault();
@@ -67,35 +71,33 @@ internal class FinalizarAluguelRequestHandler(
 
             decimal precoCombustivel = 0;
 
-            switch (aluguelSelecionado.Veiculo.TipoCombustivel)
+            if (!request.tanqueCheio)
             {
-                case TipoCombustivel.Gasolina:
-                    if (request.porcentagemTanque is null)
-                        return Result.Fail(AluguelResultadosErro.PorcentagemTanqueObrigatoriaErro());
+                switch (aluguelSelecionado.Veiculo.TipoCombustivel)
+                {
+                    case TipoCombustivel.Gasolina:
+                        precoCombustivel = aluguelSelecionado.Veiculo.CapacidadeTanque * request.porcentagemTanque.Value * precos!.Gasolina;
+                        break;
 
-                    precoCombustivel = aluguelSelecionado.Veiculo.CapacidadeTanque * request.porcentagemTanque.Value * precos!.Gasolina;
-                    break;
+                    case TipoCombustivel.Etanol:
+                        precoCombustivel = aluguelSelecionado.Veiculo.CapacidadeTanque * request.porcentagemTanque.Value * precos!.Etanol;
+                        break;
 
-                case TipoCombustivel.Etanol:
-                    if (request.porcentagemTanque is null)
-                        return Result.Fail(AluguelResultadosErro.PorcentagemTanqueObrigatoriaErro());
+                    case TipoCombustivel.Diesel:
+                        precoCombustivel = aluguelSelecionado.Veiculo.CapacidadeTanque * request.porcentagemTanque.Value * precos!.Diesel;
+                        break;
 
-                    precoCombustivel = aluguelSelecionado.Veiculo.CapacidadeTanque * request.porcentagemTanque.Value * precos!.Etanol;
-                    break;
-
-                case TipoCombustivel.Diesel:
-                    if (request.porcentagemTanque is null)
-                        return Result.Fail(AluguelResultadosErro.PorcentagemTanqueObrigatoriaErro());
-
-                    precoCombustivel = aluguelSelecionado.Veiculo.CapacidadeTanque * request.porcentagemTanque.Value * precos!.Diesel;
-                    break;
-
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
 
-            aluguelSelecionado.FinalizarAluguel(kmRodados, atraso, precoCombustivel);
+            var kmRodados = request.kmAtual - request.kmInicial;
 
+            if (request.DataRetorno < aluguelSelecionado.DataEntrada)
+                return Result.Fail(ResultadosErro.RequisicaoInvalidaErro("A data de retorno deve ser maior ou igual a data de entrada"));
+
+            aluguelSelecionado.FinalizarAluguel(kmRodados, precoCombustivel, request.DataRetorno);
 
             await contexto.SaveChangesAsync(cancellationToken);
 

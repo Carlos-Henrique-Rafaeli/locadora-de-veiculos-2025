@@ -80,25 +80,4 @@ public abstract class AluguelResultadosErro
             .CausedBy($"O veículo '{veiculo}' já pertence a um aluguel.")
             .WithMetadata("ErrorType", "RequisicaoInvalida");
     }
-
-    public static Error KmRodadosErro()
-    {
-        return new Error("KM rodados")
-            .CausedBy($"O KM antigo tem que ser menor que o KM atual.")
-            .WithMetadata("ErrorType", "RequisicaoInvalida");
-    }
-    
-    public static Error DataErradaErro()
-    {
-        return new Error("Data Errada")
-            .CausedBy($"A data de retorno precisa ser posterior à data de entrada.")
-            .WithMetadata("ErrorType", "RequisicaoInvalida");
-    }
-
-    public static Error PorcentagemTanqueObrigatoriaErro()
-    {
-        return new Error("Porcentagem Obrigatória")
-            .CausedBy($"A porcentagem do tanque é obrigatória.")
-            .WithMetadata("ErrorType", "RequisicaoInvalida");
-    }
 }

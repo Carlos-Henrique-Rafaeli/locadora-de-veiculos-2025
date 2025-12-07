@@ -52,6 +52,19 @@ export interface EditarAluguelResponseModel {
   id: string;
 }
 
+export interface FinalizarAluguelModel {
+  dataRetorno: Date;
+  kmInicial: number;
+  kmAtual: number;
+  tanqueCheio: boolean;
+  porcentagemTanque: number | undefined;
+}
+
+export interface FinalizarAluguelResponseModel {
+  id: string;
+  valorFinal: number;
+}
+
 export interface DetalhesAluguelModel {
   id: string;
   condutor: ListagemCondutoresModel;
