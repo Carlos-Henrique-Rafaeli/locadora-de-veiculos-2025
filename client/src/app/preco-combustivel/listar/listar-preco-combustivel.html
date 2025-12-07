@@ -1,0 +1,33 @@
+<section class="row justify-content-center m-1">
+  <div class="col-md-11 col-xl-8">
+    <h2>Preços de combustíveis</h2>
+    <hr />
+
+    <mat-card class="p-2 text-center">
+      @if (precoCombustivel$ | async; as precoCombustivel) {
+        <mat-card-content class="mt-2">
+          <mat-card-subtitle class="fs-1 mt-3"
+            >Gasolina:
+            <span class="money-color">{{ precoCombustivel.gasolina | currency }}</span>
+          </mat-card-subtitle>
+          <mat-card-subtitle class="fs-1 mt-5"
+            >Diesel:
+            <span class="money-color">{{
+              precoCombustivel.diesel | currency
+            }}</span></mat-card-subtitle
+          >
+          <mat-card-subtitle class="fs-1 mt-5"
+            >Etanol:
+            <span class="money-color">{{
+              precoCombustivel.etanol | currency
+            }}</span></mat-card-subtitle
+          >
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <a [routerLink]="['editar']" mat-icon-button><mat-icon>edit</mat-icon></a>
+        </mat-card-actions>
+      }
+    </mat-card>
+  </div>
+</section>

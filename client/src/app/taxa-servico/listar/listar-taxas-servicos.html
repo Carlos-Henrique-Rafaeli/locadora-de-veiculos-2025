@@ -20,7 +20,12 @@
             </mat-card-header>
 
             <mat-card-content style="min-height: 40px" class="mt-2">
-              <mat-card-subtitle>Valor: {{ taxaServico.valor | currency }}</mat-card-subtitle>
+              <mat-card-subtitle
+                >Valor:
+                <span class="money-color">{{
+                  taxaServico.valor | currency
+                }}</span></mat-card-subtitle
+              >
               <mat-card-subtitle>Tipo de Cobrança:</mat-card-subtitle>
               <mat-card-subtitle>{{ taxaServico.tipoCobranca }}</mat-card-subtitle>
             </mat-card-content>

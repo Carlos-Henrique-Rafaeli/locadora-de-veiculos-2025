@@ -46,7 +46,7 @@ export class ShellComponent {
     { titulo: 'Plano de Cobrança', icone: 'payments', link: '/planos-cobrancas' },
     { titulo: 'Taxa/Serviço', icone: 'home_repair_service', link: '/taxas-servicos' },
     { titulo: 'Aluguel', icone: 'car_rental', link: '/alugueis' },
-    { titulo: 'Preço Combustível', icone: 'local_gas_station', link: '/configuracao-preco' },
+    { titulo: 'Preço Combustível', icone: 'local_gas_station', link: '/preco-combustivel' },
   ];
 
   @Input({ required: true }) usuarioAutenticado?: UsuarioAutenticadoModel;

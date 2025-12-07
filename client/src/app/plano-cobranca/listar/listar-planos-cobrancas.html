@@ -25,19 +25,31 @@
               >
               @if (planoCobranca.tipoPlano === 'Plano Diário') {
                 <mat-card-subtitle
-                  >Valor Diário: {{ planoCobranca.valorDiario | currency }}</mat-card-subtitle
+                  >Valor Diário:
+                  <span class="money-color">{{
+                    planoCobranca.valorDiario | currency
+                  }}</span></mat-card-subtitle
                 >
                 <mat-card-subtitle
-                  >Valor por Km: {{ planoCobranca.valorKm | currency }}</mat-card-subtitle
+                  >Valor por Km:
+                  <span class="money-color">{{
+                    planoCobranca.valorKm | currency
+                  }}</span></mat-card-subtitle
                 >
               } @else if (planoCobranca.tipoPlano === 'Plano Controlado') {
                 <mat-card-subtitle
-                  >Valor Diário: {{ planoCobranca.valorDiario | currency }}</mat-card-subtitle
+                  >Valor Diário:
+                  <span class="money-color">{{
+                    planoCobranca.valorDiario | currency
+                  }}</span></mat-card-subtitle
                 >
                 <mat-card-subtitle>Km Incluso: {{ planoCobranca.kmIncluso }}</mat-card-subtitle>
               } @else {
                 <mat-card-subtitle
-                  >Valor Fixo: {{ planoCobranca.valorFixo | currency }}</mat-card-subtitle
+                  >Valor Fixo:
+                  <span class="money-color">{{
+                    planoCobranca.valorFixo | currency
+                  }}</span></mat-card-subtitle
                 >
               }
             </mat-card-content>

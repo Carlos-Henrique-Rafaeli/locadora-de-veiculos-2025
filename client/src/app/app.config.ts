@@ -81,6 +81,12 @@ const routes: Routes = [
       import('./taxa-servico/taxaServico.routes').then((r) => r.taxaServicoRoutes),
     canActivate: [usuarioAutenticadoGuard],
   },
+  {
+    path: 'preco-combustivel',
+    loadChildren: () =>
+      import('./preco-combustivel/precoCombustivel.routes').then((r) => r.precoCombustivelRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
 ];
 
 export const appConfig: ApplicationConfig = {
