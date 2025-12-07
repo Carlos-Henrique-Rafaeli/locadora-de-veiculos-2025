@@ -82,6 +82,11 @@ const routes: Routes = [
     canActivate: [usuarioAutenticadoGuard],
   },
   {
+    path: 'alugueis',
+    loadChildren: () => import('./aluguel/aluguel.routes').then((r) => r.aluguelRoutes),
+    canActivate: [usuarioAutenticadoGuard],
+  },
+  {
     path: 'preco-combustivel',
     loadChildren: () =>
       import('./preco-combustivel/precoCombustivel.routes').then((r) => r.precoCombustivelRoutes),

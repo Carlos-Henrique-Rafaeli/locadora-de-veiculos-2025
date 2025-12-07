@@ -1,5 +1,5 @@
-﻿using LocadoraDeVeiculos.Aplicacao.ModuloCliente.Commands.SelecionarTodos;
-using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
+﻿using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloPlanoCobranca;
 
@@ -8,11 +8,12 @@ namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
 public record SelecionarAluguelDto(
     Guid Id,
     SelecionarCondutoresDto Condutor,
-    SelecionarGrupoVeiculoDtoSimplified GrupoVeiculos,
+    SelecionarGrupoVeiculoDtoSimplified GrupoVeiculo,
     SelecionarVeiculosDto Veiculo,
     DateTime DataInicio,
     DateTime DataFim,
     SelecionarPlanoCobrancaDtoSimplified PlanoCobranca,
+    List<SelecionarTaxasServicosDto> TaxasServicos,
     decimal ValorTotal,
     bool EstaAberta
 );
@@ -25,7 +26,7 @@ public record SelecionarGrupoVeiculoDtoSimplified(
 public record SelecionarPlanoCobrancaDtoSimplified(
     Guid Id,
     TipoPlano TipoPlano,
-    string NomeGrupoVeiculo,
+    SelecionarGrupoVeiculoDtoSimplified GrupoVeiculo,
     decimal? ValorDiario,
     decimal? ValorKm,
     int? KmIncluso,

@@ -2,6 +2,7 @@
 using LocadoraDeVeiculos.Aplicacao.Compartilhado;
 using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloAluguel;
 using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
@@ -66,12 +67,24 @@ internal class SelecionarAluguelPorIdRequestHandler(
                     new SelecionarPlanoCobrancaDtoSimplified(
                         aluguelSelecionado.PlanoCobranca.Id,
                         aluguelSelecionado.PlanoCobranca.TipoPlano,
-                        aluguelSelecionado.PlanoCobranca.GrupoVeiculo.Nome,
+                        new SelecionarGrupoVeiculoDtoSimplified(
+                            aluguelSelecionado.PlanoCobranca.GrupoVeiculo.Id,
+                            aluguelSelecionado.PlanoCobranca.GrupoVeiculo.Nome
+                            ),
                         aluguelSelecionado.PlanoCobranca.ValorDiario,
                         aluguelSelecionado.PlanoCobranca.ValorKm,
                         aluguelSelecionado.PlanoCobranca.KmIncluso,
                         aluguelSelecionado.PlanoCobranca.ValorKmExcedente,
                         aluguelSelecionado.PlanoCobranca.ValorFixo
+                        ),
+                    new List<SelecionarTaxasServicosDto>(
+                        aluguelSelecionado.TaxasServicos
+                            .Select(ts => new SelecionarTaxasServicosDto(
+                                ts.Id,
+                                ts.Nome,
+                                ts.Valor,
+                                ts.TipoCobranca
+                                ))
                         ),
                     aluguelSelecionado.EstaAberto ? aluguelSelecionado.CalcularValorTotal() : aluguelSelecionado.ValorFinal,
                     aluguelSelecionado.EstaAberto

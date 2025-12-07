@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
+using LocadoraDeVeiculos.Aplicacao.ModuloTaxaServico.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloAluguel;
 using MediatR;
@@ -64,13 +65,24 @@ internal class SelecionarAlugueisRequestHandler(
                     new SelecionarPlanoCobrancaDtoSimplified(
                         r.PlanoCobranca.Id,
                         r.PlanoCobranca.TipoPlano,
-                        r.PlanoCobranca.GrupoVeiculo.Nome,
+                        new SelecionarGrupoVeiculoDtoSimplified(
+                            r.PlanoCobranca.GrupoVeiculo.Id,
+                            r.PlanoCobranca.GrupoVeiculo.Nome
+                            ),
                         r.PlanoCobranca.ValorDiario,
                         r.PlanoCobranca.ValorKm,
                         r.PlanoCobranca.KmIncluso,
                         r.PlanoCobranca.ValorKmExcedente,
                         r.PlanoCobranca.ValorFixo
                         ),
+                    new List<SelecionarTaxasServicosDto>(
+                        r.TaxasServicos.Select(ts => new SelecionarTaxasServicosDto(
+                            ts.Id,
+                            ts.Nome,
+                            ts.Valor,
+                            ts.TipoCobranca
+                            ))
+                        ).ToList(),
                     r.EstaAberto ? r.CalcularValorTotal() : r.ValorFinal,
                     r.EstaAberto))
         };

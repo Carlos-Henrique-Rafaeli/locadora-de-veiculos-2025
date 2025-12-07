@@ -12,6 +12,7 @@ public class RepositorioAluguelEmOrm(LocadoraDeVeiculosDbContext context)
     {
         return await registros
             .Include(x => x.Condutor)
+            .Include(x=> x.Condutor.Cliente)
             .Include(x => x.GrupoVeiculo)
             .Include(x => x.Veiculo)
             .Include(x => x.PlanoCobranca)
@@ -23,6 +24,7 @@ public class RepositorioAluguelEmOrm(LocadoraDeVeiculosDbContext context)
     {
         return await registros
             .Include(x => x.Condutor)
+            .Include(x => x.Condutor.Cliente)
             .Include(x => x.GrupoVeiculo)
             .Include(x => x.Veiculo)
             .Include(x => x.PlanoCobranca)
