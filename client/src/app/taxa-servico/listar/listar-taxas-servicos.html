@@ -13,7 +13,7 @@
 
     <div class="row g-3">
       @for (taxaServico of taxasServicos$ | async; track $index) {
-        <div class="col-md-6 col-xl-5">
+        <div class="col-md-6 col-xl-6">
           <mat-card class="p-1">
             <mat-card-header>
               <mat-card-title>{{ taxaServico.nome }}</mat-card-title>
@@ -26,8 +26,9 @@
                   taxaServico.valor | currency
                 }}</span></mat-card-subtitle
               >
-              <mat-card-subtitle>Tipo de Cobrança:</mat-card-subtitle>
-              <mat-card-subtitle>{{ taxaServico.tipoCobranca }}</mat-card-subtitle>
+              <mat-card-subtitle
+                >Tipo de Cobrança: {{ taxaServico.tipoCobranca }}</mat-card-subtitle
+              >
             </mat-card-content>
 
             <mat-card-actions align="end">

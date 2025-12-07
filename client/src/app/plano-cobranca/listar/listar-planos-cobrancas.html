@@ -19,7 +19,7 @@
               <mat-card-title>{{ planoCobranca.tipoPlano }}</mat-card-title>
             </mat-card-header>
 
-            <mat-card-content style="min-height: 80px" class="mt-2">
+            <mat-card-content style="min-height: 110px" class="mt-2">
               <mat-card-subtitle
                 >Grupo de Veículo: {{ planoCobranca.grupoVeiculo.nome }}</mat-card-subtitle
               >
@@ -44,6 +44,12 @@
                   }}</span></mat-card-subtitle
                 >
                 <mat-card-subtitle>Km Incluso: {{ planoCobranca.kmIncluso }}</mat-card-subtitle>
+                <mat-card-subtitle
+                  >Valor Km Excedente:
+                  <span class="money-color">{{
+                    planoCobranca.valorKmExcedente | currency
+                  }}</span></mat-card-subtitle
+                >
               } @else {
                 <mat-card-subtitle
                   >Valor Fixo:
