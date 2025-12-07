@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { ListagemAlugueisModel } from './aluguel.models';
 import { AluguelService } from './aluguel.service';
 import { ListarAlugueis } from './listar/listar-alugueis';
@@ -14,6 +14,7 @@ import { TaxaServicoService } from '../taxa-servico/taxaServico.service';
 import { ListagemVeiculosModel } from '../veiculo/veiculo.models';
 import { VeiculoService } from '../veiculo/veiculo.service';
 import { CadastrarAluguel } from './cadastrar/cadastrar-aluguel';
+import { EditarAluguel } from './editar/editar-aluguel';
 
 const listagemAlugueisResolver: ResolveFn<ListagemAlugueisModel[]> = () => {
   const aluguelService = inject(AluguelService);
@@ -21,15 +22,15 @@ const listagemAlugueisResolver: ResolveFn<ListagemAlugueisModel[]> = () => {
   return aluguelService.selecionarTodas();
 };
 
-// const detalhesAluguelResolver = (route: ActivatedRouteSnapshot) => {
-//   const aluguelService = inject(AluguelService);
+const detalhesAluguelResolver = (route: ActivatedRouteSnapshot) => {
+  const aluguelService = inject(AluguelService);
 
-//   if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
+  if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
 
-//   const aluguelId = route.paramMap.get('id')!;
+  const aluguelId = route.paramMap.get('id')!;
 
-//   return aluguelService.selecionarPorId(aluguelId);
-// };
+  return aluguelService.selecionarPorId(aluguelId);
+};
 
 const listagemCondutoresResolver: ResolveFn<ListagemCondutoresModel[]> = () => {
   const condutorService = inject(CondutorService);
@@ -81,14 +82,18 @@ export const aluguelRoutes: Routes = [
           taxasServicos: listagemTaxasServicosResolver,
         },
       },
-      // {
-      //   path: 'editar/:id',
-      //   component: EditarAluguel,
-      //   resolve: {
-      //     aluguel: detalhesAluguelResolver,
-      //     gruposVeiculos: listagemGruposVeiculosResolver,
-      //   },
-      // },
+      {
+        path: 'editar/:id',
+        component: EditarAluguel,
+        resolve: {
+          aluguel: detalhesAluguelResolver,
+          condutores: listagemCondutoresResolver,
+          gruposVeiculos: listagemGruposVeiculosResolver,
+          veiculos: listagemVeiculosResolver,
+          planosCobrancas: listagemPlanosCobrancasResolver,
+          taxasServicos: listagemTaxasServicosResolver,
+        },
+      },
       // {
       //   path: 'excluir/:id',
       //   component: ExcluirAluguel,

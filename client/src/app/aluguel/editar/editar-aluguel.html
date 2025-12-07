@@ -1,0 +1,111 @@
+<section class="row justify-content-center m-1">
+  <div class="col-md-11 col-xl-8">
+    <h2>Edição de Aluguel</h2>
+    <hr />
+
+    <mat-card class="p-2">
+      @if (aluguel$ | async) {
+        <form [formGroup]="aluguelForm" (ngSubmit)="editar()">
+          <mat-card-header>
+            <mat-card-title>Preencha o formulário de edição</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="mt-5">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Condutor</mat-label>
+              <mat-select formControlName="condutorId">
+                @for (condutor of condutores$ | async; track $index) {
+                  <mat-option [value]="condutor.id">{{ condutor.nome }}</mat-option>
+                }
+              </mat-select>
+
+              @if (condutorId?.errors?.['required']) {
+                <mat-error>O condutor é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Grupo de Veículo</mat-label>
+              <mat-select formControlName="grupoVeiculoId">
+                @for (grupoVeiculo of gruposVeiculos$ | async; track $index) {
+                  <mat-option [value]="grupoVeiculo.id">{{ grupoVeiculo.nome }}</mat-option>
+                }
+              </mat-select>
+
+              @if (grupoVeiculoId?.errors?.['required']) {
+                <mat-error>O grupo de veículo é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Veículo</mat-label>
+              <mat-select formControlName="veiculoId">
+                @for (veiculo of veiculosFiltrados$ | async; track $index) {
+                  <mat-option [value]="veiculo.id">{{ veiculo.placa }}</mat-option>
+                }
+              </mat-select>
+
+              @if (veiculoId?.errors?.['required']) {
+                <mat-error>O veículo é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Data Entrada</mat-label>
+              <input matInput [matDatepicker]="dataEntradaPicker" formControlName="dataEntrada" />
+              <mat-datepicker-toggle [for]="dataEntradaPicker" matSuffix />
+              <mat-datepicker #dataEntradaPicker startView="month" />
+              @if (dataEntrada?.errors?.['required']) {
+                <mat-error>A entrada é obrigatória.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Data Retorno</mat-label>
+              <input matInput [matDatepicker]="dataRetornoPicker" formControlName="dataRetorno" />
+              <mat-datepicker-toggle [for]="dataRetornoPicker" matSuffix />
+              <mat-datepicker #dataRetornoPicker startView="month" />
+              @if (dataRetorno?.errors?.['required']) {
+                <mat-error>A entrada é obrigatória.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Plano de Cobrança</mat-label>
+              <mat-select formControlName="planoCobrancaId">
+                @for (planoCobranca of planosFiltrados$ | async; track $index) {
+                  <mat-option [value]="planoCobranca.id">{{ planoCobranca.tipoPlano }}</mat-option>
+                }
+              </mat-select>
+
+              @if (planoCobrancaId?.errors?.['required']) {
+                <mat-error>O plano de cobrança é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Taxas e serviços</mat-label>
+              <mat-select formControlName="taxasServicosIds" multiple>
+                @for (taxaServico of taxasServicos$ | async; track $index) {
+                  <mat-option [value]="taxaServico.id">{{ taxaServico.nome }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <a mat-stroked-button routerLink="/alugueis">Voltar</a>
+            <button
+              type="submit"
+              [disabled]="aluguelForm.invalid"
+              mat-flat-button
+              class="ms-2 px-5"
+            >
+              <mat-icon>check</mat-icon>
+              Concluir
+            </button>
+          </mat-card-actions>
+        </form>
+      }
+    </mat-card>
+  </div>
+</section>

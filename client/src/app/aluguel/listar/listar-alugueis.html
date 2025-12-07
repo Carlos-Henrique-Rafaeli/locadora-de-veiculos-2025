@@ -16,9 +16,21 @@
         <div class="col-md-6 col-xl-5">
           <mat-card class="p-1">
             <mat-card-header>
-              <mat-card-title class="money-color">{{
-                aluguel.valorTotal | currency
-              }}</mat-card-title>
+              @if (aluguel.estaAberta) {
+                <mat-card-title>
+                  Valor previsto:
+                  <span class="money-color">{{
+                    aluguel.valorTotal | currency
+                  }}</span></mat-card-title
+                >
+              } @else {
+                <mat-card-title>
+                  Valor final:
+                  <span class="money-color">{{
+                    aluguel.valorTotal | currency
+                  }}</span></mat-card-title
+                >
+              }
             </mat-card-header>
 
             <mat-card-content style="min-height: 40px" class="mt-2">
@@ -39,9 +51,9 @@
               <mat-card-subtitle
                 >Data Retorno: {{ aluguel.dataFim | date: 'dd/MM/yyyy' }}</mat-card-subtitle
               >
-              <mat-card-subtitle>Plano: {{ aluguel.planoCobranca.tipoPlano }}</mat-card-subtitle>
+              <mat-card-subtitle>{{ aluguel.planoCobranca.tipoPlano }}</mat-card-subtitle>
 
-              @if (aluguel.taxasServicos) {
+              @if (aluguel.taxasServicos.length > 0) {
                 <mat-card-subtitle>Taxa/Serviço:</mat-card-subtitle>
                 @for (taxaServico of aluguel.taxasServicos; track $index) {
                   <mat-card-subtitle>{{ taxaServico.nome }}</mat-card-subtitle>
