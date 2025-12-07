@@ -3,6 +3,8 @@ import { ResolveFn, Routes } from '@angular/router';
 import { ListagemFuncionariosModel } from './funcionario.models';
 import { FuncionarioService } from './funcionario.service';
 import { ListarFuncionarios } from './listar/listar-funcionarios';
+import { CadastrarFuncionario } from './cadastrar/cadastrar-funcionario';
+import { provideNgxMask } from 'ngx-mask';
 
 const listagemFuncionariosResolver: ResolveFn<ListagemFuncionariosModel[]> = () => {
   const funcionarioService = inject(FuncionarioService);
@@ -29,7 +31,7 @@ export const funcionarioRoutes: Routes = [
         component: ListarFuncionarios,
         resolve: { funcionarios: listagemFuncionariosResolver },
       },
-      // { path: 'cadastrar', component: CadastrarFuncionario },
+      { path: 'cadastrar', component: CadastrarFuncionario, providers: [provideNgxMask()] },
       // {
       //   path: 'editar/:id',
       //   component: EditarFuncionario,
