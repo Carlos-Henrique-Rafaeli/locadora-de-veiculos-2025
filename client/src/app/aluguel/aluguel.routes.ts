@@ -3,6 +3,17 @@ import { ResolveFn, Routes } from '@angular/router';
 import { ListagemAlugueisModel } from './aluguel.models';
 import { AluguelService } from './aluguel.service';
 import { ListarAlugueis } from './listar/listar-alugueis';
+import { CondutorService } from '../condutor/condutor.service';
+import { ListagemCondutoresModel } from '../condutor/condutor.models';
+import { ListagemGruposVeiculosModel } from '../grupo-veiculo/grupoVeiculo.models';
+import { GrupoVeiculoService } from '../grupo-veiculo/grupoVeiculo.service';
+import { ListagemPlanosCobrancasModel } from '../plano-cobranca/planoCobranca.models';
+import { PlanoCobrancaService } from '../plano-cobranca/planoCobranca.service';
+import { ListagemTaxasServicosModel } from '../taxa-servico/taxaServico.models';
+import { TaxaServicoService } from '../taxa-servico/taxaServico.service';
+import { ListagemVeiculosModel } from '../veiculo/veiculo.models';
+import { VeiculoService } from '../veiculo/veiculo.service';
+import { CadastrarAluguel } from './cadastrar/cadastrar-aluguel';
 
 const listagemAlugueisResolver: ResolveFn<ListagemAlugueisModel[]> = () => {
   const aluguelService = inject(AluguelService);
@@ -20,11 +31,35 @@ const listagemAlugueisResolver: ResolveFn<ListagemAlugueisModel[]> = () => {
 //   return aluguelService.selecionarPorId(aluguelId);
 // };
 
-// const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
-//   const grupoVeiculoService = inject(GrupoVeiculoService);
+const listagemCondutoresResolver: ResolveFn<ListagemCondutoresModel[]> = () => {
+  const condutorService = inject(CondutorService);
 
-//   return grupoVeiculoService.selecionarTodas();
-// };
+  return condutorService.selecionarTodas();
+};
+
+const listagemGruposVeiculosResolver: ResolveFn<ListagemGruposVeiculosModel[]> = () => {
+  const grupoVeiculoService = inject(GrupoVeiculoService);
+
+  return grupoVeiculoService.selecionarTodas();
+};
+
+const listagemVeiculosResolver: ResolveFn<ListagemVeiculosModel[]> = () => {
+  const veiculoService = inject(VeiculoService);
+
+  return veiculoService.selecionarTodas();
+};
+
+const listagemPlanosCobrancasResolver: ResolveFn<ListagemPlanosCobrancasModel[]> = () => {
+  const planoCobrancaService = inject(PlanoCobrancaService);
+
+  return planoCobrancaService.selecionarTodas();
+};
+
+const listagemTaxasServicosResolver: ResolveFn<ListagemTaxasServicosModel[]> = () => {
+  const taxaServicoService = inject(TaxaServicoService);
+
+  return taxaServicoService.selecionarTodas();
+};
 
 export const aluguelRoutes: Routes = [
   {
@@ -35,11 +70,17 @@ export const aluguelRoutes: Routes = [
         component: ListarAlugueis,
         resolve: { alugueis: listagemAlugueisResolver },
       },
-      // {
-      //   path: 'cadastrar',
-      //   component: CadastrarAluguel,
-      //   resolve: { gruposVeiculos: listagemGruposVeiculosResolver },
-      // },
+      {
+        path: 'cadastrar',
+        component: CadastrarAluguel,
+        resolve: {
+          condutores: listagemCondutoresResolver,
+          gruposVeiculos: listagemGruposVeiculosResolver,
+          veiculos: listagemVeiculosResolver,
+          planosCobrancas: listagemPlanosCobrancasResolver,
+          taxasServicos: listagemTaxasServicosResolver,
+        },
+      },
       // {
       //   path: 'editar/:id',
       //   component: EditarAluguel,
@@ -54,6 +95,13 @@ export const aluguelRoutes: Routes = [
       //   resolve: { aluguel: detalhesAluguelResolver },
       // },
     ],
-    providers: [AluguelService],
+    providers: [
+      AluguelService,
+      CondutorService,
+      GrupoVeiculoService,
+      VeiculoService,
+      PlanoCobrancaService,
+      TaxaServicoService,
+    ],
   },
 ];

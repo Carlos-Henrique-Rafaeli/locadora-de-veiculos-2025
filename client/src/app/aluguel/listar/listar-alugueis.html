@@ -28,10 +28,10 @@
                 >Grupo de Veículo: {{ aluguel.grupoVeiculo.nome }}</mat-card-subtitle
               >
               <mat-card-subtitle>Veiculo: {{ aluguel.veiculo.placa }}</mat-card-subtitle>
-              @if (aluguel.veiculo !== null) {
+              @if (aluguel.veiculo.imagemBase64 !== null) {
                 <img [src]="aluguel.veiculo.imagemBase64" width="200px" height="200px" />
               } @else {
-                <img src="/public/img/default-image.png" width="200px" height="200px" />
+                <img src="/img/default-image.png" width="200px" height="200px" />
               }
               <mat-card-subtitle
                 >Data Entrada: {{ aluguel.dataInicio | date: 'dd/MM/yyyy' }}</mat-card-subtitle
