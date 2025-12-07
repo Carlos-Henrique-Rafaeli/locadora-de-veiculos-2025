@@ -6,6 +6,7 @@ import { ListarFuncionarios } from './listar/listar-funcionarios';
 import { CadastrarFuncionario } from './cadastrar/cadastrar-funcionario';
 import { provideNgxMask } from 'ngx-mask';
 import { EditarFuncionario } from './editar/editar-funcionario';
+import { ExcluirFuncionario } from './excluir/excluir-funcionario';
 
 const listagemFuncionariosResolver: ResolveFn<ListagemFuncionariosModel[]> = () => {
   const funcionarioService = inject(FuncionarioService);
@@ -38,11 +39,11 @@ export const funcionarioRoutes: Routes = [
         component: EditarFuncionario,
         resolve: { funcionario: detalhesFuncionarioResolver },
       },
-      // {
-      //   path: 'excluir/:id',
-      //   component: ExcluirFuncionario,
-      //   resolve: { funcionario: detalhesFuncionarioResolver },
-      // },
+      {
+        path: 'excluir/:id',
+        component: ExcluirFuncionario,
+        resolve: { funcionario: detalhesFuncionarioResolver },
+      },
     ],
     providers: [FuncionarioService, provideNgxMask()],
   },
