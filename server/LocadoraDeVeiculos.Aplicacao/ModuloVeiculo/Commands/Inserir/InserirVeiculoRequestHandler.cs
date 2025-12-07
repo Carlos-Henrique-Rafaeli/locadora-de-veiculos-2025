@@ -27,6 +27,15 @@ internal class InserirVeiculoRequestHandler(
             if (grupoVeiculo is null)
                 return Result.Fail(VeiculoResultadosErro.GrupoVeiculoNullErro(request.GrupoVeiculoId));
 
+            byte[]? fotoBytes = null;
+
+            if (request.Imagem is not null)
+            {
+                using var memoryStream = new MemoryStream();
+                await request.Imagem.CopyToAsync(memoryStream);
+                fotoBytes = memoryStream.ToArray();
+            }
+
             var veiculo = new Veiculo(
                 grupoVeiculo,
                 request.Placa,
@@ -34,7 +43,8 @@ internal class InserirVeiculoRequestHandler(
                 request.Marca,
                 request.Cor,
                 request.TipoCombustivel,
-                request.CapacidadeTanque)
+                request.CapacidadeTanque,
+                fotoBytes)
             {
                 EmpresaId = tenantProvider.EmpresaId.GetValueOrDefault()
             };

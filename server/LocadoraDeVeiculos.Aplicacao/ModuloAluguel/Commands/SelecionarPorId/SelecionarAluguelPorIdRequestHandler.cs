@@ -4,6 +4,7 @@ using LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloCondutor.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.SelecionarTodos;
 using LocadoraDeVeiculos.Dominio.ModuloAluguel;
+using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using MediatR;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloAluguel.Commands.SelecionarPorId;
@@ -55,7 +56,10 @@ internal class SelecionarAluguelPorIdRequestHandler(
                         aluguelSelecionado.Veiculo.Marca,
                         aluguelSelecionado.Veiculo.Cor,
                         aluguelSelecionado.Veiculo.TipoCombustivel,
-                        aluguelSelecionado.Veiculo.CapacidadeTanque
+                        aluguelSelecionado.Veiculo.CapacidadeTanque,
+                        aluguelSelecionado.Veiculo.Imagem is not null 
+                            ? $"data:image/png;base64,{Convert.ToBase64String(aluguelSelecionado.Veiculo.Imagem)}"
+                            : null
                         ),
                     aluguelSelecionado.DataEntrada,
                     aluguelSelecionado.DataRetorno,

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { filter, map, Observer } from 'rxjs';
 import { NotificacaoService } from '../../shared/notificacao/notificacao.service';
-import { CadastrarVeiculoModel, CadastrarVeiculoResponseModel } from '../veiculo.models';
+import { CadastrarVeiculoResponseModel } from '../veiculo.models';
 import { VeiculoService } from '../veiculo.service';
 import { ListagemGruposVeiculosModel } from '../../grupo-veiculo/grupoVeiculo.models';
 import { AsyncPipe } from '@angular/common';
@@ -35,6 +35,7 @@ export class CadastrarVeiculo {
   protected readonly formBuilder = inject(FormBuilder);
   protected readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
+  protected readonly cdr = inject(ChangeDetectorRef);
   protected readonly veiculoService = inject(VeiculoService);
   protected readonly notificacaoService = inject(NotificacaoService);
 
@@ -42,13 +43,14 @@ export class CadastrarVeiculo {
     grupoVeiculoId: ['', [Validators.required]],
     placa: [
       '',
-      [Validators.required, Validators.pattern(/^(?:[A-z]{3}-\d{4}|[A-Z]{3}\d[A-z]\d{2})$/)],
+      [Validators.required, Validators.pattern(/^(?:[A-z]{3}-\d{4}|[A-z]{3}\d[A-z]\d{2})$/)],
     ],
     modelo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     marca: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     cor: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     tipoCombustivel: ['', [Validators.required]],
     capacidadeTanque: ['', [Validators.required]],
+    imagem: [null],
   });
 
   get grupoVeiculoId() {
@@ -79,6 +81,10 @@ export class CadastrarVeiculo {
     return this.veiculoForm.get('capacidadeTanque');
   }
 
+  get imagem() {
+    return this.veiculoForm.get('imagem');
+  }
+
   protected readonly gruposVeiculos$ = this.route.data.pipe(
     filter((data) => data['gruposVeiculos']),
     map((data) => data['gruposVeiculos'] as ListagemGruposVeiculosModel[]),
@@ -86,12 +92,53 @@ export class CadastrarVeiculo {
 
   protected readonly tiposCombustiveis = ['Gasolina', 'Etanol', 'Diesel'];
 
+  public preview: string | ArrayBuffer | null = null;
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) return;
+
+    if (file.type !== 'image/png') {
+      this.notificacaoService.erro('A imagem precisa ser em formato PNG');
+      input.value = '';
+      return;
+    }
+
+    const maxSizeImage = 4 * 1024 * 1024;
+
+    if (file.size > maxSizeImage) {
+      this.notificacaoService.erro('A imagem não pode ultrapassar 4mb.');
+      input.value = '';
+      return;
+    }
+
+    this.veiculoForm.patchValue({ imagem: file });
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.preview = reader.result;
+      this.cdr.detectChanges();
+      input.value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removerImagem() {
+    this.preview = null;
+    this.imagem?.setValue(null);
+  }
+
   public cadastrar() {
     if (this.veiculoForm.invalid) return;
 
-    const veiculoModel: CadastrarVeiculoModel = this.veiculoForm.value;
+    const form = this.veiculoForm.value;
 
-    veiculoModel.placa = veiculoModel.placa.toUpperCase();
+    const veiculoModel = {
+      ...form,
+      placa: form.placa.toUpperCase(),
+    };
 
     const cadastroObserver: Observer<CadastrarVeiculoResponseModel> = {
       next: () =>

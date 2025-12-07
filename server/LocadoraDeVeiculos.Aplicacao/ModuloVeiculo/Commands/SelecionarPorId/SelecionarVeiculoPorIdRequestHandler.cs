@@ -30,7 +30,10 @@ internal class SelecionarVeiculoPorIdRequestHandler(
                 veiculoSelecionado.Marca,
                 veiculoSelecionado.Cor,
                 veiculoSelecionado.TipoCombustivel,
-                veiculoSelecionado.CapacidadeTanque
+                veiculoSelecionado.CapacidadeTanque,
+                veiculoSelecionado.Imagem is not null 
+                    ? $"data:image/png;base64,{Convert.ToBase64String(veiculoSelecionado.Imagem)}"
+                    : null
                 ));
 
         return Result.Ok(resposta);

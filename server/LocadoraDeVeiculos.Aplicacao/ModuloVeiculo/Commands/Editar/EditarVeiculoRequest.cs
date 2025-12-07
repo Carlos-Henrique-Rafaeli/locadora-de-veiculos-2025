@@ -1,6 +1,7 @@
 ﻿using FluentResults;
 using LocadoraDeVeiculos.Dominio.ModuloVeiculos;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace LocadoraDeVeiculos.Aplicacao.ModuloVeiculo.Commands.Editar;
 
@@ -11,7 +12,9 @@ public record EditarVeiculoPartialRequest(
     string Marca,
     string Cor,
     TipoCombustivel TipoCombustivel,
-    decimal CapacidadeTanque);
+    decimal CapacidadeTanque,
+    IFormFile? Imagem
+);
 
 public record EditarVeiculoRequest(
     Guid Id,
@@ -21,5 +24,6 @@ public record EditarVeiculoRequest(
     string Marca,
     string Cor,
     TipoCombustivel TipoCombustivel,
-    decimal CapacidadeTanque)
-    : IRequest<Result<EditarVeiculoResponse>>;
+    decimal CapacidadeTanque,
+    IFormFile? Imagem
+) : IRequest<Result<EditarVeiculoResponse>>;

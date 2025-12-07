@@ -12,6 +12,7 @@ export interface ListagemVeiculosModel {
   cor: string;
   tipoCombustivel: string;
   capacidadeTanque: number;
+  imagemBase64: string | null;
 }
 
 export interface ListagemGrupoVeiculoModelSimplified {
@@ -56,4 +57,5 @@ export interface DetalhesVeiculoModel {
   cor: string;
   tipoCombustivel: string;
   capacidadeTanque: number;
+  imagemBase64: string | null;
 }

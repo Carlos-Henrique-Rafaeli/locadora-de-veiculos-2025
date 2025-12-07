@@ -16,7 +16,7 @@ public class VeiculoController(IMediator mediator) : MainController
 {
     [HttpPost]
     [ProducesResponseType(typeof(InserirVeiculoResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Inserir(InserirVeiculoRequest request)
+    public async Task<IActionResult> Inserir([FromForm] InserirVeiculoRequest request)
     {
         var resultado = await mediator.Send(request);
 
@@ -25,7 +25,7 @@ public class VeiculoController(IMediator mediator) : MainController
 
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(EditarVeiculoResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Editar(Guid id, EditarVeiculoPartialRequest request)
+    public async Task<IActionResult> Editar(Guid id, [FromForm] EditarVeiculoPartialRequest request)
     {
         var editarRequest = new EditarVeiculoRequest(
             id,
@@ -35,7 +35,8 @@ public class VeiculoController(IMediator mediator) : MainController
             request.Marca,
             request.Cor,
             request.TipoCombustivel,
-            request.CapacidadeTanque
+            request.CapacidadeTanque,
+            request.Imagem
         );
 
         var resultado = await mediator.Send(editarRequest);

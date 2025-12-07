@@ -114,6 +114,29 @@
                 <mat-error>A capacidade do tanque é obrigatória.</mat-error>
               }
             </mat-form-field>
+
+            <div class="w-100 text-center mt-2">
+              <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">
+                Selecionar Imagem
+              </button>
+
+              <input
+                #fileInput
+                hidden
+                type="file"
+                (change)="onFileSelected($event)"
+                accept="image/png"
+              />
+              @if (preview) {
+                <div class="d-flex flex-column align-items-center mt-2">
+                  <img [src]="preview" height="200" width="200" class="img-fluid mb-2" />
+
+                  <button type="button" mat-raised-button color="warn" (click)="removerImagem()">
+                    Remover imagem
+                  </button>
+                </div>
+              }
+            </div>
           </mat-card-content>
           <mat-card-actions align="end">
             <a mat-stroked-button routerLink="/veiculos">Voltar</a>

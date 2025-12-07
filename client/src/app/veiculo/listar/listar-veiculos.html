@@ -19,7 +19,7 @@
               <mat-card-title>{{ veiculo.placa }}</mat-card-title>
             </mat-card-header>
 
-            <mat-card-content style="min-height: 40px" class="mt-2">
+            <mat-card-content style="min-height: 300px" class="mt-2">
               <mat-card-subtitle
                 >Grupo de Veículo: {{ veiculo.grupoVeiculo.nome }}</mat-card-subtitle
               >
@@ -32,6 +32,11 @@
               <mat-card-subtitle
                 >Capacidade do Tanque: {{ veiculo.capacidadeTanque }}</mat-card-subtitle
               >
+              @if (veiculo.imagemBase64 !== null) {
+                <img [src]="veiculo.imagemBase64" height="200" width="200" class="img-fluid" />
+              } @else {
+                <img src="/img/default-image.png" height="200" width="200" class="img-fluid" />
+              }
             </mat-card-content>
 
             <mat-card-actions align="end">

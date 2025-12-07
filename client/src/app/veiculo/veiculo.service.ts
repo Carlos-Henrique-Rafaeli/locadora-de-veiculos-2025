@@ -18,8 +18,20 @@ export class VeiculoService {
 
   private readonly apiUrl = environment.apiUrl + '/veiculos';
 
-  public cadastrar(medicoModel: CadastrarVeiculoModel): Observable<CadastrarVeiculoResponseModel> {
-    return this.http.post<CadastrarVeiculoResponseModel>(this.apiUrl, medicoModel);
+  public cadastrar(model: CadastrarVeiculoModel): Observable<CadastrarVeiculoResponseModel> {
+    const formData = new FormData();
+
+    Object.entries(model).forEach(([key, value]) => {
+      if (value === null || value === undefined) return;
+
+      if (value instanceof File) {
+        formData.append(key, value);
+      } else {
+        formData.append(key, String(value));
+      }
+    });
+
+    return this.http.post<CadastrarVeiculoResponseModel>(this.apiUrl, formData);
   }
 
   public editar(
@@ -27,7 +39,20 @@ export class VeiculoService {
     editarVeiculoModel: EditarVeiculoModel,
   ): Observable<EditarVeiculoResponseModel> {
     const urlCompleto = `${this.apiUrl}/${id}`;
-    return this.http.put<EditarVeiculoResponseModel>(urlCompleto, editarVeiculoModel);
+
+    const formData = new FormData();
+
+    Object.entries(editarVeiculoModel).forEach(([key, value]) => {
+      if (value === null || value === undefined) return;
+
+      if (value instanceof File) {
+        formData.append(key, value);
+      } else {
+        formData.append(key, String(value));
+      }
+    });
+
+    return this.http.put<EditarVeiculoResponseModel>(urlCompleto, formData);
   }
 
   public excluir(id: string): Observable<null> {

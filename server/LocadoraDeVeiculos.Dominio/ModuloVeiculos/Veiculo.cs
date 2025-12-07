@@ -12,6 +12,7 @@ public class Veiculo : EntidadeBase<Veiculo>
     public string Cor { get; set; }
     public TipoCombustivel TipoCombustivel { get; set; }
     public decimal CapacidadeTanque { get; set; }
+    public byte[]? Imagem { get; set; }
 
     public Veiculo() { }
 
@@ -22,7 +23,9 @@ public class Veiculo : EntidadeBase<Veiculo>
         string marca, 
         string cor, 
         TipoCombustivel tipoCombustivel, 
-        decimal capacidadeTanque)
+        decimal capacidadeTanque,
+        byte[]? foto = null
+        )
     {
         GrupoVeiculo = grupoVeiculo;
         Placa = placa;
@@ -31,6 +34,7 @@ public class Veiculo : EntidadeBase<Veiculo>
         Cor = cor;
         TipoCombustivel = tipoCombustivel;
         CapacidadeTanque = capacidadeTanque;
+        Imagem = foto;
     }
 
     public override void AtualizarRegistro(Veiculo registroEditado)
@@ -41,7 +45,7 @@ public class Veiculo : EntidadeBase<Veiculo>
         Cor = registroEditado.Cor;
         TipoCombustivel = registroEditado.TipoCombustivel;
         CapacidadeTanque = registroEditado.CapacidadeTanque;
-
         GrupoVeiculo = registroEditado.GrupoVeiculo;
+        Imagem = registroEditado.Imagem;
     }
 }

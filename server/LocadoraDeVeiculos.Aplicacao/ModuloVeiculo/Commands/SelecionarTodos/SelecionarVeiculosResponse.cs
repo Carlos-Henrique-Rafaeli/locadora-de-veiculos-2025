@@ -11,7 +11,9 @@ public record SelecionarVeiculosDto(
     string Marca,
     string Cor,
     TipoCombustivel TipoCombustivel,
-    decimal CapacidadeTanque);
+    decimal CapacidadeTanque,
+    string? ImagemBase64
+);
 
 public record SelecionarVeiculosResponse
 {

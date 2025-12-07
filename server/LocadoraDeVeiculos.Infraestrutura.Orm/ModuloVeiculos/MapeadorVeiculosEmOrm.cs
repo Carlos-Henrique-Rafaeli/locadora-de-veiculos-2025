@@ -40,6 +40,10 @@ public class MapeadorVeiculosEmOrm : IEntityTypeConfiguration<Veiculo>
             .WithMany(x => x.Veiculos)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.Property(x => x.Imagem)
+            .HasColumnType("varbinary(max)")
+            .IsRequired(false);
+
         builder
             .HasOne(a => a.Empresa)
             .WithMany()

@@ -54,7 +54,10 @@ internal class SelecionarAlugueisRequestHandler(
                         r.Veiculo.Marca,
                         r.Veiculo.Cor,
                         r.Veiculo.TipoCombustivel,
-                        r.Veiculo.CapacidadeTanque
+                        r.Veiculo.CapacidadeTanque,
+                        r.Veiculo.Imagem is not null
+                            ? $"data:image/png;base64,{Convert.ToBase64String(r.Veiculo.Imagem)}"
+                            : null
                         ),
                     r.DataEntrada,
                     r.DataRetorno,

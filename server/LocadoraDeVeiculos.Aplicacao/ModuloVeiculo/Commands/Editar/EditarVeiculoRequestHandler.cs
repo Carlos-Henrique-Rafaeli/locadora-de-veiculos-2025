@@ -29,6 +29,15 @@ internal class EditarVeiculoRequestHandler(
             if (grupoVeiculoSelecionado is null)
                 return Result.Fail(VeiculoResultadosErro.GrupoVeiculoNullErro(request.GrupoVeiculoId));
 
+            byte[]? fotoBytes = null;
+
+            if (request.Imagem is not null)
+            {
+                using var memoryStream = new MemoryStream();
+                await request.Imagem.CopyToAsync(memoryStream);
+                fotoBytes = memoryStream.ToArray();
+            }
+
             var veiculoNovo = new Veiculo(
                 grupoVeiculoSelecionado,
                 request.Placa,
@@ -36,7 +45,8 @@ internal class EditarVeiculoRequestHandler(
                 request.Modelo,
                 request.Cor,
                 request.TipoCombustivel,
-                request.CapacidadeTanque
+                request.CapacidadeTanque,
+                fotoBytes
             );
 
             var resultadoValidacao =

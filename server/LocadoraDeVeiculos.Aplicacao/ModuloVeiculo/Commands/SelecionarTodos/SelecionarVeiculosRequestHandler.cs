@@ -29,7 +29,10 @@ public class SelecionarVeiculosRequestHandler(
                     x.Modelo,
                     x.Cor,
                     x.TipoCombustivel,
-                    x.CapacidadeTanque
+                    x.CapacidadeTanque,
+                    x.Imagem is not null 
+                        ? $"data:image/png;base64,{Convert.ToBase64String(x.Imagem)}"
+                        : null
                     )
                 )
         };
