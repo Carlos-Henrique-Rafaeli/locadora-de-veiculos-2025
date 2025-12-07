@@ -1,10 +1,11 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, Routes } from '@angular/router';
 import { ListagemFuncionariosModel } from './funcionario.models';
 import { FuncionarioService } from './funcionario.service';
 import { ListarFuncionarios } from './listar/listar-funcionarios';
 import { CadastrarFuncionario } from './cadastrar/cadastrar-funcionario';
 import { provideNgxMask } from 'ngx-mask';
+import { EditarFuncionario } from './editar/editar-funcionario';
 
 const listagemFuncionariosResolver: ResolveFn<ListagemFuncionariosModel[]> = () => {
   const funcionarioService = inject(FuncionarioService);
@@ -12,15 +13,15 @@ const listagemFuncionariosResolver: ResolveFn<ListagemFuncionariosModel[]> = () 
   return funcionarioService.selecionarTodas();
 };
 
-// const detalhesFuncionarioResolver = (route: ActivatedRouteSnapshot) => {
-//   const funcionarioService = inject(FuncionarioService);
+const detalhesFuncionarioResolver = (route: ActivatedRouteSnapshot) => {
+  const funcionarioService = inject(FuncionarioService);
 
-//   if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
+  if (!route.paramMap.has('id')) throw new Error('O parâmetro id não foi fornecido.');
 
-//   const funcionarioId = route.paramMap.get('id')!;
+  const funcionarioId = route.paramMap.get('id')!;
 
-//   return funcionarioService.selecionarPorId(funcionarioId);
-// };
+  return funcionarioService.selecionarPorId(funcionarioId);
+};
 
 export const funcionarioRoutes: Routes = [
   {
@@ -32,11 +33,11 @@ export const funcionarioRoutes: Routes = [
         resolve: { funcionarios: listagemFuncionariosResolver },
       },
       { path: 'cadastrar', component: CadastrarFuncionario },
-      // {
-      //   path: 'editar/:id',
-      //   component: EditarFuncionario,
-      //   resolve: { funcionario: detalhesFuncionarioResolver },
-      // },
+      {
+        path: 'editar/:id',
+        component: EditarFuncionario,
+        resolve: { funcionario: detalhesFuncionarioResolver },
+      },
       // {
       //   path: 'excluir/:id',
       //   component: ExcluirFuncionario,

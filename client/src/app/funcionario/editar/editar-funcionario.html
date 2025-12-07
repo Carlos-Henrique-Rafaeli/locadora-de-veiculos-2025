@@ -1,0 +1,80 @@
+<section class="row justify-content-center">
+  <div class="col-md-11 col-xl-8">
+    <h2>Edição de funcionário</h2>
+    <hr />
+
+    <mat-card class="p-2">
+      @if (funcionario$ | async) {
+        <form [formGroup]="funcionarioForm" (ngSubmit)="editar()">
+          <mat-card-header>
+            <mat-card-title>Preencha o formulário de edição</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="mt-5">
+            <mat-form-field appearance="outline" class="w-100 mt-2">
+              <mat-label>Nome Completo</mat-label>
+              <input matInput formControlName="nomeCompleto" type="text" autocomplete="name" />
+
+              @if (nomeCompleto?.errors?.['required']) {
+                <mat-error>O nome completo é obrigatório.</mat-error>
+              }
+              @if (nomeCompleto?.errors?.['minlength']) {
+                <mat-error>O nome completo deve conter no mínimo 3 caracteres.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100 mt-2">
+              <mat-label>CPF</mat-label>
+              <input
+                formControlName="cpf"
+                matInput
+                type="text"
+                mask="000.000.000-00"
+                [dropSpecialCharacters]="false"
+              />
+
+              @if (cpf?.errors?.['required']) {
+                <mat-error>O cpf é obrigatório.</mat-error>
+              }
+              @if (cpf?.errors?.['pattern']) {
+                <mat-error>O cpf deve seguir o padrão XXX.XXX.XXX-XX.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100 mt-2">
+              <mat-label>Salário</mat-label>
+              <input formControlName="salario" matInput type="number" />
+
+              @if (salario?.errors?.['required']) {
+                <mat-error>O salário é obrigatório.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Admissão</mat-label>
+              <input matInput [matDatepicker]="admissaoPicker" formControlName="admissaoEmUtc" />
+              <mat-datepicker-toggle [for]="admissaoPicker" matSuffix />
+              <mat-datepicker #admissaoPicker startView="multi-year" />
+              @if (admissaoEmUtc?.errors?.['required']) {
+                <mat-error>A data de admissão é obrigatória.</mat-error>
+              }
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <a mat-stroked-button routerLink="/funcionarios">Voltar</a>
+            <button
+              type="submit"
+              [disabled]="funcionarioForm.invalid"
+              mat-flat-button
+              class="ms-2 px-5"
+            >
+              <mat-icon>check</mat-icon>
+              Concluir
+            </button>
+          </mat-card-actions>
+        </form>
+      }
+    </mat-card>
+  </div>
+</section>
