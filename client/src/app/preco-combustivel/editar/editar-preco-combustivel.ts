@@ -37,9 +37,9 @@ export class EditarPrecoCombustivel {
   protected readonly notificacaoService = inject(NotificacaoService);
 
   protected precoCombustivelForm: FormGroup = this.formBuilder.group({
-    gasolina: ['', [Validators.required]],
-    diesel: ['', [Validators.required]],
-    etanol: ['', [Validators.required]],
+    gasolina: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
+    diesel: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
+    etanol: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
   });
 
   get gasolina() {

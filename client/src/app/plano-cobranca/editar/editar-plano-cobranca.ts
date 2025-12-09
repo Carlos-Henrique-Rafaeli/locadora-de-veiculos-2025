@@ -43,11 +43,11 @@ export class EditarPlanoCobranca {
   protected planoCobrancaForm: FormGroup = this.formBuilder.group({
     tipoPlano: ['', [Validators.required]],
     grupoVeiculoId: ['', [Validators.required]],
-    valorDiario: [null],
-    valorKm: [null],
-    kmIncluso: [null, Validators.pattern(/^\d+$/)],
-    valorKmExcedente: [null],
-    valorFixo: [null],
+    valorDiario: [null, Validators.max(999999999.99), Validators.min(0.01)],
+    valorKm: [null, Validators.max(999999999)],
+    kmIncluso: [null, Validators.pattern(/^\d+$/), Validators.max(999999999), Validators.min(1)],
+    valorKmExcedente: [null, Validators.max(999999999.99), Validators.min(0.01)],
+    valorFixo: [null, Validators.max(999999999.99), Validators.min(0.01)],
   });
 
   get tipoPlano() {

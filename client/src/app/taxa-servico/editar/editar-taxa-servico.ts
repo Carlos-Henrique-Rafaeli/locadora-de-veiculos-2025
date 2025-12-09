@@ -41,7 +41,7 @@ export class EditarTaxaServico {
 
   protected taxaServicoForm: FormGroup = this.formBuilder.group({
     nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    valor: ['', [Validators.required]],
+    valor: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
     tipoCobranca: ['', [Validators.required]],
   });
 

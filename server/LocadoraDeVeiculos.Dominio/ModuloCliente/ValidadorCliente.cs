@@ -50,6 +50,8 @@ public class ValidadorCliente : AbstractValidator<Cliente>
             .MaximumLength(100).WithMessage("O campo {PropertyName} deve conter no máximo {MaxLength} caracteres.");
 
         RuleFor(x => x.Numero)
-            .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.");
+            .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.")
+            .LessThan(int.MaxValue).WithMessage("O campo {PropertyName} deve ser maior que {ComparisonValue}.")
+            .GreaterThan(0).WithMessage("O campo {PropertyName} deve ser maior do que zero.");
     }
 }

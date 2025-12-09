@@ -160,6 +160,14 @@
               @if (numero?.errors?.['pattern']) {
                 <mat-error>O número precisa ser um valor inteiro.</mat-error>
               }
+
+              @if (numero?.errors?.['min']) {
+                <mat-error>O número deve ser maior que 0.</mat-error>
+              }
+
+              @if (numero?.errors?.['max']) {
+                <mat-error>O número deve ser menor que 999.999.999.</mat-error>
+              }
             </mat-form-field>
           </mat-card-content>
 

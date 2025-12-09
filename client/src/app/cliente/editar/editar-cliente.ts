@@ -51,7 +51,15 @@ export class EditarCliente {
     cidade: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     bairro: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     rua: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    numero: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    numero: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+        Validators.max(999999999),
+        Validators.min(1),
+      ],
+    ],
   });
 
   get tipoCliente() {

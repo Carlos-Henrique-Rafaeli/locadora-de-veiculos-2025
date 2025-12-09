@@ -32,7 +32,15 @@
               <input formControlName="valor" matInput type="number" step="1" />
 
               @if (valor?.errors?.['required']) {
-                <mat-error>O telefone é obrigatório.</mat-error>
+                <mat-error>O valor é obrigatório.</mat-error>
+              }
+
+              @if (valor?.errors?.['min']) {
+                <mat-error>O valor deve ser maior que 0.</mat-error>
+              }
+
+              @if (valor?.errors?.['max']) {
+                <mat-error>O valor deve ser menor que 999.999.999,99.</mat-error>
               }
             </mat-form-field>
 

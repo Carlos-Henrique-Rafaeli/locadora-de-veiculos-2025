@@ -113,6 +113,14 @@
               @if (capacidadeTanque?.errors?.['required']) {
                 <mat-error>A capacidade do tanque é obrigatória.</mat-error>
               }
+
+              @if (capacidadeTanque?.errors?.['min']) {
+                <mat-error>A capacidade do tanque deve ser maior que 0.</mat-error>
+              }
+
+              @if (capacidadeTanque?.errors?.['max']) {
+                <mat-error>A capacidade do tanque deve ser menor que 999.999.999,99.</mat-error>
+              }
             </mat-form-field>
 
             <div class="w-100 text-center mt-2">

@@ -49,7 +49,10 @@ export class CadastrarVeiculo {
     marca: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     cor: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     tipoCombustivel: ['', [Validators.required]],
-    capacidadeTanque: ['', [Validators.required]],
+    capacidadeTanque: [
+      '',
+      [Validators.required, Validators.max(999999999.99), Validators.min(0.01)],
+    ],
     imagem: [null],
   });
 
