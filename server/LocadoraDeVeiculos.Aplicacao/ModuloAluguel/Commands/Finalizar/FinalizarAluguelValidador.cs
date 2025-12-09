@@ -7,14 +7,13 @@ public class FinalizarAluguelValidador : AbstractValidator<FinalizarAluguelReque
     public FinalizarAluguelValidador()
     {
         RuleFor(x => x.kmInicial)
-            .GreaterThan(0)
-            .WithMessage("O campo {PropertyName} deve ser maior que zero.")
-            .LessThanOrEqualTo(x => x.kmAtual)
-            .WithMessage("O campo {PropertyName} não pode ser maior que a quilometragem atual.");
+            .GreaterThan(0).WithMessage("O campo {PropertyName} deve ser maior que zero.")
+            .LessThan(x => x.kmAtual).WithMessage("O campo {PropertyName} deve ser menor que a quilometragem atual.")
+            .LessThan(x => decimal.MaxValue).WithMessage("O campo {PropertyName} deve ser menor que {ComparisonValue}.");
 
         RuleFor(x => x.kmAtual)
-            .GreaterThanOrEqualTo(x => x.kmInicial)
-            .WithMessage("O campo {PropertyName} deve ser maior ou igual a quilometragem inicial.");
+            .GreaterThan(x => x.kmInicial).WithMessage("O campo {PropertyName} deve ser maior que a quilometragem inicial.")
+            .LessThan(x => decimal.MaxValue).WithMessage("O campo {PropertyName} deve ser menor que {ComparisonValue}.");
 
         When(x => x.tanqueCheio == false, () =>
         {

@@ -16,6 +16,14 @@
             @if (kmInicial?.errors?.['required']) {
               <mat-error>O km inicial é obrigatório.</mat-error>
             }
+
+            @if (kmInicial?.errors?.['min']) {
+              <mat-error>O km inicial deve ser maior que 0.</mat-error>
+            }
+
+            @if (kmInicial?.errors?.['max']) {
+              <mat-error>O km inicial deve ser menor que 999.999.999,99.</mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-100">
@@ -24,6 +32,14 @@
 
             @if (kmAtual?.errors?.['required']) {
               <mat-error>O km atual é obrigatório.</mat-error>
+            }
+
+            @if (kmAtual?.errors?.['min']) {
+              <mat-error>O km atual deve ser maior que 0.</mat-error>
+            }
+
+            @if (kmAtual?.errors?.['max']) {
+              <mat-error>O km atual deve ser menor que 999.999.999,99.</mat-error>
             }
           </mat-form-field>
 

@@ -34,20 +34,24 @@
             </mat-card-header>
 
             <mat-card-content style="min-height: 40px" class="mt-2">
-              <mat-card-subtitle>Nome Condutor: {{ aluguel.condutor.nome }}</mat-card-subtitle>
+              <mat-card-subtitle class="break-line"
+                >Nome Condutor: {{ aluguel.condutor.nome }}</mat-card-subtitle
+              >
               <mat-card-subtitle>CPF Condutor: {{ aluguel.condutor.cpf }}</mat-card-subtitle>
-              <mat-card-subtitle
+              <mat-card-subtitle class="break-line"
                 >Nome Cliente: {{ aluguel.condutor.cliente.nome }}</mat-card-subtitle
               >
               <mat-card-subtitle
                 >Cliente é condutor:
                 {{ aluguel.condutor.clienteCondutor ? 'Sim' : 'Não' }}</mat-card-subtitle
               >
-              <mat-card-subtitle
+              <mat-card-subtitle class="break-line"
                 >Grupo de Veículo: {{ aluguel.grupoVeiculo.nome }}</mat-card-subtitle
               >
               <mat-card-subtitle>Placa Veículo: {{ aluguel.veiculo.placa }}</mat-card-subtitle>
-              <mat-card-subtitle>Modelo Veículo: {{ aluguel.veiculo.modelo }}</mat-card-subtitle>
+              <mat-card-subtitle class="break-line"
+                >Modelo Veículo: {{ aluguel.veiculo.modelo }}</mat-card-subtitle
+              >
               @if (aluguel.veiculo.imagemBase64 !== null) {
                 <img [src]="aluguel.veiculo.imagemBase64" width="200px" height="200px" />
               } @else {

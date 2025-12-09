@@ -45,8 +45,8 @@ export class FinalizarAluguel {
 
   protected aluguelForm: FormGroup = this.formBuilder.group({
     dataRetorno: ['', [Validators.required]],
-    kmInicial: ['', [Validators.required]],
-    kmAtual: ['', [Validators.required]],
+    kmInicial: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
+    kmAtual: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
     tanqueCheio: [true],
     porcentagemTanque: [],
   });

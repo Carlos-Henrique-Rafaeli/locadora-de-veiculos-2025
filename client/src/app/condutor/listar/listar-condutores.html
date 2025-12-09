@@ -16,11 +16,13 @@
         <div class="col-md-6 col-xl-6">
           <mat-card class="p-1">
             <mat-card-header>
-              <mat-card-title>{{ condutor.nome }}</mat-card-title>
+              <mat-card-title class="break-line">{{ condutor.nome }}</mat-card-title>
             </mat-card-header>
 
             <mat-card-content style="min-height: 40px" class="mt-2">
-              <mat-card-subtitle>Nome Cliente: {{ condutor.cliente.nome }}</mat-card-subtitle>
+              <mat-card-subtitle class="break-line"
+                >Nome Cliente: {{ condutor.cliente.nome }}</mat-card-subtitle
+              >
               @if (condutor.cliente.tipoCliente === 'PessoaFisica') {
                 <mat-card-subtitle>CPF Cliente: {{ condutor.cliente.cpf }}</mat-card-subtitle>
               } @else {
@@ -29,7 +31,7 @@
               <mat-card-subtitle
                 >Cliente condutor: {{ condutor.clienteCondutor ? 'Sim' : 'Não' }}</mat-card-subtitle
               >
-              <mat-card-subtitle>Email: {{ condutor.email }}</mat-card-subtitle>
+              <mat-card-subtitle class="break-line">Email: {{ condutor.email }}</mat-card-subtitle>
               <mat-card-subtitle>CPF: {{ condutor.cpf }}</mat-card-subtitle>
               <mat-card-subtitle>CNH: {{ condutor.cnh }}</mat-card-subtitle>
               <mat-card-subtitle

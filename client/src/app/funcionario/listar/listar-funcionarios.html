@@ -16,12 +16,14 @@
         <div class="col-md-6 col-xl-5">
           <mat-card class="p-1">
             <mat-card-header>
-              <mat-card-title>{{ funcionario.nomeCompleto }}</mat-card-title>
+              <mat-card-title class="break-line">{{ funcionario.nomeCompleto }}</mat-card-title>
             </mat-card-header>
 
             <mat-card-content style="min-height: 40px" class="mt-2">
-              <mat-card-subtitle>CPF: {{ funcionario.cpf }}</mat-card-subtitle>
-              <mat-card-subtitle>Email: {{ funcionario.email }}</mat-card-subtitle>
+              <mat-card-subtitle class="break-line">CPF: {{ funcionario.cpf }}</mat-card-subtitle>
+              <mat-card-subtitle class="break-line"
+                >Email: {{ funcionario.email }}</mat-card-subtitle
+              >
               <mat-card-subtitle
                 >Salário:
                 <span class="money-color">{{
