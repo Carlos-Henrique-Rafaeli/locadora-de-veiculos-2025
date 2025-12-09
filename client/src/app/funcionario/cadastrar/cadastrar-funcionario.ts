@@ -45,7 +45,7 @@ export class CadastrarFuncionario {
     email: ['', [Validators.required, Validators.email]],
     senha: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
     confirmarSenha: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
-    salario: ['', [Validators.required]],
+    salario: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
     admissaoEmUtc: ['', [Validators.required]],
   });
 

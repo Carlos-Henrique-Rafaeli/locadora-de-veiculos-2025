@@ -17,6 +17,7 @@ public class EditarFuncionarioValidador : AbstractValidator<EditarFuncionarioReq
 
         RuleFor(p => p.Salario)
             .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.")
-            .GreaterThan(0).WithMessage("O campo {PropertyName} precisa conter um valor maior que 0.");
+            .GreaterThan(0).WithMessage("O campo {PropertyName} precisa conter um valor maior que zero.")
+            .LessThan(decimal.MaxValue).WithMessage("O campo {PropertyName} deve ser menor que {ComparisonValue}.");
     }
 }

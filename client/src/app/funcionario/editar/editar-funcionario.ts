@@ -46,7 +46,7 @@ export class EditarFuncionario {
   protected funcionarioForm: FormGroup = this.formBuilder.group({
     nomeCompleto: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
     cpf: ['', [Validators.required, Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)]],
-    salario: ['', [Validators.required]],
+    salario: ['', [Validators.required, Validators.max(999999999.99), Validators.min(0.01)]],
     admissaoEmUtc: ['', [Validators.required]],
   });
 

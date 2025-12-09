@@ -89,6 +89,14 @@
             @if (salario?.errors?.['required']) {
               <mat-error>O salário é obrigatório.</mat-error>
             }
+
+            @if (salario?.errors?.['min']) {
+              <mat-error>O salário deve ser maior que 0.</mat-error>
+            }
+
+            @if (salario?.errors?.['max']) {
+              <mat-error>O salário deve ser menor que 999.999.999,99.</mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-100">
