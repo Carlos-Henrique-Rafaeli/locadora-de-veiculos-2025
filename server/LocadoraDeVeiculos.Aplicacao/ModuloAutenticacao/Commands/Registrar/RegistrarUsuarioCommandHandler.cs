@@ -41,7 +41,7 @@ internal class RegistrarUsuarioCommandHandler(
                 {
                     return err.Code switch
                     {
-                        "DuplicateUserName" => "Já existe um usuário com esse nome.",
+                        "DuplicateUserName" => "Já existe um usuário com esse e-mail.",
                         "DuplicateEmail" => "Já existe um usuário com esse e-mail.",
                         "PasswordTooShort" => "A senha é muito curta.",
                         "PasswordRequiresNonAlphanumeric" => "A senha deve conter pelo menos um caractere especial.",
