@@ -133,11 +133,28 @@ export class EditarVeiculo {
     this.imagem?.setValue(null);
   }
 
+  private base64ToFile(base64: string, filename: string): File {
+    const arr = base64.split(',');
+    const mime = arr[0].match(/:(.*?);/)![1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+
+    return new File([u8arr], filename, { type: mime });
+  }
+
   protected readonly veiculo$ = this.route.data.pipe(
     filter((data) => data['veiculo']),
     map((data) => data['veiculo'] as DetalhesVeiculoModel),
     tap((veiculo) => {
       this.preview = veiculo.imagemBase64;
+
+      if (veiculo.imagemBase64) {
+        const file = this.base64ToFile(veiculo.imagemBase64, 'imagem.png');
+        this.veiculoForm.patchValue({ imagem: file });
+      }
 
       this.veiculoForm.patchValue({
         grupoVeiculoId: veiculo.grupoVeiculo.id,
